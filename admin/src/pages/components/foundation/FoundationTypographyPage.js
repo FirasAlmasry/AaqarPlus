@@ -48,7 +48,7 @@ export default function FoundationTypographyPage() {
   return (
     <>
       <Helmet>
-        <title> Foundations: Typography | Alriada & Alebdaa</title>
+        <title> Foundations: Typography </title>
       </Helmet>
 
       <Box

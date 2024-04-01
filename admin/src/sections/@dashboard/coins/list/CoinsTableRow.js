@@ -34,7 +34,7 @@ export default function CoinsTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { title, imageUrl, cloudinary_id } = row;
+    const { country, code } = row;
 
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -59,11 +59,11 @@ export default function CoinsTableRow({
     return (
         <>
             <TableRow hover selected={selected}>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                     <Checkbox checked={selected} onClick={onSelectRow} />
-                </TableCell>
+                </TableCell> */}
 
-                <TableCell>
+                {/* <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
                         <Avatar alt={title?.ar} src={imageUrl} />
 
@@ -71,7 +71,7 @@ export default function CoinsTableRow({
                             {title?.ar}
                         </Typography>
                     </Stack>
-                </TableCell>
+                </TableCell> */}
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {
                         description?.ar ?
@@ -79,19 +79,22 @@ export default function CoinsTableRow({
                     }
                 </TableCell> */}
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {cloudinary_id}
+                    {country}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {code}
                 </TableCell>
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {type?.title?.ar ? type?.title?.ar : type?.title?.en}
                 </TableCell> */}
-                <TableCell align="right">
+                {/* <TableCell align="right">
                     <IconButton
                         color={openPopover ? "inherit" : "default"}
                         onClick={handleOpenPopover}
                     >
                         <Iconify icon="eva:more-vertical-fill" />
                     </IconButton>
-                </TableCell>
+                </TableCell> */}
             </TableRow>
             <MenuPopover
                 open={openPopover}

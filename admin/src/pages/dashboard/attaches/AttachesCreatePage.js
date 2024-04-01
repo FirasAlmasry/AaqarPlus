@@ -17,22 +17,22 @@ export default function AttachesCreatePage() {
     return (
         <>
             <Helmet>
-                <title>Attaches: Create a new Attaches</title>
+                <title>Facilities: Create a new Facilities</title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Create a new Attaches"
+                    heading="Create a new Facilities"
                     links={[
                         {
                             name: "Dashboard",
                             href: PATH_DASHBOARD.root,
                         },
                         {
-                            name: "attaches",
+                            name: "Facilities",
                             href: PATH_DASHBOARD.attaches.list,
                         },
-                        { name: "New Attaches" },
+                        { name: "New Facilities" },
                     ]}
                 />
                 <AttachesNewEditForm />

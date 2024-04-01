@@ -9,7 +9,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Login | Alriada & Alebdaa</title>
+        <title> Login </title>
       </Helmet>
 
       <Login />

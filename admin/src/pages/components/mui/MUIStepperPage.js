@@ -18,7 +18,7 @@ export default function MUIStepperPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Stepper | Alriada & Alebdaa</title>
+        <title> MUI Components: Stepper </title>
       </Helmet>
 
       <Box

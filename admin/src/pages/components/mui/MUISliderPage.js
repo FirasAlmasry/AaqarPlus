@@ -73,7 +73,7 @@ export default function MUISliderPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Slider | Alriada & Alebdaa</title>
+        <title> MUI Components: Slider </title>
       </Helmet>
 
       <Box

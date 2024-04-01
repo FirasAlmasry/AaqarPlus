@@ -90,7 +90,7 @@ export default function MUITimelinePage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Timeline | Alriada & Alebdaa</title>
+        <title> MUI Components: Timeline </title>
       </Helmet>
 
       <Box

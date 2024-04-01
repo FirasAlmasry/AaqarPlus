@@ -17,12 +17,12 @@ export default function CompoundsCreatePage() {
     return (
         <>
             <Helmet>
-                <title>Compounds: Create a new Compounds | Alriada & Alebdaa</title>
+                <title>Compounds: Create a new compound </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Create a new Compounds"
+                    heading="Create a new compound"
                     links={[
                         {
                             name: "Dashboard",
@@ -32,7 +32,7 @@ export default function CompoundsCreatePage() {
                             name: "Compounds",
                             href: PATH_DASHBOARD.compounds.list,
                         },
-                        { name: "New Compounds" },
+                        { name: "New Compound" },
                     ]}
                 />
                 <CompoundsNewEditForm />

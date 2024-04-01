@@ -34,8 +34,18 @@ export default function CompoundsTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { title, imageUrl, cloudinary_id } = row;
-
+    const { 
+        name,
+        address,
+        whatsapp,
+        phone_number,
+        image_location,
+        start_price,
+        end_price,
+        description,
+        payment_plans,
+        trending,} = row;
+    const url = `https://aqarbackend.revampbrands.com/storage/${image_location}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -59,31 +69,54 @@ export default function CompoundsTableRow({
     return (
         <>
             <TableRow hover selected={selected}>
-                <TableCell padding="checkbox">
-                    <Checkbox checked={selected} onClick={onSelectRow} />
-                </TableCell>
 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={title?.ar} src={imageUrl} />
-
+                            <Avatar alt={name.ar} src={url} />
                         <Typography variant="subtitle2" noWrap>
-                            {title?.ar}
+                            {`${name.ar.slice(0, 30)}...`}
                         </Typography>
                     </Stack>
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {
-                        description?.ar ?
-                            description?.ar : description?.en
-                    }
-                </TableCell> */}
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {cloudinary_id}
+                    {`${address.ar.slice(0, 30)}...`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${whatsapp.slice(0, 30)}...`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${phone_number.slice(0, 30)}...`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${start_price.slice(0, 30)}`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>   
+                    {`${end_price.slice(0, 30)}`}
                 </TableCell>
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {type?.title?.ar ? type?.title?.ar : type?.title?.en}
+                    {`${name.ar.slice(0, 30)}...`}
                 </TableCell> */}
+                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${address.en.slice(0, 30)}}...`}
+                </TableCell> */}
+                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    <Avatar alt={name.en} src={url} />
+                </TableCell> */}
+                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${description.en.slice(0, 10)}...`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${description.ar.slice(0, 10)}...`}
+                </TableCell> */}
+                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${payment_plans.en.slice(0, 10)}...`}
+                </TableCell> */}
+                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${payment_plans.ar.slice(0, 30)}...`}
+                </TableCell> */}
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {trending === 1 ? <Avatar alt={name.en} src={'/assets/done.svg'} /> : <Avatar alt={name.en} src={'/assets/unDone.svg'} />}
+                </TableCell>
                 <TableCell align="right">
                     <IconButton
                         color={openPopover ? "inherit" : "default"}

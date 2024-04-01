@@ -76,7 +76,7 @@ export default function BlogPostPage() {
   return (
     <>
       <Helmet>
-        <title>{`Blog: ${post?.title || ''} | Alriada & Alebdaa`}</title>
+        <title>{`Blog: ${post?.title || ''} `}</title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

@@ -30,7 +30,7 @@ export default function MUIPickersPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Pickers | Alriada & Alebdaa</title>
+        <title> MUI Components: Pickers </title>
       </Helmet>
 
       <Box

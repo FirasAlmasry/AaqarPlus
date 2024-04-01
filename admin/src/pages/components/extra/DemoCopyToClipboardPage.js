@@ -58,7 +58,7 @@ export default function DemoCopyToClipboardPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Copy To Clipboard | Alriada & Alebdaa</title>
+        <title> Extra Components: Copy To Clipboard </title>
       </Helmet>
 
       <Box

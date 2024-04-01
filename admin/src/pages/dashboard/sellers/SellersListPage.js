@@ -334,7 +334,7 @@ export default function SellersListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -395,7 +395,7 @@ function applyFilter({
     if (filterName) {
         inputData = inputData.filter(
             (user) =>
-                user.title.ar
+                user.name.ar
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

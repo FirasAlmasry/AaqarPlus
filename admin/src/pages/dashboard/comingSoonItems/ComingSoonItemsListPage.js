@@ -41,7 +41,8 @@ import {
     ComingSoonItemsTableToolbar,
     ComingSoonItemsTableRow,
 } from "../../../sections/@dashboard/comingSoonItems/list";
-import { useDeleteServicesMutation, useGetServicesQuery } from "../../../state/apiService";
+import { useDeleteComingSoonItemsMutation, useGetComingSoonItemsQuery } from "../../../state/comingSoonItems";
+import { useGetCoinsQuery } from "../../../state/coins";
 
 // ----------------------------------------------------------------------
 
@@ -50,11 +51,11 @@ const STATUS_OPTIONS = [];
 const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
-    { id: "title", label: "Title ar", align: "left" },
-    // { id: "imageUrl", label: "Image", align: "left" },
-    // { id: "description", label: "Description", align: "left" },
-    { id: "cloudinary_id", label: "cloudinary", align: "left" },
-    // { id: "type", label: "type", align: "left" },
+    { id: "nameAr", label: "name ar", align: "left" },
+    { id: "nameEn", label: "name en", align: "left" },
+    { id: "price_start_from", label: "price_start_from", align: "left" },
+    { id: "coin_id", label: "coin_id", align: "left" },
+    { id: "trending", label: "trending", align: "left" },
     { id: "" },
 ];
 
@@ -83,14 +84,12 @@ export default function ComingSoonItemsListPage() {
     const { themeStretch } = useSettingsContext();
 
     const navigate = useNavigate();
-
-    const { data, isServiseLoading } = useGetServicesQuery({ page: page + 1, limit: rowsPerPage });
-    console.log(data)
+    const { data, isServiseLoading, refetch } = useGetComingSoonItemsQuery();
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
         if (data && !isServiseLoading) {
-            setTableData(data?.servise)
+            setTableData(data?.data?.data)
         }
     }, [data, tableData, isServiseLoading])
 
@@ -147,13 +146,13 @@ export default function ComingSoonItemsListPage() {
         setPage(0);
         setFilterRole(event.target.value);
     };
-    const [deleteService] = useDeleteServicesMutation()
+    const [deleteService] = useDeleteComingSoonItemsMutation()
     const handleDeleteRow = async (id) => {
         await deleteService(id);
         const deleteRow = tableData.filter((row) => row._id !== id);
         setSelected([]);
         setTableData(deleteRow);
-
+        refetch()
         if (page > 0) {
             if (dataInPage.length < 2) {
                 setPage(page - 1);
@@ -184,6 +183,7 @@ export default function ComingSoonItemsListPage() {
     };
 
     const handleEditRow = (id) => {
+        id = String(id);
         navigate(PATH_DASHBOARD.comingSoonItems.edit(paramCase(id)));
     };
 
@@ -301,19 +301,19 @@ export default function ComingSoonItemsListPage() {
                                         )
                                         .map((row) => (
                                             <ComingSoonItemsTableRow
-                                                key={row?._id}
+                                                key={row?.id}
                                                 row={row}
                                                 selected={selected.includes(
-                                                    row?._id
+                                                    row?.id
                                                 )}
                                                 onSelectRow={() =>
-                                                    onSelectRow(row?._id)
+                                                    onSelectRow(row?.id)
                                                 }
                                                 onDeleteRow={() =>
-                                                    handleDeleteRow(row?._id)
+                                                    handleDeleteRow(row?.id)
                                                 }
                                                 onEditRow={() =>
-                                                    handleEditRow(row?._id)
+                                                    handleEditRow(row?.id)
                                                 }
                                             />
                                         ))}
@@ -334,7 +334,7 @@ export default function ComingSoonItemsListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -395,7 +395,7 @@ function applyFilter({
     if (filterName) {
         inputData = inputData.filter(
             (user) =>
-                user.title.ar
+                user.name.ar
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

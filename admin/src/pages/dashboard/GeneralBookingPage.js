@@ -35,7 +35,7 @@ export default function GeneralBookingPage() {
   return (
     <>
       <Helmet>
-        <title> General: Booking | Alriada & Alebdaa</title>
+        <title> General: Booking </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'xl'}>

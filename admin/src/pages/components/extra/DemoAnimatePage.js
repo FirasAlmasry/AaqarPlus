@@ -33,7 +33,7 @@ export default function DemoAnimatePage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Animate | Alriada & Alebdaa</title>
+        <title> Extra Components: Animate </title>
       </Helmet>
 
       <Box

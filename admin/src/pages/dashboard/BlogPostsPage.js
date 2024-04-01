@@ -55,7 +55,7 @@ export default function BlogPostsPage() {
   return (
     <>
       <Helmet>
-        <title> Blog: Posts | Alriada & Alebdaa</title>
+        <title> Blog: Posts </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

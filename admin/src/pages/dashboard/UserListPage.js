@@ -53,7 +53,7 @@ const ROLE_OPTIONS = [
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
   { id: 'email', label: 'Email', align: 'left' },
-  { id: '' },
+  { id: '', label: '', align: 'left' },
 ];
 
 // ----------------------------------------------------------------------
@@ -84,7 +84,6 @@ export default function UserListPage() {
 
 
   const { data, isUserLoading } = useGetUserQuery();
-  console.log("🚀 ~ file: UserListPage.js:90 ~ UserListPage ~ data:", data?.data?.data)
 
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
@@ -145,7 +144,7 @@ export default function UserListPage() {
   const [deleteUser] = useDeleteUserMutation()
   const handleDeleteRow = async (id) => {
     await deleteUser(id);
-    const deleteRow = tableData?.filter((row) => row._id !== id);
+    const deleteRow = tableData?.filter((row) => row.id !== id);
     setSelected([]);
     setTableData(deleteRow);
 
@@ -175,7 +174,6 @@ export default function UserListPage() {
   };
 
   const handleEditRow = (id) => {
-    console.log(id)
     if (typeof id !== 'string') {
       id = String(id); 
     }
@@ -302,7 +300,7 @@ export default function UserListPage() {
             </Scrollbar>
           </TableContainer>
           <TablePaginationCustom
-            count={data?.totalDocs}
+            count={data?.data?.per_page}
             page={page}
             rowsPerPage={rowsPerPage}
             onPageChange={onChangePage}
@@ -365,7 +363,9 @@ function applyFilter({ inputData, comparator, filterName, filterStatus, filterRo
 
   if (filterName) {
     inputData = inputData?.filter(
-      (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (user) => {
+        return user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      }
     );
   }
 

@@ -1,21 +1,21 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+// import { useState } from "react";
 // @mui
 import {
-    Stack,
-    Avatar,
-    Button,
-    Checkbox,
+    // Stack,
+    // Avatar,
+    // Button,
+    // Checkbox,
     TableRow,
-    MenuItem,
+    // MenuItem,
     TableCell,
-    IconButton,
-    Typography,
+    // IconButton,
+    // Typography,
 } from "@mui/material";
-// components
-import Iconify from "../../../../components/iconify";
-import MenuPopover from "../../../../components/menu-popover";
-import ConfirmDialog from "../../../../components/confirm-dialog";
+// // components
+// import Iconify from "../../../../components/iconify";
+// import MenuPopover from "../../../../components/menu-popover";
+// import ConfirmDialog from "../../../../components/confirm-dialog";
 
 // ----------------------------------------------------------------------
 
@@ -30,40 +30,40 @@ ContactUsTableRow.propTypes = {
 export default function ContactUsTableRow({
     row,
     selected,
-    onEditRow,
-    onSelectRow,
-    onDeleteRow,
+    // onEditRow,
+    // onSelectRow,
+    // onDeleteRow,
 }) {
-    const { title, imageUrl, cloudinary_id } = row;
+    const { title, value } = row;
 
-    const [openConfirm, setOpenConfirm] = useState(false);
+    // const [openConfirm, setOpenConfirm] = useState(false);
 
-    const [openPopover, setOpenPopover] = useState(null);
+    // const [openPopover, setOpenPopover] = useState(null);
 
-    const handleOpenConfirm = () => {
-        setOpenConfirm(true);
-    };
+    // const handleOpenConfirm = () => {
+    //     setOpenConfirm(true);
+    // };
 
-    const handleCloseConfirm = () => {
-        setOpenConfirm(false);
-    };
+    // const handleCloseConfirm = () => {
+    //     setOpenConfirm(false);
+    // };
 
-    const handleOpenPopover = (event) => {
-        setOpenPopover(event.currentTarget);
-    };
+    // const handleOpenPopover = (event) => {
+    //     setOpenPopover(event.currentTarget);
+    // };
 
-    const handleClosePopover = () => {
-        setOpenPopover(null);
-    };
+    // const handleClosePopover = () => {
+    //     setOpenPopover(null);
+    // };
 
     return (
         <>
             <TableRow hover selected={selected}>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                     <Checkbox checked={selected} onClick={onSelectRow} />
-                </TableCell>
+                </TableCell> */}
 
-                <TableCell>
+                {/* <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
                         <Avatar alt={title?.ar} src={imageUrl} />
 
@@ -71,7 +71,7 @@ export default function ContactUsTableRow({
                             {title?.ar}
                         </Typography>
                     </Stack>
-                </TableCell>
+                </TableCell> */}
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {
                         description?.ar ?
@@ -79,21 +79,24 @@ export default function ContactUsTableRow({
                     }
                 </TableCell> */}
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {cloudinary_id}
+                    {title}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {value}
                 </TableCell>
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {type?.title?.ar ? type?.title?.ar : type?.title?.en}
                 </TableCell> */}
-                <TableCell align="right">
+                {/* <TableCell align="right">
                     <IconButton
                         color={openPopover ? "inherit" : "default"}
                         onClick={handleOpenPopover}
                     >
                         <Iconify icon="eva:more-vertical-fill" />
                     </IconButton>
-                </TableCell>
+                </TableCell> */}
             </TableRow>
-            <MenuPopover
+            {/* <MenuPopover
                 open={openPopover}
                 onClose={handleClosePopover}
                 arrow="right-top"
@@ -119,9 +122,9 @@ export default function ContactUsTableRow({
                     <Iconify icon="eva:edit-fill" />
                     Edit
                 </MenuItem>
-            </MenuPopover>
+            </MenuPopover> */}
 
-            <ConfirmDialog
+            {/* <ConfirmDialog
                 open={openConfirm}
                 onClose={handleCloseConfirm}
                 title="Delete"
@@ -135,7 +138,7 @@ export default function ContactUsTableRow({
                         Delete
                     </Button>
                 }
-            />
+            /> */}
         </>
     );
 }

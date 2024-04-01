@@ -52,7 +52,7 @@ export default function DemoSnackbarPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Snackbar | Alriada & Alebdaa</title>
+        <title> Extra Components: Snackbar </title>
       </Helmet>
 
       <Box

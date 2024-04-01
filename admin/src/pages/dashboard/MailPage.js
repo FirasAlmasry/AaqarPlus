@@ -8,7 +8,7 @@ export default function MailPage() {
   return (
     <>
       <Helmet>
-        <title> Mail | Alriada & Alebdaa</title>
+        <title> Mail </title>
       </Helmet>
 
       <Mail />

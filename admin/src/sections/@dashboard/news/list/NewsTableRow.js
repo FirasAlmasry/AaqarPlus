@@ -34,7 +34,8 @@ export default function FoundersTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { title, imageUrl, description } = row;
+    const { name, image, description } = row;
+    const url = `https://aqarbackend.revampbrands.com/storage/${image}`
 
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -59,31 +60,28 @@ export default function FoundersTableRow({
     return (
         <>
             <TableRow hover selected={selected}>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                     <Checkbox checked={selected} onClick={onSelectRow} />
-                </TableCell>
+                </TableCell> */}
 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={title?.ar} src={imageUrl} />
+                        <Avatar alt={name?.ar} src={url} />
 
                         <Typography variant="subtitle2" noWrap>
-                            {title?.ar}
+                            {name?.ar}
                         </Typography>
                     </Stack>
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {
-                        description?.ar ?
-                            description?.ar : description?.en
-                    }
-                </TableCell> */}
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {description}
+                    {name?.en}
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {type?.title?.ar ? type?.title?.ar : type?.title?.en}
-                </TableCell> */}
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {description?.ar}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {description?.en}
+                </TableCell>
                 <TableCell align="right">
                     <IconButton
                         color={openPopover ? "inherit" : "default"}

@@ -30,7 +30,7 @@ const LINKS = [
   {
     headline: 'Contact',
     children: [
-      { name: 'support@Alriada & Alebdaaagency.com', href: '#' },
+      { name: 'support@Aqaar Plusagency.com', href: '#' },
       { name: 'Los Angeles, 359  Hidden Valley Road', href: '#' },
     ],
   },
@@ -59,7 +59,7 @@ export default function Footer() {
         <Typography variant="caption" component="div">
           © All rights reserved
           <br /> made by &nbsp;
-          <Link href="https://Alriada & Alebdaaagency.com/"> Alriada & Alebdaaagency.com </Link>
+          <Link href="https://Aqaar Plusagency.com/"> Aqaar Plusagency.com </Link>
         </Typography>
       </Container>
     </Box>
@@ -95,7 +95,7 @@ export default function Footer() {
 
           <Grid item xs={8} md={3}>
             <Typography variant="body2" sx={{ pr: { md: 5 } }}>
-              The starting point for your next project with Alriada & Alebdaa, built on the newest
+              The starting point for your next project with Aqaar Plus, built on the newest
               version of Material-UI ©, ready to be customized to your style.
             </Typography>
 

@@ -29,7 +29,7 @@ export default function DemoFormValidationPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Form Validation | Alriada & Alebdaa</title>
+        <title> Extra Components: Form Validation </title>
       </Helmet>
 
       <Box

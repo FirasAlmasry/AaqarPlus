@@ -85,7 +85,7 @@ export default function EcommerceShopPage() {
   return (
     <>
       <Helmet>
-        <title> Ecommerce: Shop | Alriada & Alebdaa</title>
+        <title> Ecommerce: Shop </title>
       </Helmet>
 
       <FormProvider methods={methods}>

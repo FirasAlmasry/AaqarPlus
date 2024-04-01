@@ -33,7 +33,7 @@ export default function MUIDataGridPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: DataGrid | Alriada & Alebdaa</title>
+        <title> MUI Components: DataGrid </title>
       </Helmet>
 
       <Box

@@ -77,7 +77,7 @@ export default function ContactUsTableToolbar({
                 ))}
             </TextField> */}
 
-            <TextField
+            {/* <TextField
                 fullWidth
                 value={filterName}
                 onChange={onFilterName}
@@ -92,18 +92,9 @@ export default function ContactUsTableToolbar({
                         </InputAdornment>
                     ),
                 }}
-            />
+            /> */}
 
-            {isFiltered && (
-                <Button
-                    color="error"
-                    sx={{ flexShrink: 0 }}
-                    onClick={onResetFilter}
-                    startIcon={<Iconify icon="eva:trash-2-outline" />}
-                >
-                    Clear
-                </Button>
-            )}
+            
         </Stack>
     );
 }

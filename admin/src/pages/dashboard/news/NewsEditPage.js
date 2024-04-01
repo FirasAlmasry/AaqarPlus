@@ -12,7 +12,7 @@ import { useSettingsContext } from "../../../components/settings";
 import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import NewsNewEditForm from "../../../sections/@dashboard/news/NewsEditForm";
-import { useGetServicesIdQuery } from "../../../state/apiService";
+import { useGetFoundersIdQuery } from "../../../state/founders";
 
 // ----------------------------------------------------------------------
 
@@ -20,26 +20,17 @@ export default function NewsEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isServiseLoading } = useGetServicesIdQuery(name);
-    console.log("🚀 ~ file: ServiceEditPage.js:24 ~ ServiceEditPage ~ data:", data)
-    // const { data } = useGetServicesIdQuery(name)
-    // console.log("🚀 ~ file: UserEditPage.js:24 ~ Service ~ data:", data)
-    // const [Service, { isLoading }] = useEditServicesMutation()
-
-    // const currentService = data?.service?.find(
-    //     (service) => paramCase(service.name) === name
-    // );
-    // console.log("🚀 ~ file: ServiceEditPage.js:31 ~ ServiceEditPage ~ currentService:", currentService)
+    const { data, isFoundersLoading } = useGetFoundersIdQuery(name);
 
     return (
         <>
             <Helmet>
-                <title> News: Edit News</title>
+                <title> News: Edit New</title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Edit News"
+                    heading="Edit New"
                     links={[
                         {
                             name: "Dashboard",
@@ -49,11 +40,11 @@ export default function NewsEditPage() {
                             name: "News",
                             href: PATH_DASHBOARD.news.list,
                         },
-                        { name: data?.name },
+                        { name: data?.data?.name.en },
                     ]}
                 />
-                {isServiseLoading ? "loading" :
-                    <NewsNewEditForm isEdit currentService={data?.servise} />
+                {isFoundersLoading ? "loading" :
+                    <NewsNewEditForm isEdit currentService={data?.data}/>
                 }
             </Container>
         </>

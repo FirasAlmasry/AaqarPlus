@@ -13,7 +13,7 @@ export default function DemoScrollbarPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Scrollbar | Alriada & Alebdaa</title>
+        <title> Extra Components: Scrollbar </title>
       </Helmet>
 
       <Box

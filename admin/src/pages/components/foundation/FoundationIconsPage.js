@@ -26,7 +26,7 @@ export default function FoundationIconsPage() {
   return (
     <>
       <Helmet>
-        <title> Foundations: Icons | Alriada & Alebdaa</title>
+        <title> Foundations: Icons </title>
       </Helmet>
 
       <Box

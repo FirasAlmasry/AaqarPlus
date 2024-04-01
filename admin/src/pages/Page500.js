@@ -14,7 +14,7 @@ export default function Page500() {
   return (
     <>
       <Helmet>
-        <title> 500 Internal Server Error | Alriada & Alebdaa</title>
+        <title> 500 Internal Server Error </title>
       </Helmet>
 
       <MotionContainer>

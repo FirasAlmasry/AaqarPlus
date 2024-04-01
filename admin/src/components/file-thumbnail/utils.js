@@ -120,29 +120,44 @@ export function fileTypeByUrl(fileUrl = '') {
 export function fileNameByUrl(fileUrl) {
   return fileUrl.split('/').pop();
 }
-
+const url = 'https://aqarbackend.revampbrands.com/storage/'
 // ----------------------------------------------------------------------
+export function fileData(imagePath) {
+  
+  // If imagePath?.image is a string, it's a URL, so return the data accordingly
+  if (typeof imagePath?.image === 'string' || typeof imagePath?.file === 'string') {
+    let key, preview, name, type;
+    if (typeof imagePath?.image === 'string') {
+      // If imagePath?.image exists and it's a string, use it
+      key = url + imagePath?.image;
+      preview = url + imagePath?.image;
+      name = fileNameByUrl(url + imagePath?.image);
+      type = fileTypeByUrl(url + imagePath?.image);
+    } else if (typeof imagePath?.file === 'string') {
+      // If imagePath?.file exists and it's a string, use it
+      key = url + imagePath?.file;
+      preview = url + imagePath?.file;
+      name = fileNameByUrl(url + imagePath?.file);
+      type = fileTypeByUrl(url + imagePath?.file);
+    }
 
-export function fileData(file) {
-  // Url
-  if (typeof file === 'string') {
+    return { key, preview, name, type };
+  }
+
+  // If imagePath is an object, it's a file, so return the data accordingly
+  if (typeof imagePath === 'object' && imagePath !== null) {
     return {
-      key: file,
-      preview: file,
-      name: fileNameByUrl(file),
-      type: fileTypeByUrl(file),
+      key: imagePath?.preview ?? '',
+      name: imagePath?.name ?? '',
+      size: imagePath?.size ?? '',
+      path: imagePath?.path ?? '',
+      type: imagePath?.type ?? '',
+      preview: imagePath?.preview ?? '',
+      lastModified: imagePath?.lastModified ?? '',
+      lastModifiedDate: imagePath?.lastModifiedDate ?? '',
     };
   }
 
-  // File
-  return {
-    key: file.preview,
-    name: file.name,
-    size: file.size,
-    path: file.path,
-    type: file.type,
-    preview: file.preview,
-    lastModified: file.lastModified,
-    lastModifiedDate: file.lastModifiedDate,
-  };
+  // If imagePath is neither a string nor an object, return an empty object
+  return {};
 }

@@ -16,7 +16,7 @@ export default function MUIBadgePage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Badge | Alriada & Alebdaa</title>
+        <title> MUI Components: Badge </title>
       </Helmet>
 
       <Box

@@ -41,7 +41,8 @@ import {
     PropertyTypeTableToolbar,
     PropertyTypeTableRow,
 } from "../../../sections/@dashboard/propertyType/list";
-import { useDeleteServicesMutation, useGetServicesQuery } from "../../../state/apiService";
+import { useDeletePropertyTypeMutation, useGetPropertyTypeQuery } from "../../../state/PropertyType";
+import { useSnackbar } from "notistack";
 
 // ----------------------------------------------------------------------
 
@@ -50,10 +51,10 @@ const STATUS_OPTIONS = [];
 const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
-    { id: "title", label: "Title ar", align: "left" },
-    { id: "imageUrl", label: "Image", align: "left" },
-    { id: "type", label: "type", align: "left" },
-    // { id: "cloudinary_id", label: "cloudinary", align: "left" },
+    { id: "nameAr", label: "name ar", align: "left" },
+    { id: "nameEn", label: "name en", align: "left" },
+    { id: "parentAr", label: "parent ar", align: "left" },
+    { id: "parentEn", label: "parent en", align: "left" },
     // { id: "type", label: "type", align: "left" },
     { id: "" },
 ];
@@ -84,13 +85,12 @@ export default function PropertyTypeListPage() {
 
     const navigate = useNavigate();
 
-    const { data, isServiseLoading } = useGetServicesQuery({ page: page + 1, limit: rowsPerPage });
-    console.log(data)
+    const { data, isServiseLoading, refetch } = useGetPropertyTypeQuery();
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
         if (data && !isServiseLoading) {
-            setTableData(data?.servise)
+            setTableData(data?.data?.data)
         }
     }, [data, tableData, isServiseLoading])
 
@@ -147,16 +147,28 @@ export default function PropertyTypeListPage() {
         setPage(0);
         setFilterRole(event.target.value);
     };
-    const [deleteService] = useDeleteServicesMutation()
+    const { enqueueSnackbar } = useSnackbar();
+    const [deleteProperty] = useDeletePropertyTypeMutation()
     const handleDeleteRow = async (id) => {
-        await deleteService(id);
-        const deleteRow = tableData.filter((row) => row._id !== id);
-        setSelected([]);
-        setTableData(deleteRow);
-
-        if (page > 0) {
-            if (dataInPage.length < 2) {
-                setPage(page - 1);
+        const response = await deleteProperty(id);
+        if (response && response.error) {
+            console.error("An error occurred while deleting area:", response.error);
+            const errorMessage = response.error.data.errors || 'An error occurred';
+            enqueueSnackbar(errorMessage, { variant: 'error' });
+            handleCloseConfirm(); // تنفيذ الدالة لإغلاق الـ "بوب آب"
+            setOpenConfirm(false);
+        } else {
+            console.log("Area deleted successfully");
+            const deleteRow = tableData?.filter((row) => row?.id !== id);
+            setSelected([]);
+            setTableData(deleteRow);
+            refetch();
+            handleCloseConfirm(); // تنفيذ الدالة لإغلاق الـ "بوب آب"
+            setOpenConfirm(false);
+            if (page > 0) {
+                if (dataInPage.length < 2) {
+                    setPage(page - 1);
+                }
             }
         }
     };
@@ -184,7 +196,8 @@ export default function PropertyTypeListPage() {
     };
 
     const handleEditRow = (id) => {
-        navigate(PATH_DASHBOARD.service.edit(paramCase(id)));
+        id = String(id);
+        navigate(PATH_DASHBOARD.propertyType.edit(paramCase(id)));
     };
 
     const handleResetFilter = () => {
@@ -192,11 +205,36 @@ export default function PropertyTypeListPage() {
         setFilterRole("all");
         setFilterStatus("all");
     };
+    const renderTableRows = (rows) => {
+        const rowsToRender = [];
 
+        rows.forEach((row) => {
+            const currentRow = (
+                <PropertyTypeTableRow
+                    key={row?.id}
+                    row={row}
+                    selected={selected.includes(row?.id)}
+                    onSelectRow={() => onSelectRow(row?.id)}
+                    onDeleteRow={() => handleDeleteRow(row?.id)}
+                    onEditRow={() => handleEditRow(row?.id)}
+                />
+            );
+
+            rowsToRender.push(currentRow);
+
+            if (row.children && row.children.length > 0) {
+                // Render rows for children recursively
+                const childrenRows = renderTableRows(row.children);
+                rowsToRender.push(...childrenRows);
+            }
+        });
+
+        return rowsToRender;
+    };
     return (
         <>
             <Helmet>
-                <title> PropertyType: List | Alriada & Alebdaa</title>
+                <title> PropertyType: List </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
@@ -292,31 +330,8 @@ export default function PropertyTypeListPage() {
                                         )
                                     }
                                 />
-
                                 <TableBody>
-                                    {dataFiltered
-                                        .slice(
-                                            page * rowsPerPage,
-                                            page * rowsPerPage + rowsPerPage
-                                        )
-                                        .map((row) => (
-                                            <PropertyTypeTableRow
-                                                key={row?._id}
-                                                row={row}
-                                                selected={selected.includes(
-                                                    row?._id
-                                                )}
-                                                onSelectRow={() =>
-                                                    onSelectRow(row?._id)
-                                                }
-                                                onDeleteRow={() =>
-                                                    handleDeleteRow(row?._id)
-                                                }
-                                                onEditRow={() =>
-                                                    handleEditRow(row?._id)
-                                                }
-                                            />
-                                        ))}
+                                    {renderTableRows(dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage))}
 
                                     <TableEmptyRows
                                         height={denseHeight}
@@ -326,7 +341,6 @@ export default function PropertyTypeListPage() {
                                             tableData.length
                                         )}
                                     />
-
                                     <TableNoData isNotFound={isNotFound} />
                                 </TableBody>
                             </Table>
@@ -334,7 +348,7 @@ export default function PropertyTypeListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.data?.length}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -382,7 +396,7 @@ function applyFilter({
     filterStatus,
     filterRole,
 }) {
-    const stabilizedThis = inputData.map((el, index) => [el, index]);
+    const stabilizedThis = inputData?.map((el, index) => [el, index]);
 
     stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0]);
@@ -395,7 +409,7 @@ function applyFilter({
     if (filterName) {
         inputData = inputData.filter(
             (user) =>
-                user.title.ar
+                user.name.ar
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

@@ -41,7 +41,7 @@ import {
     FoundersTableToolbar,
     FoundersTableRow,
 } from "../../../sections/@dashboard/founders/list";
-import { useDeleteServicesMutation, useGetServicesQuery } from "../../../state/apiService";
+import { useDeleteFoundersMutation, useGetFoundersQuery } from "../../../state/founders";
 
 // ----------------------------------------------------------------------
 
@@ -50,11 +50,10 @@ const STATUS_OPTIONS = [];
 const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
-    { id: "title", label: "Title ar", align: "left" },
-    { id: "imageUrl", label: "Image", align: "left" },
-    { id: "description", label: "Description ar", align: "left" },
-    // { id: "cloudinary_id", label: "cloudinary", align: "left" },
-    // { id: "type", label: "type", align: "left" },
+    { id: "titlear", label: "Name ar", align: "left" },
+    { id: "titleen", label: "Name en", align: "left" },
+    { id: "descriptionar", label: "Description ar", align: "left" },
+    { id: "descriptionen", label: "Description en", align: "left" },
     { id: "" },
 ];
 
@@ -84,15 +83,14 @@ export default function FoundersListPage() {
 
     const navigate = useNavigate();
 
-    const { data, isServiseLoading } = useGetServicesQuery({ page: page + 1, limit: rowsPerPage });
-    console.log(data)
+    const { data, isFoundersLoading, refetch } = useGetFoundersQuery('FOUNDER');
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
-        if (data && !isServiseLoading) {
-            setTableData(data?.servise)
+        if (data && !isFoundersLoading) {
+            setTableData(data?.data?.data)
         }
-    }, [data, tableData, isServiseLoading])
+    }, [data, tableData, isFoundersLoading])
 
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -110,7 +108,7 @@ export default function FoundersListPage() {
         filterStatus,
     });
 
-    const dataInPage = dataFiltered.slice(
+    const dataInPage = dataFiltered?.slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
     );
@@ -147,13 +145,13 @@ export default function FoundersListPage() {
         setPage(0);
         setFilterRole(event.target.value);
     };
-    const [deleteService] = useDeleteServicesMutation()
+    const [deleteFounder] = useDeleteFoundersMutation()
     const handleDeleteRow = async (id) => {
-        await deleteService(id);
-        const deleteRow = tableData.filter((row) => row._id !== id);
+        await deleteFounder(id);
+        const deleteRow = tableData?.filter((row) => row?.id !== id);
         setSelected([]);
         setTableData(deleteRow);
-
+        refetch()
         if (page > 0) {
             if (dataInPage.length < 2) {
                 setPage(page - 1);
@@ -162,21 +160,21 @@ export default function FoundersListPage() {
     };
 
     const handleDeleteRows = (selectedRows) => {
-        const deleteRows = tableData.filter(
-            (row) => !selectedRows.includes(row.id)
+        const deleteRows = tableData?.filter(
+            (row) => !selectedRows.includes(row?.id)
         );
         setSelected([]);
         setTableData(deleteRows);
 
         if (page > 0) {
-            if (selectedRows.length === dataInPage.length) {
+            if (selectedRows?.length === dataInPage?.length) {
                 setPage(page - 1);
-            } else if (selectedRows.length === dataFiltered.length) {
+            } else if (selectedRows?.length === dataFiltered?.length) {
                 setPage(0);
-            } else if (selectedRows.length > dataInPage.length) {
+            } else if (selectedRows?.length > dataInPage?.length) {
                 const newPage =
                     Math.ceil(
-                        (tableData.length - selectedRows.length) / rowsPerPage
+                        (tableData?.length - selectedRows?.length) / rowsPerPage
                     ) - 1;
                 setPage(newPage);
             }
@@ -184,7 +182,8 @@ export default function FoundersListPage() {
     };
 
     const handleEditRow = (id) => {
-        navigate(PATH_DASHBOARD.service.edit(paramCase(id)));
+        id = String(id);
+        navigate(PATH_DASHBOARD.founders.edit(paramCase(id)));
     };
 
     const handleResetFilter = () => {
@@ -217,7 +216,7 @@ export default function FoundersListPage() {
                             variant="contained"
                             startIcon={<Iconify icon="eva:plus-fill" />}
                         >
-                            New Founders
+                            New Founder
                         </Button>
                     }
                 />
@@ -253,12 +252,12 @@ export default function FoundersListPage() {
                     >
                         <TableSelectedAction
                             dense={dense}
-                            numSelected={selected.length}
-                            rowCount={tableData.length}
+                            numSelected={selected?.length}
+                            rowCount={tableData?.length}
                             onSelectAllRows={(checked) =>
                                 onSelectAllRows(
                                     checked,
-                                    tableData.map((row) => row.id)
+                                    tableData?.map((row) => row.id)
                                 )
                             }
                             action={
@@ -295,25 +294,25 @@ export default function FoundersListPage() {
 
                                 <TableBody>
                                     {dataFiltered
-                                        .slice(
+                                        ?.slice(
                                             page * rowsPerPage,
                                             page * rowsPerPage + rowsPerPage
                                         )
-                                        .map((row) => (
+                                        ?.map((row) => (
                                             <FoundersTableRow
-                                                key={row?._id}
+                                                key={row?.id}
                                                 row={row}
                                                 selected={selected.includes(
-                                                    row?._id
+                                                    row?.id
                                                 )}
                                                 onSelectRow={() =>
-                                                    onSelectRow(row?._id)
+                                                    onSelectRow(row?.id)
                                                 }
                                                 onDeleteRow={() =>
-                                                    handleDeleteRow(row?._id)
+                                                    handleDeleteRow(row?.id)
                                                 }
                                                 onEditRow={() =>
-                                                    handleEditRow(row?._id)
+                                                    handleEditRow(row?.id)
                                                 }
                                             />
                                         ))}
@@ -323,7 +322,7 @@ export default function FoundersListPage() {
                                         emptyRows={emptyRows(
                                             page,
                                             rowsPerPage,
-                                            tableData.length
+                                            tableData?.length
                                         )}
                                     />
 
@@ -334,7 +333,7 @@ export default function FoundersListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -382,20 +381,20 @@ function applyFilter({
     filterStatus,
     filterRole,
 }) {
-    const stabilizedThis = inputData.map((el, index) => [el, index]);
+    const stabilizedThis = inputData?.map((el, index) => [el, index]);
 
-    stabilizedThis.sort((a, b) => {
+    stabilizedThis?.sort((a, b) => {
         const order = comparator(a[0], b[0]);
         if (order !== 0) return order;
         return a[1] - b[1];
     });
 
-    inputData = stabilizedThis.map((el) => el[0]);
+    inputData = stabilizedThis?.map((el) => el[0]);
 
     if (filterName) {
-        inputData = inputData.filter(
+        inputData = inputData?.filter(
             (user) =>
-                user.title.ar
+                user.name.ar
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

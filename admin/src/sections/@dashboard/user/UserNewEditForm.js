@@ -64,12 +64,9 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const [editUser, errorEdit ] = useEditUserMutation()
-  console.log("🚀 ~ UserNewEditForm ~ errorEdit:", `${ errorEdit.status } ${ JSON.stringify(errorEdit.data) }`)
   const [addUser, errorAdd ] = useAddUserMutation()
   const onSubmit = async (formData) => {
-    console.log("🚀 ~ onSubmit ~ formData:", formData)
     try {
-      console.log("🚀 ~ onSubmit ~ id:", currentUser?.id)
       if (isEdit) {
         await editUser({ formData, id: currentUser?.id }).unwrap();
       } else {
@@ -81,14 +78,13 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
     } catch (error) {
       const errorMessage = error.message || 'An error occurred';
       enqueueSnackbar(errorMessage, { variant: 'error' });
-      console.error(error);
     }
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={12}>
           <Card sx={{ p: 3 }}>
             <Box
               rowGap={3}
@@ -101,7 +97,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
             >
               <RHFTextField name="name" label="Full Name" />
               <RHFTextField name="email" label="Email Address" />
-              {!isEdit &&
+              
                 <RHFTextField
                   name="password"
                   label="Password"
@@ -115,7 +111,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
                       </InputAdornment>
                     ),
                   }} />
-              }
+              
             </Box>
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>

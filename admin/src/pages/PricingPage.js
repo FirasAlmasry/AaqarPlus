@@ -12,7 +12,7 @@ export default function PricingPage() {
   return (
     <>
       <Helmet>
-        <title> Pricing | Alriada & Alebdaa</title>
+        <title> Pricing </title>
       </Helmet>
 
       <Container

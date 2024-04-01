@@ -38,7 +38,7 @@ export default function LoginAuth0() {
       </Stack>
 
       <Alert severity="info" sx={{ mb: 3 }}>
-        Use email : <strong>demo@Alriada & Alebdaa.com</strong> / password :<strong> demo1234</strong>
+        Use email : <strong>demo@Aqaar Plus.com</strong> / password :<strong> demo1234</strong>
       </Alert>
 
       <Button

@@ -44,7 +44,7 @@ export default function MUIPaginationPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Pagination | Alriada & Alebdaa</title>
+        <title> MUI Components: Pagination </title>
       </Helmet>
 
       <Box

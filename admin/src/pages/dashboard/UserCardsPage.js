@@ -19,7 +19,7 @@ export default function UserCardsPage() {
   return (
     <>
       <Helmet>
-        <title> User: Cards | Alriada & Alebdaa</title>
+        <title> User: Cards </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

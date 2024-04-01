@@ -12,7 +12,7 @@ import { useSettingsContext } from "../../../components/settings";
 import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import ComingSoonItemsNewEditForm from "../../../sections/@dashboard/comingSoonItems/ComingSoonItemsNewEditForm";
-import { useGetServicesIdQuery } from "../../../state/apiService";
+import { useGetComingSoonItemsIdQuery } from "../../../state/comingSoonItems";
 
 // ----------------------------------------------------------------------
 
@@ -20,17 +20,9 @@ export default function ComingSoonItemsEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isServiseLoading } = useGetServicesIdQuery(name);
-    console.log("🚀 ~ file: ServiceEditPage.js:24 ~ ServiceEditPage ~ data:", data)
-    // const { data } = useGetServicesIdQuery(name)
-    // console.log("🚀 ~ file: UserEditPage.js:24 ~ Service ~ data:", data)
-    // const [Service, { isLoading }] = useEditServicesMutation()
-
-    // const currentService = data?.service?.find(
-    //     (service) => paramCase(service.name) === name
-    // );
-    // console.log("🚀 ~ file: ServiceEditPage.js:31 ~ ServiceEditPage ~ currentService:", currentService)
-
+    console.log("🚀 ~ ComingSoonItemsEditPage ~ name:", name)
+    const { data, isServiseLoading } = useGetComingSoonItemsIdQuery(name);
+    console.log("🚀 ~ file: ServiceEditPage.js:24 ~ ServiceEditPage ~ data:", data?.data)
     return (
         <>
             <Helmet>
@@ -49,11 +41,11 @@ export default function ComingSoonItemsEditPage() {
                             name: "ComingSoonItems",
                             href: PATH_DASHBOARD.comingSoonItems.list,
                         },
-                        { name: data?.name },
+                        { name: data?.data?.name?.en },
                     ]}
                 />
                 {isServiseLoading ? "loading" :
-                    <ComingSoonItemsNewEditForm isEdit currentService={data?.servise} />
+                    <ComingSoonItemsNewEditForm isEdit currentService={data?.data} />
                 }
             </Container>
         </>

@@ -18,7 +18,7 @@ const CARDS = [
     icon: ' /assets/icons/home/ic_design.svg',
     title: 'UI & UX Design',
     description:
-      'The Alriada & Alebdaa is built on the principles of the atomic design system. It helps you to create projects fastest and easily customized packages for your projects.',
+      'The Aqaar Plus is built on the principles of the atomic design system. It helps you to create projects fastest and easily customized packages for your projects.',
   },
   {
     icon: ' /assets/icons/home/ic_development.svg',
@@ -58,7 +58,7 @@ export default function HomeMinimal() {
         >
           <m.div variants={varFade().inUp}>
             <Typography component="div" variant="overline" sx={{ color: 'text.disabled' }}>
-              Alriada & Alebdaa
+              Aqaar Plus
             </Typography>
           </m.div>
 

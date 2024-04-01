@@ -57,6 +57,18 @@ export const PATH_DASHBOARD = {
         list: path(ROOTS_DASHBOARD, "/areas/list"),
         edit: (name) => path(ROOTS_DASHBOARD, `/areas/${name}/edit`),
     },
+    finishing: {
+        root: path(ROOTS_DASHBOARD, "/finishing"),
+        new: path(ROOTS_DASHBOARD, "/finishing/new"),
+        list: path(ROOTS_DASHBOARD, "/finishing/list"),
+        edit: (name) => path(ROOTS_DASHBOARD, `/finishing/${name}/edit`),
+    },
+    developers: {
+        root: path(ROOTS_DASHBOARD, "/developers"),
+        new: path(ROOTS_DASHBOARD, "/developers/new"),
+        list: path(ROOTS_DASHBOARD, "/developers/list"),
+        edit: (name) => path(ROOTS_DASHBOARD, `/developers/${name}/edit`),
+    },
     attaches: {
         root: path(ROOTS_DASHBOARD, "/attaches"),
         new: path(ROOTS_DASHBOARD, "/attaches/new"),
@@ -117,11 +129,11 @@ export const PATH_DASHBOARD = {
         list: path(ROOTS_DASHBOARD, "/sliderImage/list"),
         edit: (name) => path(ROOTS_DASHBOARD, `/sliderImage/${name}/edit`),
     },
-    design : {
-        root: path(ROOTS_DASHBOARD, "/design"),
-        new: path(ROOTS_DASHBOARD, "/design/new"),
-        list: path(ROOTS_DASHBOARD, "/design/list"),
-        edit: (name) => path(ROOTS_DASHBOARD, `/design/${name}/edit`),
+    infoText : {
+        root: path(ROOTS_DASHBOARD, "/infoText"),
+        new: path(ROOTS_DASHBOARD, "/infoText/new"),
+        list: path(ROOTS_DASHBOARD, "/infoText/list"),
+        edit: (name) => path(ROOTS_DASHBOARD, `/infoText/${name}/edit`),
     },
     aboutUs : {
         root: path(ROOTS_DASHBOARD, "/aboutUs"),

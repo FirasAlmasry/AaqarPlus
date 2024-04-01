@@ -14,7 +14,7 @@ export default function PaymentPage() {
   return (
     <>
       <Helmet>
-        <title> Payment | Alriada & Alebdaa</title>
+        <title> Payment </title>
       </Helmet>
 
       <Container

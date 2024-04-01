@@ -20,7 +20,7 @@ export default function DemoLabelPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Label | Alriada & Alebdaa</title>
+        <title> Extra Components: Label </title>
       </Helmet>
 
       <Box

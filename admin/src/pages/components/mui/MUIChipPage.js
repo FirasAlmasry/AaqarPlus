@@ -14,7 +14,7 @@ export default function MUIChipPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Chip | Alriada & Alebdaa</title>
+        <title> MUI Components: Chip </title>
       </Helmet>
 
       <Box

@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { paramCase } from "change-case";
+// import { paramCase } from "change-case";
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 // @mui
@@ -41,7 +41,7 @@ import {
     MessagesTableToolbar,
     MessagesTableRow,
 } from "../../../sections/@dashboard/messages/list";
-import { useDeleteServicesMutation, useGetServicesQuery } from "../../../state/apiService";
+import { useDeleteMessagesMutation, useGetMessagesQuery } from "../../../state/message";
 
 // ----------------------------------------------------------------------
 
@@ -50,12 +50,12 @@ const STATUS_OPTIONS = [];
 const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
-    { id: "title", label: "Title ar", align: "left" },
-    // { id: "imageUrl", label: "Image", align: "left" },
-    // { id: "description", label: "Description", align: "left" },
-    { id: "cloudinary_id", label: "cloudinary", align: "left" },
-    // { id: "type", label: "type", align: "left" },
-    { id: "" },
+    { id: "name", label: "Name", align: "left" },
+    { id: "preferred_location", label: "Preferred Location", align: "left" },
+    { id: "location", label: "Location", align: "left" },
+    { id: "phone_number", label: "Phone Number", align: "left" },
+    { id: "description", label: "Description", align: "left" },
+    { id: "", label: "", align: "left" },
 ];
 
 // ----------------------------------------------------------------------
@@ -82,15 +82,14 @@ export default function MessagesListPage() {
 
     const { themeStretch } = useSettingsContext();
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const { data, isServiseLoading } = useGetServicesQuery({ page: page + 1, limit: rowsPerPage });
-    console.log(data)
+    const { data, isServiseLoading, refetch } = useGetMessagesQuery();
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
         if (data && !isServiseLoading) {
-            setTableData(data?.servise)
+            setTableData(data?.data?.data)
         }
     }, [data, tableData, isServiseLoading])
 
@@ -147,44 +146,20 @@ export default function MessagesListPage() {
         setPage(0);
         setFilterRole(event.target.value);
     };
-    const [deleteService] = useDeleteServicesMutation()
+
+    const [deleteFounder] = useDeleteMessagesMutation()
+    
     const handleDeleteRow = async (id) => {
-        await deleteService(id);
-        const deleteRow = tableData.filter((row) => row._id !== id);
+        await deleteFounder(id);
+        const deleteRow = tableData?.filter((row) => row?.id !== id);
         setSelected([]);
         setTableData(deleteRow);
-
+        refetch()
         if (page > 0) {
             if (dataInPage.length < 2) {
                 setPage(page - 1);
             }
         }
-    };
-
-    const handleDeleteRows = (selectedRows) => {
-        const deleteRows = tableData.filter(
-            (row) => !selectedRows.includes(row.id)
-        );
-        setSelected([]);
-        setTableData(deleteRows);
-
-        if (page > 0) {
-            if (selectedRows.length === dataInPage.length) {
-                setPage(page - 1);
-            } else if (selectedRows.length === dataFiltered.length) {
-                setPage(0);
-            } else if (selectedRows.length > dataInPage.length) {
-                const newPage =
-                    Math.ceil(
-                        (tableData.length - selectedRows.length) / rowsPerPage
-                    ) - 1;
-                setPage(newPage);
-            }
-        }
-    };
-
-    const handleEditRow = (id) => {
-        navigate(PATH_DASHBOARD.messages.edit(paramCase(id)));
     };
 
     const handleResetFilter = () => {
@@ -209,18 +184,7 @@ export default function MessagesListPage() {
                             href: PATH_DASHBOARD.messages.list,
                         },
                         { name: "List" },
-                    ]}
-                    action={
-                        <Button
-                            component={RouterLink}
-                            to={PATH_DASHBOARD.messages.new}
-                            variant="contained"
-                            startIcon={<Iconify icon="eva:plus-fill" />}
-                        >
-                            New Messages
-                        </Button>
-                    }
-                />
+                    ]}/>
 
                 <Card>
                     <Tabs
@@ -301,23 +265,18 @@ export default function MessagesListPage() {
                                         )
                                         .map((row) => (
                                             <MessagesTableRow
-                                                key={row?._id}
+                                                key={row?.id}
                                                 row={row}
                                                 selected={selected.includes(
-                                                    row?._id
+                                                    row?.id
                                                 )}
                                                 onSelectRow={() =>
-                                                    onSelectRow(row?._id)
+                                                    onSelectRow(row?.id)
                                                 }
                                                 onDeleteRow={() =>
-                                                    handleDeleteRow(row?._id)
-                                                }
-                                                onEditRow={() =>
-                                                    handleEditRow(row?._id)
-                                                }
-                                            />
+                                                    handleDeleteRow(row?.id)
+                                                }/>
                                         ))}
-
                                     <TableEmptyRows
                                         height={denseHeight}
                                         emptyRows={emptyRows(
@@ -334,7 +293,7 @@ export default function MessagesListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -361,7 +320,6 @@ export default function MessagesListPage() {
                         variant="contained"
                         color="error"
                         onClick={() => {
-                            handleDeleteRows(selected);
                             handleCloseConfirm();
                         }}
                     >
@@ -395,7 +353,7 @@ function applyFilter({
     if (filterName) {
         inputData = inputData.filter(
             (user) =>
-                user.title.ar
+                user.name.ar
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

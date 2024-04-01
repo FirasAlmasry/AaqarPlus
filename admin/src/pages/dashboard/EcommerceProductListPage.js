@@ -182,7 +182,7 @@ export default function EcommerceProductListPage() {
   return (
     <>
       <Helmet>
-        <title> Ecommerce: Product List | Alriada & Alebdaa</title>
+        <title> Ecommerce: Product List </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

@@ -17,12 +17,12 @@ export default function NewsCreatePage() {
     return (
         <>
             <Helmet>
-                <title>News: Create a new News </title>
+                <title>News: Create a new </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Create a new News"
+                    heading="Create a new"
                     links={[
                         {
                             name: "Dashboard",
@@ -32,7 +32,7 @@ export default function NewsCreatePage() {
                             name: "News",
                             href: PATH_DASHBOARD.news.list,
                         },
-                        { name: "New News" },
+                        { name: "New" },
                     ]}
                 />
                 <NewsNewEditForm />

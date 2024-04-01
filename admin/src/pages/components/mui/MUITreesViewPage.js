@@ -38,7 +38,7 @@ export default function MUITreesViewPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Tree View | Alriada & Alebdaa</title>
+        <title> MUI Components: Tree View </title>
       </Helmet>
 
       <Box

@@ -21,7 +21,7 @@ export default function ComingSoonPage() {
   return (
     <>
       <Helmet>
-        <title> Coming Soon | Alriada & Alebdaa</title>
+        <title> Coming Soon </title>
       </Helmet>
 
       <Typography variant="h3" paragraph>

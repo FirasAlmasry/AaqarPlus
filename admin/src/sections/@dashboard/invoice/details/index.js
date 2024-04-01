@@ -250,7 +250,7 @@ export default function InvoiceDetails({ invoice }) {
           <Grid item xs={12} md={3} sx={{ py: 3, textAlign: 'right' }}>
             <Typography variant="subtitle2">Have a Question?</Typography>
 
-            <Typography variant="body2">support@Alriada & Alebdaaagency.com</Typography>
+            <Typography variant="body2">support@Aqaar Plusagency.com</Typography>
           </Grid>
         </Grid>
       </Card>

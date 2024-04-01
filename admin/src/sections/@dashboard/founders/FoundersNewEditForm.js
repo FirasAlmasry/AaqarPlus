@@ -12,29 +12,21 @@ import {
     Card,
     Grid,
     Stack,
-    // Switch,
     Typography,
-    // FormControlLabel,
-    // InputAdornment,
 } from "@mui/material";
 // utils
 import { fData } from "../../../utils/formatNumber";
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
-// assets
-// import { countries } from "../../../assets/data";
 // components
 import Label from "../../../components/label";
 import { useSnackbar } from "../../../components/snackbar";
 import FormProvider, {
-    // RHFSelect,
-    // RHFSwitch,
     RHFTextField,
     RHFEditor,
     RHFUploadAvatar,
 } from "../../../components/hook-form";
-import { useAddServicesMutation, useEditServicesMutation } from "../../../state/apiService";
-// import { useGetServiceTypeQuery } from "../../../state/apiServiceType";
+import { useAddFoundersMutation, useEditFoundersMutation, useGetFoundersQuery } from "../../../state/founders";
 
 // ----------------------------------------------------------------------
 
@@ -49,40 +41,28 @@ export default function FoundersNewEditForm({ isEdit = false, currentService }) 
     const { enqueueSnackbar } = useSnackbar();
 
     const NewFoundersSchema = Yup.object().shape({
-        title: Yup.object({
-            en: Yup.string().required("title en is required"),
-            ar: Yup.string().required("title ar is required"),
+        name: Yup.object({
+            en: Yup.string().required("name en is required"),
+            ar: Yup.string().required("name ar is required"),
         }),
         description: Yup.object({
             en: Yup.string().required("description en is required"),
             ar: Yup.string().required("description ar is required"),
         }),
-        // type: Yup.object({
-        //     en: Yup.string().required("type en is required"),
-        //     ar: Yup.string().required("type ar is required"),
-        // }),
-
-        // type: Yup.string().required("type en is required"),
-
-        imageUrl: Yup.mixed().required("Avatar is required"),
+        image: Yup.mixed().required("Avatar is required"),
     });
 
     const defaultValues = useMemo(
         () => ({
-            title: {
-                en: currentService?.title?.en || "",
-                ar: currentService?.title?.ar || "",
+            name: {
+                en: currentService?.name?.en || "",
+                ar: currentService?.name?.ar || "",
             },
             description: {
                 en: currentService?.description?.en || "",
                 ar: currentService?.description?.ar || "",
             },
-            // type: {
-            //     en: currentService?.description?.en || "",
-            //     ar: currentService?.description?.ar || "",
-            // },
-            // type: currentService?.type || "",
-            imageUrl: currentService?.imageUrl || null,
+            image: currentService?.image || null,
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [currentService]
@@ -113,34 +93,31 @@ export default function FoundersNewEditForm({ isEdit = false, currentService }) 
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isEdit, currentService]);
-    // const { data, isServiseLoading } = useGetServiceTypeQuery({ page: 1, limit: 999999 });
-    const [addService] = useAddServicesMutation()
-    const [EditService] = useEditServicesMutation()
+    const { refetch } = useGetFoundersQuery('FOUNDER');
+    const [addFounders] = useAddFoundersMutation()
+    const [EditFounders] = useEditFoundersMutation()
     const onSubmit = async (data) => {
-        console.log(data);
         try {
-            // const data = new FormData();
             const formData = new FormData();
-            formData.append("title[en]", data.title.en);
-            formData.append("title[ar]", data.title.ar);
-            // formData.append("type[en]", data.type.en);
-            // formData.append("type[ar]", data.type.ar);
-            // formData.append("type", data.type);
-            formData.append("description[en]", data.description.en);
-            formData.append("description[ar]", data.description.ar);
-            formData.append("imageUrl", data.imageUrl);
-            console.log("🚀 ~ file: CourseNewEditForm.js:119 ~ onSubmit ~ data:", formData)
+            formData.append("type", 'FOUNDER');
+            formData.append("ar_name", data.name.ar);
+            formData.append("en_name", data.name.en);
+            formData.append("ar_description", data.description.ar);
+            formData.append("en_description", data.description.en);
+            if (typeof data.image === 'object' && data.image instanceof File) {
+                formData.append("image", data.image);
+            }
             // eslint-disable-next-line no-lone-blocks
             {
                 isEdit ?
-                    await EditService({ formData, id: currentService._id }).unwrap()
+                    await EditFounders({ formData, id: currentService.id }).unwrap()
                     :
-                    await addService(formData).unwrap()
+                    await addFounders(formData).unwrap()
             }
             reset();
+            refetch()
             enqueueSnackbar(!isEdit ? "Create success!" : "Update success!");
             navigate(PATH_DASHBOARD.founders.list);
-            console.log("DATA", data);
         } catch (error) {
             console.error(error);
         }
@@ -155,25 +132,11 @@ export default function FoundersNewEditForm({ isEdit = false, currentService }) 
             });
 
             if (file) {
-                setValue("imageUrl", newFile, { shouldValidate: true });
+                setValue("image", newFile, { shouldValidate: true });
             }
         },
         [setValue]
     );
-
-    // const TYPE_OPTION = data?.serviseTypes
-    // console.log("🚀 ~ file: ServiceNewEditForm.js:149 ~ ServiceNewEditForm ~ TYPE_OPTION:", TYPE_OPTION)
-    // data
-    // console.log("🚀 ~ file: ServiceNewEditForm.js:141 ~ ServiceNewEditForm ~ TYPE_OPTION:", TYPE_OPTION)
-    // [
-    //     {
-    //         _id: "1",
-    //         title: {
-    //             ar: "ar",
-    //             en: "en",
-    //         },
-    //     },
-    // ];
 
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -200,7 +163,7 @@ export default function FoundersNewEditForm({ isEdit = false, currentService }) 
 
                         <Box sx={{ mb: 5 }}>
                             <RHFUploadAvatar
-                                name="imageUrl"
+                                name="image"
                                 maxSize={3145728}
                                 onDrop={handleDrop}
                                 helperText={
@@ -235,30 +198,8 @@ export default function FoundersNewEditForm({ isEdit = false, currentService }) 
                             }}
                             alignItems={"center"}
                         >
-                            <RHFTextField name="title.ar" label="Title ar" />
-                            <RHFTextField name="title.en" label="Title en" />
-                            {/* <RHFSelect native name="type.ar" label="Type Ar">
-                                <option />
-                                {TYPE_OPTION?.map((type) => (
-                                    <option
-                                        key={type._id}
-                                        value={type.title.ar}
-                                    >
-                                        {type.title.ar}
-                                    </option>
-                                ))}
-                            </RHFSelect>
-                            <RHFSelect native name="type.en" label="Type En">
-                                <option />
-                                {TYPE_OPTION?.map((type) => (
-                                    <option
-                                        key={type._id}
-                                        value={type.title.en}
-                                    >
-                                        {type.title.en}
-                                    </option>
-                                ))}
-                            </RHFSelect> */}
+                            <RHFTextField name="name.ar" label="Name ar" />
+                            <RHFTextField name="name.en" label="Name en" />
                         </Box>
                         <Grid
                             item
@@ -274,7 +215,7 @@ export default function FoundersNewEditForm({ isEdit = false, currentService }) 
                                     variant="subtitle2"
                                     sx={{ color: "text.secondary" }}
                                 >
-                                    Description Arabic
+                                    Arabic Description
                                 </Typography>
 
                                 <RHFEditor simple name="description.ar" />
@@ -294,7 +235,7 @@ export default function FoundersNewEditForm({ isEdit = false, currentService }) 
                                     variant="subtitle2"
                                     sx={{ color: "text.secondary" }}
                                 >
-                                    Description English
+                                    English Description
                                 </Typography>
 
                                 <RHFEditor simple name="description.en" />
@@ -306,7 +247,7 @@ export default function FoundersNewEditForm({ isEdit = false, currentService }) 
                                 variant="contained"
                                 loading={isSubmitting}
                             >
-                                {!isEdit ? "Create Founders" : "Save Changes"}
+                                {!isEdit ? "Create Founder" : "Save Changes"}
                             </LoadingButton>
                         </Stack>
                     </Card>

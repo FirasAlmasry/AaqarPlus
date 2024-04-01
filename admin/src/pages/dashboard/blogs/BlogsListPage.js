@@ -51,12 +51,12 @@ const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
     // { id: "images", label: "images", align: "left" },
-    { id: "ar_name", label: "ar_name", align: "left" },
-    { id: "en_name", label: "en_name", align: "left" },
-    { id: "ar_small_text", label: "ar_small_text", align: "left" },
-    { id: "en_small_text", label: "en_small_text", align: "left" },
-    { id: "ar_large_text", label: "ar_large_text", align: "left" },
-    { id: "en_large_text", label: "en_large_text", align: "left" },
+    { id: "Arabic", label: "Arabic", align: "left" },
+    { id: "English", label: "English", align: "left" },
+    { id: "ar_small_text", label: "Small Text Ar", align: "left" },
+    { id: "en_small_text", label: "Small Text En", align: "left" },
+    // { id: "ar_large_text", label: "Large Text Ar", align: "left" },
+    // { id: "en_large_text", label: "Large Text En", align: "left" },
     { id: "" },
 ];
 
@@ -86,8 +86,7 @@ export default function BlogsListPage() {
 
     const navigate = useNavigate();
 
-    const { data, isBlogsLoading } = useGetBlogsQuery();
-    console.log(data?.data?.data)
+    const { data, isBlogsLoading, refetch } = useGetBlogsQuery();
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
@@ -149,13 +148,13 @@ export default function BlogsListPage() {
         setPage(0);
         setFilterRole(event.target.value);
     };
-    const [deleteService] = useDeleteBlogsMutation()
+    const [deleteBlog] = useDeleteBlogsMutation()
     const handleDeleteRow = async (id) => {
-        await deleteService(id);
+        await deleteBlog(id);
         const deleteRow = tableData?.filter((row) => row?.id !== id);
         setSelected([]);
         setTableData(deleteRow);
-
+        refetch()
         if (page > 0) {
             if (dataInPage?.length < 2) {
                 setPage(page - 1);
@@ -340,7 +339,7 @@ export default function BlogsListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -401,7 +400,7 @@ function applyFilter({
     if (filterName) {
         inputData = inputData?.filter(
             (user) =>
-                user.title.ar
+                user.name.ar
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

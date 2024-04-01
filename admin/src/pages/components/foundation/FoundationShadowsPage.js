@@ -45,7 +45,7 @@ export default function FoundationShadowsPage() {
   return (
     <>
       <Helmet>
-        <title> Foundations: Shadows | Alriada & Alebdaa</title>
+        <title> Foundations: Shadows </title>
       </Helmet>
 
       <Box

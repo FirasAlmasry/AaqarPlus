@@ -35,7 +35,7 @@ export default function BlogsTableRow({
     onDeleteRow,
 }) {
     const { name,  small_text,  large_text, images } = row;
-
+    const url = `https://aqarbackend.revampbrands.com/storage/${images[0]?.image}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -59,13 +59,13 @@ export default function BlogsTableRow({
     return (
         <>
             <TableRow hover selected={selected}>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                     <Checkbox checked={selected} onClick={onSelectRow} />
-                </TableCell>
+                </TableCell> */}
 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={name?.ar} src={images[0]?.image} />
+                        <Avatar alt={name?.ar} src={url} />
                         <Typography variant="subtitle2" noWrap>
                             {name?.ar}
                         </Typography>
@@ -80,12 +80,12 @@ export default function BlogsTableRow({
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {small_text?.en}
                 </TableCell>
-                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {large_text?.ar}
                 </TableCell>
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {large_text?.en}
-                </TableCell>
+                </TableCell> */}
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {images[0]}
                 </TableCell> */}

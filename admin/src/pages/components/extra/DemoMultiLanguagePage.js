@@ -44,7 +44,7 @@ export default function DemoMultiLanguagePage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Multi Language | Alriada & Alebdaa</title>
+        <title> Extra Components: Multi Language </title>
       </Helmet>
 
       <Box

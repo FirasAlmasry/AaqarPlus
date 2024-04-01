@@ -51,14 +51,14 @@ export default function NavVertical({ openNav, onCloseNav }) {
         spacing={3}
         sx={{
           pt: 3,
-          pb: 2,
+          pb: 0,
           px: 2.5,
           flexShrink: 0,
         }}
       >
         <Logo />
 
-        <NavAccount />
+        {/* <NavAccount /> */}
       </Stack>
 
       <NavSectionVertical data={navConfig} />

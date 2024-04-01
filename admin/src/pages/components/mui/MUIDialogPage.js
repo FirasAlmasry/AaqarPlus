@@ -30,7 +30,7 @@ export default function MUIDialogPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Dialog | Alriada & Alebdaa</title>
+        <title> MUI Components: Dialog </title>
       </Helmet>
 
       <Box

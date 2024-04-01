@@ -53,16 +53,16 @@ const navConfig = [
                 ],
             },
             {
-                title: "Areas",
-                path: PATH_DASHBOARD.areas.root,
-                icon: ICONS.label,
+                title: "Currencies",
+                path: PATH_DASHBOARD.coins.root,
+                icon: ICONS.invoice,
                 children: [
-                    { title: "list", path: PATH_DASHBOARD.areas.list },
-                    { title: "create", path: PATH_DASHBOARD.areas.new },
+                    { title: "list", path: PATH_DASHBOARD.coins.list },
+                    // { title: "create", path: PATH_DASHBOARD.coins.new },
                 ],
             },
             {
-                title: "Attaches",
+                title: "Facilities",
                 path: PATH_DASHBOARD.attaches.root,
                 icon: ICONS.label,
                 children: [
@@ -73,16 +73,43 @@ const navConfig = [
             {
                 title: "propertyType",
                 path: PATH_DASHBOARD.propertyType.root,
-                icon: ICONS.label,
+                icon: ICONS.file,
                 children: [
                     { title: "list", path: PATH_DASHBOARD.propertyType.list },
                     { title: "create", path: PATH_DASHBOARD.propertyType.new },
                 ],
             },
             {
+                title: "finishing",
+                path: PATH_DASHBOARD.finishing.root,
+                icon: ICONS.analytics,
+                children: [
+                    { title: "list", path: PATH_DASHBOARD.finishing.list },
+                    { title: "create", path: PATH_DASHBOARD.finishing.new },
+                ],
+            },
+            {
+                title: "Areas",
+                path: PATH_DASHBOARD.areas.root,
+                icon: ICONS.booking,
+                children: [
+                    { title: "list", path: PATH_DASHBOARD.areas.list },
+                    { title: "create", path: PATH_DASHBOARD.areas.new },
+                ],
+            },
+            {
+                title: "Developers",
+                path: PATH_DASHBOARD.developers.root,
+                icon: ICONS.user,
+                children: [
+                    { title: "list", path: PATH_DASHBOARD.developers.list },
+                    { title: "create", path: PATH_DASHBOARD.developers.new },
+                ],
+            },
+            {
                 title: "compounds",
                 path: PATH_DASHBOARD.compounds.root,
-                icon: ICONS.label,
+                icon: ICONS.external,
                 children: [
                     { title: "list", path: PATH_DASHBOARD.compounds.list },
                     { title: "create", path: PATH_DASHBOARD.compounds.new },
@@ -91,7 +118,7 @@ const navConfig = [
             {
                 title: "properties",
                 path: PATH_DASHBOARD.properties.root,
-                icon: ICONS.label,
+                icon: ICONS.banking,
                 children: [
                     { title: "list", path: PATH_DASHBOARD.properties.list },
                     { title: "create", path: PATH_DASHBOARD.properties.new },
@@ -100,118 +127,10 @@ const navConfig = [
             {
                 title: "founders",
                 path: PATH_DASHBOARD.founders.root,
-                icon: ICONS.label,
+                icon: ICONS.user,
                 children: [
                     { title: "list", path: PATH_DASHBOARD.founders.list },
                     { title: "create", path: PATH_DASHBOARD.founders.new },
-                ],
-            },
-            {
-                title: "blogs",
-                path: PATH_DASHBOARD.blogs.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.blogs.list },
-                    { title: "create", path: PATH_DASHBOARD.blogs.new },
-                ],
-            },
-            {
-                title: "comingSoonItems",
-                path: PATH_DASHBOARD.comingSoonItems.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.comingSoonItems.list },
-                    { title: "create", path: PATH_DASHBOARD.comingSoonItems.new },
-                ],
-            },
-            {
-                title: "sellers",
-                path: PATH_DASHBOARD.sellers.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.sellers.list },
-                    { title: "create", path: PATH_DASHBOARD.sellers.new },
-                ],
-            },
-            {
-                title: "messages",
-                path: PATH_DASHBOARD.messages.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.messages.list },
-                    { title: "create", path: PATH_DASHBOARD.messages.new },
-                ],
-            },
-            {
-                title: "sliderImage",
-                path: PATH_DASHBOARD.sliderImage.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.sliderImage.list },
-                    { title: "create", path: PATH_DASHBOARD.sliderImage.new },
-                ],
-            },
-            {
-                title: "design",
-                path: PATH_DASHBOARD.design.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.design.list },
-                    // { title: "create", path: PATH_DASHBOARD.design.new },
-                ],
-            },
-            {
-                title: "aboutUs",
-                path: PATH_DASHBOARD.aboutUs.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.aboutUs.list },
-                    // { title: "create", path: PATH_DASHBOARD.aboutUs.new },
-                ],
-            },
-            {
-                title: "address",
-                path: PATH_DASHBOARD.address.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.address.list },
-                    // { title: "create", path: PATH_DASHBOARD.aboutUs.new },
-                ],
-            },
-            {
-                title: "descriptionContact",
-                path: PATH_DASHBOARD.descriptionContact.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.descriptionContact.list },
-                    // { title: "create", path: PATH_DASHBOARD.aboutUs.new },
-                ],
-            },
-            // {
-            //     title: "descriptionBuyer",
-            //     path: PATH_DASHBOARD.descriptionBuyer.root,
-            //     icon: ICONS.label,
-            //     children: [
-            //         { title: "list", path: PATH_DASHBOARD.descriptionBuyer.list },
-            //         // { title: "create", path: PATH_DASHBOARD.aboutUs.new },
-            //     ],
-            // },
-            {
-                title: "contactUs",
-                path: PATH_DASHBOARD.contactUs.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.contactUs.list },
-                    { title: "create", path: PATH_DASHBOARD.contactUs.new },
-                ],
-            },
-            {
-                title: "coins",
-                path: PATH_DASHBOARD.coins.root,
-                icon: ICONS.label,
-                children: [
-                    { title: "list", path: PATH_DASHBOARD.coins.list },
-                    { title: "create", path: PATH_DASHBOARD.coins.new },
                 ],
             },
             {
@@ -223,6 +142,115 @@ const navConfig = [
                     { title: "create", path: PATH_DASHBOARD.news.new },
                 ],
             },
+            {
+                title: "blogs",
+                path: PATH_DASHBOARD.blogs.root,
+                icon: ICONS.blog,
+                children: [
+                    { title: "list", path: PATH_DASHBOARD.blogs.list },
+                    { title: "create", path: PATH_DASHBOARD.blogs.new },
+                ],
+            },
+            {
+                title: "messages",
+                path: PATH_DASHBOARD.messages.root,
+                icon: ICONS.mail,
+                children: [
+                    { title: "list", path: PATH_DASHBOARD.messages.list },
+                    // { title: "create", path: PATH_DASHBOARD.messages.new },
+                ],
+            },
+            {
+                title: "Standard Pages",
+                path: PATH_DASHBOARD.infoText.root,
+                icon: ICONS.blank,
+                children: [
+                    { title: "list", path: PATH_DASHBOARD.infoText.list },
+                    // { title: "create", path: PATH_DASHBOARD.design.new },
+                ],
+            },
+
+            {
+                title: "contactUs",
+                path: PATH_DASHBOARD.contactUs.root,
+                icon: ICONS.file,
+                children: [
+                    { title: "list", path: PATH_DASHBOARD.contactUs.list },
+                    // { title: "create", path: PATH_DASHBOARD.contactUs.new },
+                ],
+            },
+            // {
+            //     title: "comingSoonItems",
+            //     path: PATH_DASHBOARD.comingSoonItems.root,
+            //     icon: ICONS.label,
+            //     children: [
+            //         { title: "list", path: PATH_DASHBOARD.comingSoonItems.list },
+            //         { title: "create", path: PATH_DASHBOARD.comingSoonItems.new },
+            //     ],
+            // },
+            // {
+            //     title: "sellers",
+            //     path: PATH_DASHBOARD.sellers.root,
+            //     icon: ICONS.label,
+            //     children: [
+            //         { title: "list", path: PATH_DASHBOARD.sellers.list },
+            //         { title: "create", path: PATH_DASHBOARD.sellers.new },
+            //     ],
+            // },
+            // {
+            //     title: "sliderImage",
+            //     path: PATH_DASHBOARD.sliderImage.root,
+            //     icon: ICONS.label,
+            //     children: [
+            //         { title: "list", path: PATH_DASHBOARD.sliderImage.list },
+            //         { title: "create", path: PATH_DASHBOARD.sliderImage.new },
+            //     ],
+            // },
+            // {
+            //     title: "design",
+            //     path: PATH_DASHBOARD.design.root,
+            //     icon: ICONS.label,
+            //     children: [
+            //         { title: "list", path: PATH_DASHBOARD.design.list },
+            //         // { title: "create", path: PATH_DASHBOARD.design.new },
+            //     ],
+            // },
+            // {
+            //     title: "aboutUs",
+            //     path: PATH_DASHBOARD.aboutUs.root,
+            //     icon: ICONS.label,
+            //     children: [
+            //         { title: "list", path: PATH_DASHBOARD.aboutUs.list },
+            //         // { title: "create", path: PATH_DASHBOARD.aboutUs.new },
+            //     ],
+            // },
+            // {
+            //     title: "address",
+            //     path: PATH_DASHBOARD.address.root,
+            //     icon: ICONS.label,
+            //     children: [
+            //         { title: "list", path: PATH_DASHBOARD.address.list },
+            //         // { title: "create", path: PATH_DASHBOARD.aboutUs.new },
+            //     ],
+            // },
+            // {
+            //     title: "descriptionContact",
+            //     path: PATH_DASHBOARD.descriptionContact.root,
+            //     icon: ICONS.label,
+            //     children: [
+            //         { title: "list", path: PATH_DASHBOARD.descriptionContact.list },
+            //         // { title: "create", path: PATH_DASHBOARD.aboutUs.new },
+            //     ],
+            // },
+            // {
+            //     title: "descriptionBuyer",
+            //     path: PATH_DASHBOARD.descriptionBuyer.root,
+            //     icon: ICONS.label,
+            //     children: [
+            //         { title: "list", path: PATH_DASHBOARD.descriptionBuyer.list },
+            //         // { title: "create", path: PATH_DASHBOARD.aboutUs.new },
+            //     ],
+            // },
         ],
     },
 

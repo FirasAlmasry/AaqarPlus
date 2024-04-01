@@ -12,7 +12,7 @@ export default function ContactPage() {
   return (
     <>
       <Helmet>
-        <title> Contact us | Alriada & Alebdaa</title>
+        <title> Contact us </title>
       </Helmet>
 
       <ContactHero />

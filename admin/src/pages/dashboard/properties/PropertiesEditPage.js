@@ -12,7 +12,7 @@ import { useSettingsContext } from "../../../components/settings";
 import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import PropertiesNewEditForm from "../../../sections/@dashboard/properties/PropertiesNewEditForm";
-import { useGetServicesIdQuery } from "../../../state/apiService";
+import { useGetPropertiesIdQuery } from "../../../state/properties";
 
 // ----------------------------------------------------------------------
 
@@ -20,26 +20,16 @@ export default function PropertiesEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isServiseLoading } = useGetServicesIdQuery(name);
-    console.log("🚀 ~ file: ServiceEditPage.js:24 ~ ServiceEditPage ~ data:", data)
-    // const { data } = useGetServicesIdQuery(name)
-    // console.log("🚀 ~ file: UserEditPage.js:24 ~ Service ~ data:", data)
-    // const [Service, { isLoading }] = useEditServicesMutation()
-
-    // const currentService = data?.service?.find(
-    //     (service) => paramCase(service.name) === name
-    // );
-    // console.log("🚀 ~ file: ServiceEditPage.js:31 ~ ServiceEditPage ~ currentService:", currentService)
-
+    const { data, isPropertiesLoading } = useGetPropertiesIdQuery(name);
     return (
         <>
             <Helmet>
-                <title> Properties: Edit Properties</title>
+                <title> Properties: Edit property </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Edit Properties"
+                    heading="Edit property"
                     links={[
                         {
                             name: "Dashboard",
@@ -49,11 +39,11 @@ export default function PropertiesEditPage() {
                             name: "Properties",
                             href: PATH_DASHBOARD.properties.list,
                         },
-                        { name: data?.name },
+                        { name: data?.data?.property?.name.en },
                     ]}
                 />
-                {isServiseLoading ? "loading" :
-                    <PropertiesNewEditForm isEdit currentService={data?.servise} />
+                {isPropertiesLoading ? "loading" :
+                    <PropertiesNewEditForm isEdit currentService={data?.data} />
                 }
             </Container>
         </>

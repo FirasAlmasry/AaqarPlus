@@ -10,6 +10,7 @@ import {
     MenuItem,
     TableCell,
     IconButton,
+    Typography,
     // Typography,
 } from "@mui/material";
 // components
@@ -17,7 +18,9 @@ import {
 import Iconify from "../../../../components/iconify";
 import MenuPopover from "../../../../components/menu-popover";
 import ConfirmDialog from "../../../../components/confirm-dialog";
-
+import { Stack } from "@mui/system";
+// import CheckIcon from '@mui/icons-material/Check';
+// import CloseIcon from '@mui/icons-material/Close';
 // ----------------------------------------------------------------------
 
 AreasTableRow.propTypes = {
@@ -35,8 +38,8 @@ export default function AreasTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { title, imageUrl, popular } = row;
-
+    const { image, name, trending, } = row;
+    const url = `https://aqarbackend.revampbrands.com/storage/${image}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -60,17 +63,23 @@ export default function AreasTableRow({
     return (
         <>
             <TableRow hover selected={selected}>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                     <Checkbox checked={selected} onClick={onSelectRow} />
+                </TableCell> */}
+                <TableCell>
+                    <Stack direction="row" alignItems="center" spacing={2}>
+                        <Avatar alt={name.en} src={url} />
+
+                        <Typography variant="subtitle2" noWrap>
+                            {name.en}
+                        </Typography>
+                    </Stack>
                 </TableCell>
-                <TableCell align="left"><Avatar alt={title?.ar} src={imageUrl} /></TableCell>
-                <TableCell align="left">{title?.ar ? title?.ar : title?.en}</TableCell>
-                {/* <TableCell align="left">{description?.ar ? description?.ar : description?.en}</TableCell> */}
-                {/* <TableCell align="left">{price}</TableCell>
-                <TableCell align="left">{cloudinary_id}</TableCell>
-                <TableCell align="left">{duration}</TableCell> */}
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {popular}
+                    {name.ar}
+                </TableCell>
+                <TableCell align="center" sx={{ textTransform: "capitalize" }}>
+                    {trending === 1 ? <Avatar alt={name.en} src={'/assets/done.svg'} /> : <Avatar alt={name.en} src={'/assets/unDone.svg'} /> }
                 </TableCell>
                 <TableCell align="right">
                     <IconButton

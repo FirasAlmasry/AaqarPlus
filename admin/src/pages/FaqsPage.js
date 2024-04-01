@@ -10,7 +10,7 @@ export default function FaqsPage() {
   return (
     <>
       <Helmet>
-        <title> Faqs | Alriada & Alebdaa</title>
+        <title> Faqs </title>
       </Helmet>
 
       <FaqsHero />

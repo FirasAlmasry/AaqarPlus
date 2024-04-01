@@ -117,7 +117,7 @@ export default function Upload({
       {hasFile && onDelete && (
         <IconButton
           size="small"
-          onClick={onDelete}
+          onClick={() => { onDelete(); console.log('test') }}
           sx={{
             top: 16,
             right: 16,

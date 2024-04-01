@@ -7,6 +7,8 @@ export const api = createApi({
     baseUrl: 'https://aqarbackend.revampbrands.com/api/admin',
     prepareHeaders: (headers, { getState }) => {
       headers.set('Authorization', `Bearer ${localStorage.getItem('accessToken')}`) 
+      headers.set("Accept", "application/json") 
+      headers.set("Cache-Control", "no-cache");
       // headers.set('Authorization', `Bearer 47|kXdXMgngSi7fwPF4L2icZXAbSwUCdPcUqASPW8HI219bd80b`)
       return headers
     } 
@@ -27,30 +29,22 @@ export const api = createApi({
         url: '/users',
         method: 'POST',
         body: formData,
-        formData: true,
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        }, 
       }),
       invalidatesTags: ['users'],
     }),
     editUser: build.mutation({
       query: ({ formData, id }) => ({
-        url: `/users/${2}`,
-        method: 'POST',
-        body: formData,
-        formData: true,
-      }),
-      invalidatesTags: ['users'],
-    }),
+        url: `/users/${id}`,
+        method: 'post',
+        body: formData, 
+    }), 
+    invalidatesTags: ['users'],
+  }),
     deleteUser: build.mutation({
       query: (id) => ({
         url: `/users/${id}`,
         method: 'Delete',
         body: build,
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
       }),
       invalidatesTags: ['users'],
     }),

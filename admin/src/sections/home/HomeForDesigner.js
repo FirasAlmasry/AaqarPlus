@@ -103,7 +103,7 @@ function Description() {
     <StyledDescription>
       <m.div variants={varFade().inUp}>
         <Typography component="div" variant="overline" sx={{ color: 'text.disabled' }}>
-          Professional Alriada & Alebdaa
+          Professional Aqaar Plus
         </Typography>
       </m.div>
 

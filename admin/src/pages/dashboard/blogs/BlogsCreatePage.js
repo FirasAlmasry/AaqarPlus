@@ -17,12 +17,12 @@ export default function BlogsCreatePage() {
     return (
         <>
             <Helmet>
-                <title>Blogs: Create a new Blogs </title>
+                <title>Blogs: Create a new Blog </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Create a new Blogs"
+                    heading="Create a new Blog"
                     links={[
                         {
                             name: "Dashboard",

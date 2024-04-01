@@ -41,7 +41,8 @@ import {
     PropertiesTableToolbar,
     PropertiesTableRow,
 } from "../../../sections/@dashboard/properties/list";
-import { useDeleteServicesMutation, useGetServicesQuery } from "../../../state/apiService";
+import { useDeletePropertiesMutation, useGetPropertiesQuery } from "../../../state/properties";
+import { useSnackbar } from "notistack";
 
 // ----------------------------------------------------------------------
 
@@ -50,14 +51,28 @@ const STATUS_OPTIONS = [];
 const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
-    { id: "title", label: "Title ar", align: "left" },
-    // { id: "imageUrl", label: "Image", align: "left" },
-    // { id: "description", label: "Description", align: "left" },
-    { id: "cloudinary_id", label: "cloudinary", align: "left" },
-    // { id: "type", label: "type", align: "left" },
-    { id: "" },
-];
 
+
+
+
+    { id: "ref_number", label: "Ref Number", align: "left" },
+    { id: "nameAr", label: "nameAr ", align: "left" },
+    // { id: "nameEn", label: "nameEn", align: "left" },
+    // { id: "addressAr", label: "addressAr", align: "left" },
+    // { id: "addressEn", label: "addressEn", align: "left" },
+    // { id: "whatsapp", label: "whatsapp", align: "left" },
+    // { id: "phone_number", label: "phone", align: "left" },
+    { id: "start_price", label: "Start Price", align: "left" },
+    { id: "end_price", label: "End Price", align: "left" },
+    { id: "house_area", label: "House Area", align: "left" },
+    { id: "bedrooms", label: "Bedrooms", align: "left" },
+    { id: "bathrooms", label: "Bathrooms", align: "left" },
+    // { id: "descriptionAr", label: "descriptionAr", align: "left" },
+    // { id: "descriptionEn", label: "descriptionEn", align: "left" },
+    // { id: "payment_plansAr", label: "payment_plansAr", align: "left" },
+    // { id: "payment_plansEn", label: "payment_plansEn", align: "left" },
+    { id: "", label: "", align: "left" },
+];
 // ----------------------------------------------------------------------
 
 export default function PropertiesListPage() {
@@ -84,15 +99,14 @@ export default function PropertiesListPage() {
 
     const navigate = useNavigate();
 
-    const { data, isServiseLoading } = useGetServicesQuery({ page: page + 1, limit: rowsPerPage });
-    console.log(data)
+    const { data, isPropertiesLoading, refetch } = useGetPropertiesQuery();
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
-        if (data && !isServiseLoading) {
-            setTableData(data?.servise)
+        if (data && !isPropertiesLoading) {
+            setTableData(data?.data?.data)
         }
-    }, [data, tableData, isServiseLoading])
+    }, [data, tableData, isPropertiesLoading])
 
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -147,16 +161,28 @@ export default function PropertiesListPage() {
         setPage(0);
         setFilterRole(event.target.value);
     };
-    const [deleteService] = useDeleteServicesMutation()
-    const handleDeleteRow = async (id) => {
-        await deleteService(id);
-        const deleteRow = tableData.filter((row) => row._id !== id);
-        setSelected([]);
-        setTableData(deleteRow);
+    const { enqueueSnackbar } = useSnackbar();
+    const [deleteProperties] = useDeletePropertiesMutation()
 
-        if (page > 0) {
-            if (dataInPage.length < 2) {
-                setPage(page - 1);
+    const handleDeleteRow = async (id) => {
+        const response = await deleteProperties(id);
+        if (response && response.error) {
+            console.error("An error occurred while deleting area:", response.error);
+            const errorMessage = response.error.data.message || 'An error occurred';
+            enqueueSnackbar(errorMessage, { variant: 'error' });
+            handleCloseConfirm(); // تنفيذ الدالة لإغلاق الـ "بوب آب"
+            setOpenConfirm(false);
+        } else {
+            const deleteRow = tableData?.filter((row) => row?.id !== id);
+            setSelected([]);
+            setTableData(deleteRow);
+            refetch();
+            handleCloseConfirm(); // تنفيذ الدالة لإغلاق الـ "بوب آب"
+            setOpenConfirm(false);
+            if (page > 0) {
+                if (dataInPage.length < 2) {
+                    setPage(page - 1);
+                }
             }
         }
     };
@@ -184,7 +210,8 @@ export default function PropertiesListPage() {
     };
 
     const handleEditRow = (id) => {
-        navigate(PATH_DASHBOARD.service.edit(paramCase(id)));
+        id = String(id);
+        navigate(PATH_DASHBOARD.properties.edit(paramCase(id)));
     };
 
     const handleResetFilter = () => {
@@ -217,7 +244,7 @@ export default function PropertiesListPage() {
                             variant="contained"
                             startIcon={<Iconify icon="eva:plus-fill" />}
                         >
-                            New Properties
+                            New Property
                         </Button>
                     }
                 />
@@ -301,19 +328,19 @@ export default function PropertiesListPage() {
                                         )
                                         .map((row) => (
                                             <PropertiesTableRow
-                                                key={row?._id}
+                                                key={row?.id}
                                                 row={row}
                                                 selected={selected.includes(
-                                                    row?._id
+                                                    row?.id
                                                 )}
                                                 onSelectRow={() =>
-                                                    onSelectRow(row?._id)
+                                                    onSelectRow(row?.id)
                                                 }
                                                 onDeleteRow={() =>
-                                                    handleDeleteRow(row?._id)
+                                                    handleDeleteRow(row?.id)
                                                 }
                                                 onEditRow={() =>
-                                                    handleEditRow(row?._id)
+                                                    handleEditRow(row?.id)
                                                 }
                                             />
                                         ))}
@@ -334,7 +361,7 @@ export default function PropertiesListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -395,7 +422,7 @@ function applyFilter({
     if (filterName) {
         inputData = inputData.filter(
             (user) =>
-                user.title.ar
+                user.name.ar
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

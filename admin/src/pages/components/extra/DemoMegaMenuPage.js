@@ -22,7 +22,7 @@ export default function DemoMegaMenuPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Mega Menu | Alriada & Alebdaa</title>
+        <title> Extra Components: Mega Menu </title>
       </Helmet>
 
       <Box

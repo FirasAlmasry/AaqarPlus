@@ -26,7 +26,7 @@ export default function MUITextFieldPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Textfield | Alriada & Alebdaa</title>
+        <title> MUI Components: Textfield </title>
       </Helmet>
 
       <Box

@@ -22,7 +22,7 @@ export default function DemoImagePage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Image | Alriada & Alebdaa</title>
+        <title> Extra Components: Image </title>
       </Helmet>
 
       <Box

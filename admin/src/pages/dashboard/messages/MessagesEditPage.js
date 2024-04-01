@@ -21,7 +21,6 @@ export default function MessagesEditPage() {
 
     const { name } = useParams();
     const { data, isServiseLoading } = useGetServicesIdQuery(name);
-    console.log("🚀 ~ file: ServiceEditPage.js:24 ~ ServiceEditPage ~ data:", data)
     // const { data } = useGetServicesIdQuery(name)
     // console.log("🚀 ~ file: UserEditPage.js:24 ~ Service ~ data:", data)
     // const [Service, { isLoading }] = useEditServicesMutation()

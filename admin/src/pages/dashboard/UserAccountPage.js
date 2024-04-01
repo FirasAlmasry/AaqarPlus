@@ -68,7 +68,7 @@ export default function UserAccountPage() {
   return (
     <>
       <Helmet>
-        <title> User: Account Settings | Alriada & Alebdaa</title>
+        <title> User: Account Settings </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

@@ -12,7 +12,7 @@ import { useSettingsContext } from "../../../components/settings";
 import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import AttachesNewEditForm from "../../../sections/@dashboard/attaches/AttachesNewEditForm";
-import { useGetServicesIdQuery } from "../../../state/apiService";
+import { useGetAttachedsIdQuery } from "../../../state/facilities";
 
 // ----------------------------------------------------------------------
 
@@ -20,40 +20,30 @@ export default function AttachesEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isServiseLoading } = useGetServicesIdQuery(name);
-    console.log("🚀 ~ file: ServiceEditPage.js:24 ~ ServiceEditPage ~ data:", data)
-    // const { data } = useGetServicesIdQuery(name)
-    // console.log("🚀 ~ file: UserEditPage.js:24 ~ Service ~ data:", data)
-    // const [Service, { isLoading }] = useEditServicesMutation()
-
-    // const currentService = data?.service?.find(
-    //     (service) => paramCase(service.name) === name
-    // );
-    // console.log("🚀 ~ file: ServiceEditPage.js:31 ~ ServiceEditPage ~ currentService:", currentService)
-
+    const { data, isServiseLoading } = useGetAttachedsIdQuery(name);
     return (
         <>
             <Helmet>
-                <title> Attaches: Edit Attaches | Alriada & Alebdaa</title>
+                <title> Facilities: Edit Attaches</title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Edit Attaches"
+                    heading="Edit Facilities"
                     links={[
                         {
                             name: "Dashboard",
                             href: PATH_DASHBOARD.root,
                         },
                         {
-                            name: "attaches",
+                            name: "Facilities",
                             href: PATH_DASHBOARD.attaches.list,
                         },
-                        { name: data?.name },
+                        { name: data?.data?.name?.en },
                     ]}
                 />
                 {isServiseLoading ? "loading" :
-                    <AttachesNewEditForm isEdit currentService={data?.servise} />
+                    <AttachesNewEditForm isEdit currentService={data?.data} />
                 }
             </Container>
         </>

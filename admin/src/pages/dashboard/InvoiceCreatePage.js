@@ -17,7 +17,7 @@ export default function InvoiceCreatePage() {
   return (
     <>
       <Helmet>
-        <title> Invoices: Create a new invoice | Alriada & Alebdaa</title>
+        <title> Invoices: Create a new invoice </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

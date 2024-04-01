@@ -32,56 +32,40 @@ import FormProvider, {
     RHFTextField,
     RHFUploadAvatar,
 } from "../../../components/hook-form";
-import { useAddCourseMutation, useEditCourseMutation } from "../../../state/ApiCource";
+import { useAddAreasMutation, useEditAreasMutation, useGetAreasQuery } from "../../../state/areas";
 
 // ----------------------------------------------------------------------
 
-CourseNewEditForm.propTypes = {
+AreasNewEditForm.propTypes = {
     isEdit: PropTypes.bool,
-    currentCourse: PropTypes.object,
+    currentAreas: PropTypes.object,
 };
 
-export default function CourseNewEditForm({ isEdit = false, currentCourse }) {
+export default function AreasNewEditForm({ isEdit = false, currentAreas }) {
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
-
+    
     const NewAreasSchema = Yup.object().shape({
-        title: Yup.object({
-            ar: Yup.string().required("title ar is required"),
-            en: Yup.string().required("title en is required"),
+        name: Yup.object({
+            ar: Yup.string().required("name ar is required"),
+            en: Yup.string().required("name en is required"),
         }),
-        description: Yup.object({
-            ar: Yup.string().required("description ar is required"),
-            en: Yup.string().required("description en is required"),
-        }),
-
-        duration: Yup.string().required("duration is required"),
-
-        imageUrl: Yup.mixed().required("Avatar is required"),
-
-        price: Yup.number().required("price is required"),
-
-        active: Yup.string().required("price is required"),
+        image: Yup.mixed().required("Avatar is required"),
+        trending: Yup.string().required("trending is required"),
     });
 
     const defaultValues = useMemo(
         () => ({
-            title: {
-                ar: currentCourse?.title?.ar || "",
-                en: currentCourse?.title?.en || "",
+            name: {
+                ar: currentAreas?.name?.ar || "",
+                en: currentAreas?.name?.en || "",
             },
-            description: {
-                ar: currentCourse?.description?.ar || "",
-                en: currentCourse?.description?.en || "",
-            },
-            duration: currentCourse?.duration || "",
-            price: currentCourse?.price || 5,
-            imageUrl: currentCourse?.imageUrl || null,
-            active: currentCourse?.active || "true",
+            image: currentAreas?.image || [],
+            trending: currentAreas?.trending || '0',
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [currentCourse]
+        [currentAreas]
     );
 
     const methods = useForm({
@@ -101,42 +85,40 @@ export default function CourseNewEditForm({ isEdit = false, currentCourse }) {
     const values = watch();
 
     useEffect(() => {
-        if (isEdit && currentCourse) {
+        if (isEdit && currentAreas) {
             reset(defaultValues);
         }
         if (!isEdit) {
             reset(defaultValues);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isEdit, currentCourse]);
-    const [editCourse] = useEditCourseMutation()
-    console.log("🚀 ~ file: CourseNewEditForm.js:114 ~ CourseNewEditForm ~ editCourse:", editCourse)
-    const [addCourse] = useAddCourseMutation()
+    }, [isEdit, currentAreas]);
+    const {  refetch } = useGetAreasQuery()
+    const [editAreas] = useEditAreasMutation()
+    const [addAreas] = useAddAreasMutation()
     const onSubmit = async (data) => {
-        console.log(data);
         try {
             const formData = new FormData();
-            formData.append("title[ar]", data.title.ar);
-            formData.append("description[en]", data.description.en);
-            formData.append("title[en]", data.title.en);
-            formData.append("description[ar]", data.description.ar);
-            formData.append("imageUrl", data.imageUrl);
-            formData.append("active", data.active);
-            formData.append("price", data.price);
-            formData.append("duration", data.duration);
-            console.log("🚀 ~ file: CourseNewEditForm.js:119 ~ onSubmit ~ data:", formData)
+            formData.append("ar_name", data.name.ar);
+            formData.append("en_name", data.name.en);
+            if (typeof data.image === 'object' && data.image instanceof File) {
+                formData.append("image", data.image);
+            }
+            formData.append("trending", data.trending);
             // eslint-disable-next-line no-lone-blocks
             {
                 isEdit ?
-                    await editCourse({ formData, id: currentCourse._id }).unwrap()
+                    await editAreas({ formData, id: currentAreas.id }).unwrap()
                     :
-                    await addCourse(formData).unwrap()
+                    await addAreas(formData).unwrap()
             }
             reset();
+            refetch()
             enqueueSnackbar(!isEdit ? "Create success!" : "Update success!");
             navigate(PATH_DASHBOARD.areas.list);
-            console.log("DATA", data);
         } catch (error) {
+            const errorMessage = error.data.message || 'An error occurred';
+            enqueueSnackbar(errorMessage, { variant: 'error' });
             console.error(error);
         }
     };
@@ -150,7 +132,7 @@ export default function CourseNewEditForm({ isEdit = false, currentCourse }) {
             });
 
             if (file) {
-                setValue("imageUrl", newFile, { shouldValidate: true });
+                setValue("image", newFile, { shouldValidate: true });
             }
         },
         [setValue]
@@ -164,7 +146,7 @@ export default function CourseNewEditForm({ isEdit = false, currentCourse }) {
                         {isEdit && (
                             <Label
                                 color={
-                                    values.status === "active"
+                                    values.status === "1"
                                         ? "success"
                                         : "error"
                                 }
@@ -180,7 +162,7 @@ export default function CourseNewEditForm({ isEdit = false, currentCourse }) {
                         )}
                         <Box sx={{ mb: 5 }}>
                             <RHFUploadAvatar
-                                name="imageUrl"
+                                name="image"
                                 maxSize={3145728}
                                 onDrop={handleDrop}
                                 helperText={
@@ -200,24 +182,23 @@ export default function CourseNewEditForm({ isEdit = false, currentCourse }) {
                                 }
                             />
                         </Box>
-                        {isEdit && (
                             <FormControlLabel
                                 labelPlacement="start"
                                 control={
                                     <Controller
-                                        name="active"
+                                        name="trending"
                                         control={control}
                                         render={({ field }) => (
                                             <Switch
                                                 {...field}
                                                 checked={
-                                                    field.value !== "active"
+                                                    field.value !== '0'
                                                 }
                                                 onChange={(event) =>
                                                     field.onChange(
                                                         event.target.checked
-                                                            ? "unActive"
-                                                            : "active"
+                                                            ? '1'
+                                                            : '0'
                                                     )
                                                 }
                                             />
@@ -230,13 +211,13 @@ export default function CourseNewEditForm({ isEdit = false, currentCourse }) {
                                             variant="subtitle2"
                                             sx={{ mb: 0.5 }}
                                         >
-                                            unActive
+                                            Trending
                                         </Typography>
                                         <Typography
                                             variant="body2"
                                             sx={{ color: "text.secondary" }}
                                         >
-                                            Apply unActive Course
+                                            Apply Trending 
                                         </Typography>
                                     </>
                                 }
@@ -247,7 +228,6 @@ export default function CourseNewEditForm({ isEdit = false, currentCourse }) {
                                     justifyContent: "space-between",
                                 }}
                             />
-                        )}
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -262,32 +242,8 @@ export default function CourseNewEditForm({ isEdit = false, currentCourse }) {
                             }}
                             alignItems={"center"}
                         >
-                            <RHFTextField name="title.ar" label="Title ar" />
-                            <RHFTextField name="title.en" label="Title en" />
-                            <Grid item xs={6} md={6}>
-                                <RHFSwitch
-                                    name="active"
-                                    labelPlacement="start"
-                                    label={
-                                        <>
-                                            <Typography
-                                                variant="subtitle2"
-                                                sx={{
-                                                    mb: 0.5,
-                                                }}
-                                            >
-                                                popular
-                                            </Typography>
-                                        </>
-                                    }
-                                    sx={{
-                                        mx: 0,
-                                        width: 1,
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                    }}
-                                />
-                            </Grid>
+                            <RHFTextField name="name.ar" label="Ar" />
+                            <RHFTextField name="name.en" label="En" />
                         </Box>
                         <Stack alignItems="flex-end" sx={{ mt: 3 }}>
                             <LoadingButton
@@ -295,7 +251,7 @@ export default function CourseNewEditForm({ isEdit = false, currentCourse }) {
                                 variant="contained"
                                 loading={isSubmitting}
                             >
-                                {!isEdit ? "Create Areas" : "Save Changes"}
+                                {!isEdit ? "Create " : "Save Changes"}
                             </LoadingButton>
                         </Stack>
                     </Card>

@@ -64,7 +64,7 @@ export default function MUIProgressPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Progress | Alriada & Alebdaa</title>
+        <title> MUI Components: Progress </title>
       </Helmet>
 
       <Box

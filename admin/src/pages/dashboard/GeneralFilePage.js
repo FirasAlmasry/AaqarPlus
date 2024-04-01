@@ -128,7 +128,7 @@ export default function GeneralFilePage() {
   return (
     <>
       <Helmet>
-        <title> General: File | Alriada & Alebdaa</title>
+        <title> General: File </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'xl'}>

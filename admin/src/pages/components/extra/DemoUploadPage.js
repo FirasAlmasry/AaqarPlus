@@ -81,7 +81,7 @@ export default function DemoUploadPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Upload | Alriada & Alebdaa</title>
+        <title> Extra Components: Upload </title>
       </Helmet>
 
       <Box

@@ -56,7 +56,7 @@ export default function DemoMapPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Map | Alriada & Alebdaa</title>
+        <title> Extra Components: Map </title>
       </Helmet>
 
       <Box

@@ -33,7 +33,7 @@ export default function MUIAutocompletePage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Autocomplete | Alriada & Alebdaa</title>
+        <title> MUI Components: Autocomplete </title>
       </Helmet>
 
       <Box

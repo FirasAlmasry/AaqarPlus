@@ -100,7 +100,7 @@ export default function KanbanPage() {
   return (
     <>
       <Helmet>
-        <title> Kanban | Alriada & Alebdaa</title>
+        <title> Kanban </title>
       </Helmet>
 
       <Container maxWidth={false} sx={{ height: 1 }}>

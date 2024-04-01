@@ -27,7 +27,7 @@ export default function DemoChartsPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Charts | Alriada & Alebdaa</title>
+        <title> Extra Components: Charts </title>
       </Helmet>
 
       <Box

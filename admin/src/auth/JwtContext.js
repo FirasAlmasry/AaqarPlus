@@ -71,9 +71,8 @@ export function AuthProvider({ children }) {
   const initialize = useCallback(async () => {
     try {
       const accessToken = storageAvailable ? localStorage.getItem('accessToken') : '';
-      console.log("🚀 ~ file: JwtContext.js:74 ~ initialize ~ accessToken:", accessToken)
+      console.log("🚀 ~ initialize ~ accessToken:", accessToken)
       const user = storageAvailable ? JSON.parse(localStorage.getItem('user')) : '';
-      console.log("🚀 ~ file: JwtContext.js:76 ~ initialize ~ user:", user)
 
       if (accessToken && user) {
         setSession(accessToken);
@@ -164,10 +163,11 @@ export function AuthProvider({ children }) {
   //     type: 'LOGOUT',
   //   });
   // }, []);
-  const logout = useCallback(async () => {
-    await axios.post('/admin/logout')
+  const logout = useCallback(() => {
+    axios.post('/admin/logout')
     setSession(null);
     console.log('logUot')
+    
     dispatch({
       type: 'LOGOUT',
     });

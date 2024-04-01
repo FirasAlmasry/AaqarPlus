@@ -41,7 +41,7 @@ import {
     CoinsTableToolbar,
     CoinsTableRow,
 } from "../../../sections/@dashboard/coins/list";
-import { useDeleteServicesMutation, useGetServicesQuery } from "../../../state/apiService";
+import { useGetCoinsQuery } from "../../../state/coins";
 
 // ----------------------------------------------------------------------
 
@@ -50,12 +50,8 @@ const STATUS_OPTIONS = [];
 const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
-    { id: "title", label: "Title ar", align: "left" },
-    // { id: "imageUrl", label: "Image", align: "left" },
-    // { id: "description", label: "Description", align: "left" },
-    { id: "cloudinary_id", label: "cloudinary", align: "left" },
-    // { id: "type", label: "type", align: "left" },
-    { id: "" },
+    { id: "country", label: "country", align: "left" },
+    { id: "code", label: "code", align: "left" },
 ];
 
 // ----------------------------------------------------------------------
@@ -84,13 +80,12 @@ export default function CoinsListPage() {
 
     const navigate = useNavigate();
 
-    const { data, isServiseLoading } = useGetServicesQuery({ page: page + 1, limit: rowsPerPage });
-    console.log(data)
+    const { data, isServiseLoading } = useGetCoinsQuery();
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
         if (data && !isServiseLoading) {
-            setTableData(data?.servise)
+            setTableData(data?.data?.data)
         }
     }, [data, tableData, isServiseLoading])
 
@@ -147,19 +142,6 @@ export default function CoinsListPage() {
         setPage(0);
         setFilterRole(event.target.value);
     };
-    const [deleteService] = useDeleteServicesMutation()
-    const handleDeleteRow = async (id) => {
-        await deleteService(id);
-        const deleteRow = tableData.filter((row) => row._id !== id);
-        setSelected([]);
-        setTableData(deleteRow);
-
-        if (page > 0) {
-            if (dataInPage.length < 2) {
-                setPage(page - 1);
-            }
-        }
-    };
 
     const handleDeleteRows = (selectedRows) => {
         const deleteRows = tableData.filter(
@@ -209,18 +191,7 @@ export default function CoinsListPage() {
                             href: PATH_DASHBOARD.coins.list,
                         },
                         { name: "List" },
-                    ]}
-                    action={
-                        <Button
-                            component={RouterLink}
-                            to={PATH_DASHBOARD.coins.new}
-                            variant="contained"
-                            startIcon={<Iconify icon="eva:plus-fill" />}
-                        >
-                            New Service
-                        </Button>
-                    }
-                />
+                    ]}/>
 
                 <Card>
                     <Tabs
@@ -240,7 +211,7 @@ export default function CoinsListPage() {
 
                     <CoinsTableToolbar
                         isFiltered={isFiltered}
-                        filterName={filterName}
+                        // filterName={filterName}
                         filterRole={filterRole}
                         optionsRole={ROLE_OPTIONS}
                         onFilterName={handleFilterName}
@@ -301,19 +272,16 @@ export default function CoinsListPage() {
                                         )
                                         .map((row) => (
                                             <CoinsTableRow
-                                                key={row?._id}
+                                                key={row?.id}
                                                 row={row}
                                                 selected={selected.includes(
-                                                    row?._id
+                                                    row?.id
                                                 )}
                                                 onSelectRow={() =>
-                                                    onSelectRow(row?._id)
-                                                }
-                                                onDeleteRow={() =>
-                                                    handleDeleteRow(row?._id)
+                                                    onSelectRow(row?.id)
                                                 }
                                                 onEditRow={() =>
-                                                    handleEditRow(row?._id)
+                                                    handleEditRow(row?.id)
                                                 }
                                             />
                                         ))}
@@ -334,7 +302,7 @@ export default function CoinsListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -392,14 +360,14 @@ function applyFilter({
 
     inputData = stabilizedThis.map((el) => el[0]);
 
-    if (filterName) {
-        inputData = inputData.filter(
-            (user) =>
-                user.title.ar
-                    .toLowerCase()
-                    .indexOf(filterName.toLowerCase()) !== -1
-        );
-    }
+    // if (filterName) {
+    //     inputData = inputData.filter(
+    //         (user) =>
+    //             user.name.ar
+    //                 .toLowerCase()
+    //                 .indexOf(filterName.toLowerCase()) !== -1
+    //     );
+    // }
 
     if (filterStatus !== "all") {
         inputData = inputData.filter((user) => user.active === filterStatus);

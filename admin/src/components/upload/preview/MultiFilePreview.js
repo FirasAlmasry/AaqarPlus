@@ -23,7 +23,6 @@ export default function MultiFilePreview({ thumbnail, files, onRemove, sx }) {
   if (!files?.length) {
     return null;
   }
-
   return (
     <AnimatePresence initial={false}>
       {files.map((file) => {
@@ -62,7 +61,7 @@ export default function MultiFilePreview({ thumbnail, files, onRemove, sx }) {
               {onRemove && (
                 <IconButton
                   size="small"
-                  onClick={() => onRemove(file)}
+                  onClick={() => {onRemove(file); console.log('test')}}
                   sx={{
                     top: 4,
                     right: 4,
@@ -112,7 +111,7 @@ export default function MultiFilePreview({ thumbnail, files, onRemove, sx }) {
             </Stack>
 
             {onRemove && (
-              <IconButton edge="end" size="small" onClick={() => onRemove(file)}>
+              <IconButton edge="end" size="small" onClick={() => {onRemove(file); console.log('test')}}>
                 <Iconify icon="eva:close-fill" />
               </IconButton>
             )}

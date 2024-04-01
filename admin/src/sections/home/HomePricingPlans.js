@@ -144,7 +144,7 @@ function Content() {
               color="inherit"
               size="large"
               variant="contained"
-              href="mailto:support@Alriada & Alebdaaagency.com?subject=[Feedback] from Customer"
+              href="mailto:support@Aqaar Plusagency.com?subject=[Feedback] from Customer"
               sx={{
                 bgcolor: 'text.primary',
                 color: (theme) => (theme.palette.mode === 'light' ? 'common.white' : 'grey.800'),

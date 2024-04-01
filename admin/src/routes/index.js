@@ -77,10 +77,10 @@ import {
     SliderImageListPage,
     SliderImageCreatePage,
     SliderImageEditPage,
-    // Design
-    DesignListPage,
-    DesignCreatePage,
-    DesignEditPage,
+    // InfoText
+    InfoTextListPage,
+    InfoTextCreatePage,
+    InfoTextEditPage,
     // ContactUs
     ContactUsListPage,
     ContactUsCreatePage,
@@ -107,6 +107,12 @@ import {
     DescriptionContactListPage,
     DescriptionContactCreatePage,
     DescriptionContactEditPage,
+    DevelopersListPage,
+    DevelopersCreatePage,
+    DevelopersEditPage,
+    FinishingListPage,
+    FinishingCreatePage,
+    FinishingEditPage,
     // DescriptionBuyerListPage,
     // DescriptionBuyerCreatePage,
     // DescriptionBuyerEditPage,
@@ -195,6 +201,34 @@ export default function Router() {
                         { path: "list", element: <AreasListPage /> },
                         { path: "new", element: <AreasCreatePage /> },
                         { path: ":name/edit", element: <AreasEditPage /> },
+                    ],
+                },
+                {
+                    path: "finishing",
+                    children: [
+                        {
+                            element: (
+                                <Navigate to="/dashboard/finishing/list" replace />
+                            ),
+                            index: true,
+                        },
+                        { path: "list", element: <FinishingListPage /> },
+                        { path: "new", element: <FinishingCreatePage /> },
+                        { path: ":name/edit", element: <FinishingEditPage /> },
+                    ],
+                },
+                {
+                    path: "developers",
+                    children: [
+                        {
+                            element: (
+                                <Navigate to="/dashboard/developers/list" replace />
+                            ),
+                            index: true,
+                        },
+                        { path: "list", element: <DevelopersListPage /> },
+                        { path: "new", element: <DevelopersCreatePage /> },
+                        { path: ":name/edit", element: <DevelopersEditPage /> },
                     ],
                 },
                 {
@@ -338,17 +372,17 @@ export default function Router() {
                     ],
                 },
                 {
-                    path: "design",
+                    path: "infoText",
                     children: [
                         {
                             element: (
-                                <Navigate to="/dashboard/design/list" replace />
+                                <Navigate to="/dashboard/infoText/list" replace />
                             ),
                             index: true,
                         },
-                        { path: "list", element: <DesignListPage /> },
-                        { path: "new", element: <DesignCreatePage /> },
-                        { path: ":name/edit", element: <DesignEditPage /> },
+                        { path: "list", element: <InfoTextListPage /> },
+                        { path: "new", element: <InfoTextCreatePage /> },
+                        { path: ":name/edit", element: <InfoTextEditPage /> },
                     ],
                 },
                 {

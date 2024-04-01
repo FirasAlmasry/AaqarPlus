@@ -41,7 +41,8 @@ import {
     AttachesTableToolbar,
     AttachesTableRow,
 } from "../../../sections/@dashboard/attaches/list";
-import { useDeleteServicesMutation, useGetServicesQuery } from "../../../state/apiService";
+import { useGetAttachedsQuery, useDeleteAttachedsMutation } from "../../../state/facilities";
+import { useSnackbar } from "notistack";
 
 // ----------------------------------------------------------------------
 
@@ -50,11 +51,8 @@ const STATUS_OPTIONS = [];
 const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
-    { id: "title", label: "Title ar", align: "left" },
-    { id: "imageUrl", label: "Image", align: "left" },
-    // { id: "description", label: "Description", align: "left" },
-    // { id: "cloudinary_id", label: "cloudinary", align: "left" },
-    // { id: "type", label: "type", align: "left" },
+    { id: "name", label: "nameAr", align: "left" },
+    { id: "nameEn", label: "nameEn", align: "left" },
     { id: "" },
 ];
 
@@ -83,14 +81,13 @@ export default function AttachesListPage() {
     const { themeStretch } = useSettingsContext();
 
     const navigate = useNavigate();
-
-    const { data, isServiseLoading } = useGetServicesQuery({ page: page + 1, limit: rowsPerPage });
-    console.log(data)
+    const { enqueueSnackbar } = useSnackbar();
+    const { data, isServiseLoading, refetch } = useGetAttachedsQuery();
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
         if (data && !isServiseLoading) {
-            setTableData(data?.servise)
+            setTableData(data?.data?.data)
         }
     }, [data, tableData, isServiseLoading])
 
@@ -147,17 +144,25 @@ export default function AttachesListPage() {
         setPage(0);
         setFilterRole(event.target.value);
     };
-    const [deleteService] = useDeleteServicesMutation()
-    const handleDeleteRow = async (id) => {
-        await deleteService(id);
-        const deleteRow = tableData.filter((row) => row._id !== id);
-        setSelected([]);
-        setTableData(deleteRow);
+    const [deleteFacilities] = useDeleteAttachedsMutation();
 
-        if (page > 0) {
-            if (dataInPage.length < 2) {
-                setPage(page - 1);
+    const handleDeleteRow = async (id) => {
+        try {
+            await deleteFacilities(id);
+            const deleteRow = tableData?.filter((row) => row?.id !== id);
+            setSelected([]);
+            setTableData(deleteRow);
+            refetch();
+            if (page > 0) {
+                if (dataInPage.length < 2) {
+                    setPage(page - 1);
+                }
             }
+        } catch (error) {
+            console.error("An error occurred while deleting facility:", error);
+            // يمكنك إضافة رمز لعرض الخطأ للمستخدم هنا
+            const errorMessage = error.message || 'An error occurred';
+            enqueueSnackbar(errorMessage, { variant: 'error' });
         }
     };
 
@@ -184,6 +189,7 @@ export default function AttachesListPage() {
     };
 
     const handleEditRow = (id) => {
+        id = String(id);
         navigate(PATH_DASHBOARD.attaches.edit(paramCase(id)));
     };
 
@@ -196,16 +202,16 @@ export default function AttachesListPage() {
     return (
         <>
             <Helmet>
-                <title> Attaches: List </title>
+                <title> Facilities: List </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Attaches List"
+                    heading="Facilities List"
                     links={[
                         { name: "Dashboard", href: PATH_DASHBOARD.root },
                         {
-                            name: "Attaches",
+                            name: "Facilities",
                             href: PATH_DASHBOARD.attaches.list,
                         },
                         { name: "List" },
@@ -215,9 +221,8 @@ export default function AttachesListPage() {
                             component={RouterLink}
                             to={PATH_DASHBOARD.attaches.new}
                             variant="contained"
-                            startIcon={<Iconify icon="eva:plus-fill" />}
-                        >
-                            New Service
+                            startIcon={<Iconify icon="eva:plus-fill" />}>
+                            New Facilities
                         </Button>
                     }
                 />
@@ -301,19 +306,19 @@ export default function AttachesListPage() {
                                         )
                                         .map((row) => (
                                             <AttachesTableRow
-                                                key={row?._id}
+                                                key={row?.id}
                                                 row={row}
                                                 selected={selected.includes(
-                                                    row?._id
+                                                    row?.id
                                                 )}
                                                 onSelectRow={() =>
-                                                    onSelectRow(row?._id)
+                                                    onSelectRow(row?.id)
                                                 }
                                                 onDeleteRow={() =>
-                                                    handleDeleteRow(row?._id)
+                                                    handleDeleteRow(row?.id)
                                                 }
                                                 onEditRow={() =>
-                                                    handleEditRow(row?._id)
+                                                    handleEditRow(row?.id)
                                                 }
                                             />
                                         ))}
@@ -334,7 +339,7 @@ export default function AttachesListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -395,7 +400,7 @@ function applyFilter({
     if (filterName) {
         inputData = inputData.filter(
             (user) =>
-                user.title.ar
+                user?.name?.ar
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

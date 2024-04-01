@@ -16,6 +16,7 @@ import {
 import Iconify from "../../../../components/iconify";
 import MenuPopover from "../../../../components/menu-popover";
 import ConfirmDialog from "../../../../components/confirm-dialog";
+import { useGetCoinsQuery } from "../../../../state/coins";
 
 // ----------------------------------------------------------------------
 
@@ -34,12 +35,23 @@ export default function PropertiesTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { title, imageUrl, cloudinary_id } = row;
-
+    const {
+        name,
+        address,
+        whatsapp,
+        phone_number,
+        start_price,
+        end_price,
+        house_area,
+        ref_number,
+        bedrooms,
+        bathrooms,
+        description,
+        payment_plans_title, } = row;
+    // const url = `https://aqarbackend.revampbrands.com/storage/${image_floor_plan}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
-
     const handleOpenConfirm = () => {
         setOpenConfirm(true);
     };
@@ -59,30 +71,59 @@ export default function PropertiesTableRow({
     return (
         <>
             <TableRow hover selected={selected}>
-                <TableCell padding="checkbox">
-                    <Checkbox checked={selected} onClick={onSelectRow} />
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${ref_number.slice(0, 30)}`}
                 </TableCell>
-
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={title?.ar} src={imageUrl} />
-
                         <Typography variant="subtitle2" noWrap>
-                            {title?.ar}
+                            {`${name.en.slice(0, 10)}...`}
                         </Typography>
                     </Stack>
                 </TableCell>
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {
-                        description?.ar ?
-                            description?.ar : description?.en
-                    }
+                    {`${name.ar.slice(0, 10)}...`}
+                </TableCell> */}
+                
+                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${address.ar.slice(0, 10)}...`}
+                </TableCell> */}
+                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${address.en.slice(0, 10)}}...`}
+                </TableCell> */}
+                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${whatsapp.slice(0, 10)}...`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${phone_number.slice(0, 10)}...`}
                 </TableCell> */}
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {cloudinary_id}
+                    {`${start_price.slice(0, 10)}...`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${end_price.slice(0, 10)}...`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${house_area.slice(0, 10)}...`}
+                </TableCell>
+                
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${bedrooms.slice(0, 10)}`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${bathrooms.slice(0, 10)}`}
                 </TableCell>
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {type?.title?.ar ? type?.title?.ar : type?.title?.en}
+                    {`${description.en.slice(0, 10)}...`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${description.ar.slice(0, 10)}...`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${payment_plans_title.en.slice(0, 10)}...`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${payment_plans_title.ar.slice(0, 10)}...`}
                 </TableCell> */}
                 <TableCell align="right">
                     <IconButton

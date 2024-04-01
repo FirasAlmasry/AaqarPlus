@@ -10,7 +10,7 @@ export default function AboutPage() {
   return (
     <>
       <Helmet>
-        <title> About us | Alriada & Alebdaa</title>
+        <title> About us </title>
       </Helmet>
 
       <AboutHero />

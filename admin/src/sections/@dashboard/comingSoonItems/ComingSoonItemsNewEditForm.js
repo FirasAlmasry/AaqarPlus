@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import * as Yup from "yup";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // form
 import { Controller, useForm } from "react-hook-form";
@@ -12,6 +12,9 @@ import {
     Card,
     FormControlLabel,
     Grid,
+    InputLabel,
+    MenuItem,
+    Select,
     Stack,
     Switch,
     // Switch,
@@ -36,7 +39,8 @@ import FormProvider, {
     // RHFEditor,
     RHFUploadAvatar,
 } from "../../../components/hook-form";
-import { useAddServicesMutation, useEditServicesMutation } from "../../../state/apiService";
+import { useGetCoinsQuery } from "../../../state/coins";
+import { useAddComingSoonItemsMutation, useEditComingSoonItemsMutation, useGetComingSoonItemsQuery } from "../../../state/comingSoonItems";
 // import { useGetServiceTypeQuery } from "../../../state/apiServiceType";
 
 // ----------------------------------------------------------------------
@@ -50,42 +54,35 @@ export default function ComingSoonItemsNewEditForm({ isEdit = false, currentServ
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
+    let coin_id = currentService?.coin_id
+    coin_id = String(coin_id)
+    const [age, setAge] = useState(coin_id);
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
 
     const NewComingSoonItemsSchema = Yup.object().shape({
-        title: Yup.object({
-            en: Yup.string().required("title en is required"),
-            ar: Yup.string().required("title ar is required"),
+        name: Yup.object({
+            en: Yup.string().required("name en is required"),
+            ar: Yup.string().required("name ar is required"),
         }),
-        description: Yup.object({
-            en: Yup.string().required("description en is required"),
-            ar: Yup.string().required("description ar is required"),
-        }),
-        // type: Yup.object({
-        //     en: Yup.string().required("type en is required"),
-        //     ar: Yup.string().required("type ar is required"),
-        // }),
-
-        // type: Yup.string().required("type en is required"),
-
-        imageUrl: Yup.mixed().required("Avatar is required"),
+        price_start_from: Yup.string().required("description en is required"),
+        trending: Yup.string().required("trending is required"),
+        coin_id: Yup.string(),
+        image: Yup.mixed().required("Avatar is required"),
     });
 
     const defaultValues = useMemo(
         () => ({
-            title: {
-                en: currentService?.title?.en || "",
-                ar: currentService?.title?.ar || "",
+            name: {
+                en: currentService?.name?.en || "",
+                ar: currentService?.name?.ar || "",
             },
-            description: {
-                en: currentService?.description?.en || "",
-                ar: currentService?.description?.ar || "",
-            },
-            // type: {
-            //     en: currentService?.description?.en || "",
-            //     ar: currentService?.description?.ar || "",
-            // },
-            // type: currentService?.type || "",
-            imageUrl: currentService?.imageUrl || null,
+            price_start_from: currentService?.price_start_from || "",
+            trending: currentService?.trending || '0',
+            coin_id: age || "",
+            image: currentService?.image || [],
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [currentService]
@@ -116,35 +113,35 @@ export default function ComingSoonItemsNewEditForm({ isEdit = false, currentServ
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isEdit, currentService]);
-    // const { data, isServiseLoading } = useGetServiceTypeQuery({ page: 1, limit: 999999 });
-    const [addService] = useAddServicesMutation()
-    const [EditService] = useEditServicesMutation()
+    const { refetch } = useGetComingSoonItemsQuery();
+    const [addService] = useAddComingSoonItemsMutation()
+    const [EditService] = useEditComingSoonItemsMutation()
     const onSubmit = async (data) => {
-        console.log(data);
         try {
             // const data = new FormData();
             const formData = new FormData();
-            formData.append("title[en]", data.title.en);
-            formData.append("title[ar]", data.title.ar);
-            // formData.append("type[en]", data.type.en);
-            // formData.append("type[ar]", data.type.ar);
-            // formData.append("type", data.type);
-            formData.append("description[en]", data.description.en);
-            formData.append("description[ar]", data.description.ar);
-            formData.append("imageUrl", data.imageUrl);
-            console.log("🚀 ~ file: CourseNewEditForm.js:119 ~ onSubmit ~ data:", formData)
+            formData.append("ar_name", data.name.en);
+            formData.append("en_name", data.name.ar);
+            formData.append("price_start_from", data.price_start_from);
+            formData.append("coin_id", age);
+            if (typeof data.image === 'object' && data.image instanceof File) {
+                formData.append("image", data.image);
+            }
+            formData.append("trending", data.trending);
             // eslint-disable-next-line no-lone-blocks
             {
                 isEdit ?
-                    await EditService({ formData, id: currentService._id }).unwrap()
+                    await EditService({ formData, id: currentService.id }).unwrap()
                     :
                     await addService(formData).unwrap()
             }
             reset();
+            refetch()
             enqueueSnackbar(!isEdit ? "Create success!" : "Update success!");
             navigate(PATH_DASHBOARD.comingSoonItems.list);
-            console.log("DATA", data);
         } catch (error) {
+            const errorMessage = error.data.message || 'An error occurred';
+            enqueueSnackbar(errorMessage, { variant: 'error' });
             console.error(error);
         }
     };
@@ -158,31 +155,20 @@ export default function ComingSoonItemsNewEditForm({ isEdit = false, currentServ
             });
 
             if (file) {
-                setValue("imageUrl", newFile, { shouldValidate: true });
+                setValue("image", newFile, { shouldValidate: true });
             }
         },
         [setValue]
     );
 
-    // const TYPE_OPTION = data?.serviseTypes
-    // console.log("🚀 ~ file: ServiceNewEditForm.js:149 ~ ServiceNewEditForm ~ TYPE_OPTION:", TYPE_OPTION)
-    // data
-    // console.log("🚀 ~ file: ServiceNewEditForm.js:141 ~ ServiceNewEditForm ~ TYPE_OPTION:", TYPE_OPTION)
+    const { data: coins, isCoinsLoading } = useGetCoinsQuery();
+    const type = coins?.data?.data
     // [
-    //     {
-    //         _id: "1",
-    //         title: {
-    //             ar: "ar",
-    //             en: "en",
-    //         },
-    //     },
-    // ];
-    const type = [
-        'USD',
-        'EGP',
-        'SAR',
-        'AED',
-    ]
+    //     'USD',
+    //     'EGP',
+    //     'SAR',
+    //     'AED',
+    // ]
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
@@ -208,7 +194,7 @@ export default function ComingSoonItemsNewEditForm({ isEdit = false, currentServ
 
                         <Box sx={{ mb: 5 }}>
                             <RHFUploadAvatar
-                                name="imageUrl"
+                                name="image"
                                 maxSize={3145728}
                                 onDrop={handleDrop}
                                 helperText={
@@ -228,46 +214,52 @@ export default function ComingSoonItemsNewEditForm({ isEdit = false, currentServ
                                 }
                             />
                         </Box>
-                            <FormControlLabel
-                                labelPlacement="start"
-                                control={
-                                    <Controller
-                                        name="active"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <Switch
-                                                {...field}
-                                                checked={
-                                                    field.value !== "active"
-                                                }
-                                                onChange={(event) =>
-                                                    field.onChange(
-                                                        event.target.checked
-                                                            ? "unActive"
-                                                            : "active"
-                                                    )
-                                                }
-                                            />
-                                        )}
-                                    />
-                                }
-                                label={
-                                    <>
-                                        <Typography
-                                            variant="subtitle2"
-                                            sx={{ mb: 0.5 }}
-                                        >
-                                            trending
-                                        </Typography>
-                                    </>
-                                }
-                                sx={{
-                                    mx: 0,
-                                    mb: 3,
-                                    width: 1,
-                                    justifyContent: "space-between",
-                                }}
-                            />
+                        <FormControlLabel
+                            labelPlacement="start"
+                            control={
+                                <Controller
+                                    name="trending"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Switch
+                                            {...field}
+                                            checked={
+                                                field.value !== '0'
+                                            }
+                                            onChange={(event) =>
+                                                field.onChange(
+                                                    event.target.checked
+                                                        ? '1'
+                                                        : '0'
+                                                )
+                                            }
+                                        />
+                                    )}
+                                />
+                            }
+                            label={
+                                <>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{ mb: 0.5 }}
+                                    >
+                                        untrending
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ color: "text.secondary" }}
+                                    >
+                                        Apply untrending
+                                    </Typography>
+                                </>
+                            }
+                            sx={{
+                                mx: 0,
+                                mb: 3,
+                                width: 1,
+                                justifyContent: "space-between",
+                            }}
+                        />
                     </Card>
                 </Grid>
 
@@ -283,39 +275,37 @@ export default function ComingSoonItemsNewEditForm({ isEdit = false, currentServ
                             }}
                             alignItems={"center"}
                         >
-                            <RHFTextField name="title.ar" label="Title ar" />
-                            <RHFTextField name="title.en" label="Title en" />
-                            <RHFTextField name="price" label="started in" />
-                            <RHFAutocomplete
-                                name="coins"
-                                label="coins"
+                            <RHFTextField name="name.ar" label="name ar" />
+                            <RHFTextField name="name.en" label="name en" />
+                            <RHFTextField name="price_start_from" label="price_start_from" />
+                            <Select
+                                value={age}
+                                onChange={handleChange}
+                                // autoWidth
+                                name="coin_id"
+                                label="coin_id"
+                            >
+                                {type?.map((res) => <MenuItem value={res?.id}>{res?.code}</MenuItem>)}
+                                {/* <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Twenty</MenuItem> */}
+                            </Select>
+                            {/* <select name="coin_id" >
+                                {type?.map((res) =><option value={res?.id}>{res?.code}</option>)}
+                            </select> */}
+
+                            {/* <RHFAutocomplete
+                                name="coin_id"
+                                label="coin"
                                 // multiple
                                 freeSolo
-                                options={type?.map((option) => option)}
+                                options={type}
+                                getOptionSelected={(option, value) => option.id === value}
+                                getOptionLabel={(option) => option.code}
                                 ChipProps={{ size: 'small' }}
-                            />
-                            {/* <RHFSelect native name="type.ar" label="Type Ar">
-                                <option />
-                                {TYPE_OPTION?.map((type) => (
-                                    <option
-                                        key={type._id}
-                                        value={type.title.ar}
-                                    >
-                                        {type.title.ar}
-                                    </option>
-                                ))}
-                            </RHFSelect>
-                            <RHFSelect native name="type.en" label="Type En">
-                                <option />
-                                {TYPE_OPTION?.map((type) => (
-                                    <option
-                                        key={type._id}
-                                        value={type.title.en}
-                                    >
-                                        {type.title.en}
-                                    </option>
-                                ))}
-                            </RHFSelect> */}
+                            /> */}
+
                         </Box>
                         <Stack alignItems="flex-end" sx={{ mt: 3 }}>
                             <LoadingButton

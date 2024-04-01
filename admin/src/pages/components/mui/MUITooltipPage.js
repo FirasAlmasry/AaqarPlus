@@ -33,7 +33,7 @@ export default function MUITooltipPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Tooltip | Alriada & Alebdaa</title>
+        <title> MUI Components: Tooltip </title>
       </Helmet>
 
       <Box

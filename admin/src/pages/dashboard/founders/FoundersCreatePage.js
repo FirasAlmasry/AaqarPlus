@@ -17,12 +17,12 @@ export default function FoundersCreatePage() {
     return (
         <>
             <Helmet>
-                <title>Founders: Create a new Founders </title>
+                <title>Founders: Create a new founder </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Create a new Founders"
+                    heading="Create a new founder"
                     links={[
                         {
                             name: "Dashboard",
@@ -32,7 +32,7 @@ export default function FoundersCreatePage() {
                             name: "Founders",
                             href: PATH_DASHBOARD.founders.list,
                         },
-                        { name: "New Founders" },
+                        { name: "New Founder" },
                     ]}
                 />
                 <FoundersNewEditForm />

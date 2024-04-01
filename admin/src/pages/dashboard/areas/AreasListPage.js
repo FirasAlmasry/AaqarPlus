@@ -41,7 +41,8 @@ import {
     AreasTableToolbar,
     AreasTableRow,
 } from "../../../sections/@dashboard/areas/list";
-import { useDeleteCourseMutation, useGetCourseQuery } from "../../../state/ApiCource";
+import { useDeleteAreasMutation, useGetAreasQuery } from "../../../state/areas";
+import { useSnackbar } from "notistack";
 
 // ----------------------------------------------------------------------
 
@@ -50,13 +51,9 @@ const STATUS_OPTIONS = [];
 const ROLE_OPTIONS = ["all", "true", "false"];
 
 const TABLE_HEAD = [
-    { id: "imageUrl", label: "Image", align: "left" },
-    { id: "title", label: "Title", align: "left" },
-    // { id: "description", label: "description", align: "left" },
-    // { id: "price", label: "Price", align: "left" },
-    // { id: "cloudinary_id", label: "cloudinary", align: "left" },
-    // { id: "duration", label: "Duration", align: "left" },
-    { id: "popular", label: "Ispopular", align: "center" },
+    { id: "English", label: "English", align: "left" },
+    { id: "Arabic", label: "Arabic", align: "left" },
+    { id: "trending", label: "Trending", align: "left" },
     { id: "" },
 ];
 
@@ -83,14 +80,14 @@ export default function AreasListPage() {
     } = useTable();
 
     const { themeStretch } = useSettingsContext();
-
+    const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
-    const { data, isLoading } = useGetCourseQuery({ page: page, limit: rowsPerPage })
-    console.log("🚀 ~ file: CourseListPage.js:89 ~ UserListPage ~ data:", data)
+    const { data, isLoading, refetch } = useGetAreasQuery()
     const [tableData, setTableData] = useState([]);
+    console.log(data?.data?.per_page)
     useEffect(() => {
         if (data && !isLoading) {
-            setTableData(data?.courses)
+            setTableData(data?.data?.data)
         }
     }, [data, tableData, isLoading])
 
@@ -131,6 +128,7 @@ export default function AreasListPage() {
 
     const handleCloseConfirm = () => {
         setOpenConfirm(false);
+        console.log('test')
     };
 
     const handleFilterStatus = (event, newValue) => {
@@ -147,16 +145,29 @@ export default function AreasListPage() {
         setPage(0);
         setFilterRole(event.target.value);
     };
-    const [deleteCourse] = useDeleteCourseMutation()
-    const handleDeleteRow = (id) => {
-        deleteCourse(id)
-        const deleteRow = tableData.filter((row) => row._id !== id);
-        setSelected([]);
-        setTableData(deleteRow);
+    
+    const [deleteAreas] = useDeleteAreasMutation()
 
-        if (page > 0) {
-            if (dataInPage.length < 2) {
-                setPage(page - 1);
+    const handleDeleteRow = async (id) => {
+        const response = await deleteAreas(id);
+        if (response && response.error) {
+            console.error("An error occurred while deleting area:", response.error);
+            const errorMessage = response.error.data.message || 'An error occurred';
+            enqueueSnackbar(errorMessage, { variant: 'error' });
+            handleCloseConfirm(); // تنفيذ الدالة لإغلاق الـ "بوب آب"
+            setOpenConfirm(false);
+        } else {
+            console.log("Area deleted successfully");
+            const deleteRow = tableData?.filter((row) => row?.id !== id);
+            setSelected([]);
+            setTableData(deleteRow);
+            refetch();
+            handleCloseConfirm(); // تنفيذ الدالة لإغلاق الـ "بوب آب"
+            setOpenConfirm(false);
+            if (page > 0) {
+                if (dataInPage.length < 2) {
+                    setPage(page - 1);
+                }
             }
         }
     };
@@ -184,6 +195,7 @@ export default function AreasListPage() {
     };
 
     const handleEditRow = (id) => {
+        id = String(id);
         navigate(PATH_DASHBOARD.areas.edit(paramCase(id)));
     };
 
@@ -196,7 +208,7 @@ export default function AreasListPage() {
     return (
         <>
             <Helmet>
-                <title> Areas: List | Alriada & Alebdaa</title>
+                <title> Areas: List</title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
@@ -205,7 +217,7 @@ export default function AreasListPage() {
                     links={[
                         { name: "Dashboard", href: PATH_DASHBOARD.root },
                         {
-                            name: "Areas",
+                            name: "Area",
                             href: PATH_DASHBOARD.areas.root,
                         },
                         { name: "List" },
@@ -301,19 +313,19 @@ export default function AreasListPage() {
                                         )
                                         ?.map((row) => (
                                             <AreasTableRow
-                                                key={row?._id}
+                                                key={row?.id}
                                                 row={row}
                                                 selected={selected.includes(
-                                                    row._id
+                                                    row.id
                                                 )}
                                                 onSelectRow={() =>
-                                                    onSelectRow(row?._id)
+                                                    onSelectRow(row?.id)
                                                 }
                                                 onDeleteRow={() =>
-                                                    handleDeleteRow(row?._id)
+                                                    handleDeleteRow(row?.id)
                                                 }
                                                 onEditRow={() =>
-                                                    handleEditRow(row?._id)
+                                                    handleEditRow(row?.id)
                                                 }
                                             />
                                         ))}
@@ -334,7 +346,7 @@ export default function AreasListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -395,7 +407,7 @@ function applyFilter({
     if (filterName) {
         inputData = inputData?.filter(
             (user) =>
-                user.title.ar
+                user.name.ar
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

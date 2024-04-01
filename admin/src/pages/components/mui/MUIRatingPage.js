@@ -68,7 +68,7 @@ export default function MUIRatingPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Rating | Alriada & Alebdaa</title>
+        <title> MUI Components: Rating </title>
       </Helmet>
 
       <Box

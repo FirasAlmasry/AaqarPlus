@@ -92,7 +92,7 @@ export default function MUIMenuPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Menu | Alriada & Alebdaa</title>
+        <title> MUI Components: Menu </title>
       </Helmet>
 
       <Box

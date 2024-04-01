@@ -57,12 +57,6 @@ export default function MessagesNewEditForm({ isEdit = false, currentService }) 
             en: Yup.string().required("description en is required"),
             ar: Yup.string().required("description ar is required"),
         }),
-        // type: Yup.object({
-        //     en: Yup.string().required("type en is required"),
-        //     ar: Yup.string().required("type ar is required"),
-        // }),
-
-        // type: Yup.string().required("type en is required"),
 
         imageUrl: Yup.mixed().required("Avatar is required"),
     });
@@ -77,11 +71,6 @@ export default function MessagesNewEditForm({ isEdit = false, currentService }) 
                 en: currentService?.description?.en || "",
                 ar: currentService?.description?.ar || "",
             },
-            // type: {
-            //     en: currentService?.description?.en || "",
-            //     ar: currentService?.description?.ar || "",
-            // },
-            // type: currentService?.type || "",
             imageUrl: currentService?.imageUrl || null,
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps

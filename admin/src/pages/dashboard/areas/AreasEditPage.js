@@ -12,7 +12,7 @@ import { useSettingsContext } from "../../../components/settings";
 import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import AreasNewEditForm from "../../../sections/@dashboard/areas/AreasNewEditForm";
-import { useGetCourseIdQuery } from "../../../state/ApiCource";
+import { useGetAreasIdQuery } from "../../../state/areas";
 
 // ----------------------------------------------------------------------
 
@@ -21,30 +21,30 @@ export default function AreasEditPage() {
 
     const { name } = useParams();
 
-    const { data } = useGetCourseIdQuery(name)
+    const { data } = useGetAreasIdQuery(name)
     return (
         <>
             <Helmet>
-                <title> Areas: Edit Areas | Alriada & Alebdaa</title>
+                <title> Areas: Edit Areas </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Edit Areas"
+                    heading="Edit area"
                     links={[
                         {
                             name: "Dashboard",
                             href: PATH_DASHBOARD.root,
                         },
                         {
-                            name: "Areas",
+                            name: "areas",
                             href: PATH_DASHBOARD.areas.list,
                         },
-                        { name: data?.name },
+                        { name: data?.data?.name.en },
                     ]}
                 />
 
-                <AreasNewEditForm isEdit currentCourse={data?.course} />
+                <AreasNewEditForm isEdit currentAreas={data?.data} />
             </Container>
         </>
     );

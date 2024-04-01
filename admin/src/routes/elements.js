@@ -61,6 +61,27 @@ export const AreasCreatePage = Loadable(
 export const AreasEditPage = Loadable(
     lazy(() => import("../pages/dashboard/areas/AreasEditPage"))
 );
+// DASHBOARD: Finishing
+export const FinishingListPage = Loadable(
+    lazy(() => import("../pages/dashboard/finishing/FinishingListPage"))
+);
+export const FinishingCreatePage = Loadable(
+    lazy(() => import("../pages/dashboard/finishing/FinishingCreatePage"))
+);
+export const FinishingEditPage = Loadable(
+    lazy(() => import("../pages/dashboard/finishing/FinishingEditPage"))
+);
+
+// DASHBOARD: Developers
+export const DevelopersListPage = Loadable(
+    lazy(() => import("../pages/dashboard/developers/DevelopersListPage"))
+);
+export const DevelopersCreatePage = Loadable(
+    lazy(() => import("../pages/dashboard/developers/DevelopersCreatePage"))
+);
+export const DevelopersEditPage = Loadable(
+    lazy(() => import("../pages/dashboard/developers/DevelopersEditPage"))
+);
 
 // DASHBOARD: Attaches
 export const AttachesListPage = Loadable(
@@ -191,17 +212,17 @@ export const SliderImageCreatePage = Loadable(
     lazy(() => import("../pages/dashboard/sliderImage/SliderImageCreatePage"))
 );
 
-// DASHBOARD: Design
-export const DesignListPage = Loadable(
-    lazy(() => import("../pages/dashboard/design/DesignListPage"))
+// DASHBOARD: InfoText
+export const InfoTextListPage = Loadable(
+    lazy(() => import("../pages/dashboard/infoText/InfoTextListPage"))
 );
 
-export const DesignEditPage = Loadable(
-    lazy(() => import("../pages/dashboard/design/DesignEditPage"))
+export const InfoTextEditPage = Loadable(
+    lazy(() => import("../pages/dashboard/infoText/InfoTextEditPage"))
 );
 
-export const DesignCreatePage = Loadable(
-    lazy(() => import("../pages/dashboard/design/DesignCreatePage"))
+export const InfoTextCreatePage = Loadable(
+    lazy(() => import("../pages/dashboard/infoText/InfoTextCreatePage"))
 );
 // DASHBOARD: AboutUs
 export const AboutUsListPage = Loadable(

@@ -21,18 +21,15 @@ export default function BlogsEditPage() {
 
     const { name } = useParams();
     const { data, isBlogLoading } = useGetBlogsIdQuery(name);
-    console.log("🚀 ~ file: ServiceEditPage.js:24 ~ ServiceEditPage ~ data:", data)
-    console.log(data?.data?.name)
-    console.log(data?.data)
     return (
         <>
             <Helmet>
-                <title> Blogs: Edit Blogs </title>
+                <title> Blogs: Edit Blog </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Edit Blogs"
+                    heading="Edit Blog"
                     links={[
                         {
                             name: "Dashboard",

@@ -29,7 +29,7 @@ export default function MUISwitchPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Switch | Alriada & Alebdaa</title>
+        <title> MUI Components: Switch </title>
       </Helmet>
 
       <Box

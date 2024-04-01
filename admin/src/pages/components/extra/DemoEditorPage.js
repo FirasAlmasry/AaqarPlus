@@ -28,7 +28,7 @@ export default function DemoEditorPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Editor | Alriada & Alebdaa</title>
+        <title> Extra Components: Editor </title>
       </Helmet>
 
       <Box

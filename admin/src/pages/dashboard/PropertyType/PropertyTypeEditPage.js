@@ -11,8 +11,8 @@ import { PATH_DASHBOARD } from "../../../routes/paths";
 import { useSettingsContext } from "../../../components/settings";
 import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
-import AttachesNewEditForm from "../../../sections/@dashboard/attaches/AttachesNewEditForm";
-import { useGetServicesIdQuery } from "../../../state/apiService";
+import { useGetPropertyTypeIdQuery } from "../../../state/PropertyType";
+import PropertyTypeNewEditForm from "../../../sections/@dashboard/propertyType/PropertyTypeNewEditForm";
 
 // ----------------------------------------------------------------------
 
@@ -20,40 +20,30 @@ export default function AttachesEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isServiseLoading } = useGetServicesIdQuery(name);
-    console.log("🚀 ~ file: ServiceEditPage.js:24 ~ ServiceEditPage ~ data:", data)
-    // const { data } = useGetServicesIdQuery(name)
-    // console.log("🚀 ~ file: UserEditPage.js:24 ~ Service ~ data:", data)
-    // const [Service, { isLoading }] = useEditServicesMutation()
-
-    // const currentService = data?.service?.find(
-    //     (service) => paramCase(service.name) === name
-    // );
-    // console.log("🚀 ~ file: ServiceEditPage.js:31 ~ ServiceEditPage ~ currentService:", currentService)
-
+    const { data, isServiseLoading } = useGetPropertyTypeIdQuery(name);
     return (
         <>
             <Helmet>
-                <title> Attaches: Edit Attaches | Alriada & Alebdaa</title>
+                <title> Property Type: Edit Property Type</title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Edit Attaches"
+                    heading="Edit PropertyType"
                     links={[
                         {
                             name: "Dashboard",
                             href: PATH_DASHBOARD.root,
                         },
                         {
-                            name: "attaches",
-                            href: PATH_DASHBOARD.attaches.list,
+                            name: "PropertyType",
+                            href: PATH_DASHBOARD.propertyType.list,
                         },
-                        { name: data?.name },
+                        { name: data?.data.name.en },
                     ]}
                 />
                 {isServiseLoading ? "loading" :
-                    <AttachesNewEditForm isEdit currentService={data?.servise} />
+                    <PropertyTypeNewEditForm isEdit currentService={data?.data} />
                 }
             </Container>
         </>

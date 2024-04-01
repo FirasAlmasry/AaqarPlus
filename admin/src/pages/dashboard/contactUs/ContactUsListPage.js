@@ -41,7 +41,7 @@ import {
     ContactUsTableToolbar,
     ContactUsTableRow,
 } from "../../../sections/@dashboard/contactUs/list";
-import { useDeleteServicesMutation, useGetServicesQuery } from "../../../state/apiService";
+import { useGetContactUsQuery } from "../../../state/contactUs";
 
 // ----------------------------------------------------------------------
 
@@ -51,11 +51,7 @@ const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
     { id: "title", label: "Title ar", align: "left" },
-    // { id: "imageUrl", label: "Image", align: "left" },
-    // { id: "description", label: "Description", align: "left" },
-    { id: "cloudinary_id", label: "cloudinary", align: "left" },
-    // { id: "type", label: "type", align: "left" },
-    { id: "" },
+    { id: "value", label: "value", align: "left" },
 ];
 
 // ----------------------------------------------------------------------
@@ -84,15 +80,19 @@ export default function ContactUsListPage() {
 
     const navigate = useNavigate();
 
-    const { data, isServiseLoading } = useGetServicesQuery({ page: page + 1, limit: rowsPerPage });
-    console.log(data)
+    const { data, isServiseLoading } = useGetContactUsQuery();
+    // console.log("🚀 ~ ContactUsListPage ~ data:", data)
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
         if (data && !isServiseLoading) {
-            setTableData(data?.servise)
+            setTableData(data?.data)
         }
     }, [data, tableData, isServiseLoading])
+    const transformedData = Object.entries(tableData).map(([title, value]) => ({
+        title,
+        value
+    }));
 
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -146,19 +146,6 @@ export default function ContactUsListPage() {
     const handleFilterRole = (event) => {
         setPage(0);
         setFilterRole(event.target.value);
-    };
-    const [deleteService] = useDeleteServicesMutation()
-    const handleDeleteRow = async (id) => {
-        await deleteService(id);
-        const deleteRow = tableData.filter((row) => row._id !== id);
-        setSelected([]);
-        setTableData(deleteRow);
-
-        if (page > 0) {
-            if (dataInPage.length < 2) {
-                setPage(page - 1);
-            }
-        }
     };
 
     const handleDeleteRows = (selectedRows) => {
@@ -217,7 +204,7 @@ export default function ContactUsListPage() {
                             variant="contained"
                             startIcon={<Iconify icon="eva:plus-fill" />}
                         >
-                            New ContactUs
+                            Edit ContactUs
                         </Button>
                     }
                 />
@@ -294,7 +281,7 @@ export default function ContactUsListPage() {
                                 />
 
                                 <TableBody>
-                                    {dataFiltered
+                                    {transformedData
                                         .slice(
                                             page * rowsPerPage,
                                             page * rowsPerPage + rowsPerPage
@@ -309,9 +296,9 @@ export default function ContactUsListPage() {
                                                 onSelectRow={() =>
                                                     onSelectRow(row?._id)
                                                 }
-                                                onDeleteRow={() =>
-                                                    handleDeleteRow(row?._id)
-                                                }
+                                                // onDeleteRow={() =>
+                                                //     handleDeleteRow(row?._id)
+                                                // }
                                                 onEditRow={() =>
                                                     handleEditRow(row?._id)
                                                 }
@@ -334,7 +321,7 @@ export default function ContactUsListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={6}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -382,7 +369,7 @@ function applyFilter({
     filterStatus,
     filterRole,
 }) {
-    const stabilizedThis = inputData.map((el, index) => [el, index]);
+    const stabilizedThis = Object.entries(inputData).map((el, index) => [el, index]);
 
     stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0]);
@@ -391,15 +378,16 @@ function applyFilter({
     });
 
     inputData = stabilizedThis.map((el) => el[0]);
+    // console.log("🚀 ~ inputData:", inputData)
 
-    if (filterName) {
-        inputData = inputData.filter(
-            (user) =>
-                user.title.ar
-                    .toLowerCase()
-                    .indexOf(filterName.toLowerCase()) !== -1
-        );
-    }
+    // if (filterName) {
+    //     inputData = inputData.filter(
+    //         (user) =>
+    //             user.name.ar
+    //                 .toLowerCase()
+    //                 .indexOf(filterName.toLowerCase()) !== -1
+    //     );
+    // }
 
     if (filterStatus !== "all") {
         inputData = inputData.filter((user) => user.active === filterStatus);

@@ -12,7 +12,7 @@ import { useSettingsContext } from "../../../components/settings";
 import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import CompoundsNewEditForm from "../../../sections/@dashboard/compounds/CompoundsNewEditForm";
-import { useGetServicesIdQuery } from "../../../state/apiService";
+import { useGetCompoundsIdQuery } from "../../../state/compounds";
 
 // ----------------------------------------------------------------------
 
@@ -20,26 +20,16 @@ export default function CompoundsEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isServiseLoading } = useGetServicesIdQuery(name);
-    console.log("🚀 ~ file: ServiceEditPage.js:24 ~ ServiceEditPage ~ data:", data)
-    // const { data } = useGetServicesIdQuery(name)
-    // console.log("🚀 ~ file: UserEditPage.js:24 ~ Service ~ data:", data)
-    // const [Service, { isLoading }] = useEditServicesMutation()
-
-    // const currentService = data?.service?.find(
-    //     (service) => paramCase(service.name) === name
-    // );
-    // console.log("🚀 ~ file: ServiceEditPage.js:31 ~ ServiceEditPage ~ currentService:", currentService)
-
+    const { data, isCompoundsLoading } = useGetCompoundsIdQuery(name);
     return (
         <>
             <Helmet>
-                <title> Compounds: Edit Compounds | Alriada & Alebdaa</title>
+                <title> Compounds: Edit Compounds </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Edit Compounds"
+                    heading="Edit Compound"
                     links={[
                         {
                             name: "Dashboard",
@@ -49,11 +39,11 @@ export default function CompoundsEditPage() {
                             name: "Compounds",
                             href: PATH_DASHBOARD.compounds.list,
                         },
-                        { name: data?.name },
+                        { name: data?.data?.compound?.name.en },
                     ]}
                 />
-                {isServiseLoading ? "loading" :
-                    <CompoundsNewEditForm isEdit currentService={data?.servise} />
+                {isCompoundsLoading ? "loading" :
+                    <CompoundsNewEditForm isEdit currentService={data?.data} />
                 }
             </Container>
         </>

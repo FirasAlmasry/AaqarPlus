@@ -30,7 +30,7 @@ export default function GeneralBankingPage() {
   return (
     <>
       <Helmet>
-        <title> General: Banking | Alriada & Alebdaa</title>
+        <title> General: Banking </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'xl'}>

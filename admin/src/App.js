@@ -49,7 +49,7 @@ import { MotionLazyContainer } from './components/animate';
 import { ThemeSettings, SettingsProvider } from './components/settings';
 
 // Check our docs
-// https://docs.Alriada & Alebdaaagency.com/authentication/js-version
+// https://docs.Aqaar Plusagency.com/authentication/js-version
 
 import { AuthProvider } from './auth/JwtContext';
 // import { AuthProvider } from './auth/Auth0Context';

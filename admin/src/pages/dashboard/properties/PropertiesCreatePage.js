@@ -17,12 +17,12 @@ export default function PropertiesCreatePage() {
     return (
         <>
             <Helmet>
-                <title>Properties: Create a new Properties </title>
+                <title>Properties: Create a new property </title>
             </Helmet>
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Create a new Properties"
+                    heading="Create a new property"
                     links={[
                         {
                             name: "Dashboard",
@@ -32,7 +32,7 @@ export default function PropertiesCreatePage() {
                             name: "Properties",
                             href: PATH_DASHBOARD.properties.list,
                         },
-                        { name: "New Properties" },
+                        { name: "New Property" },
                     ]}
                 />
                 <PropertiesNewEditForm />

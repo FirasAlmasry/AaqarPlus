@@ -17,7 +17,7 @@ export default function MUITablePage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Table | Alriada & Alebdaa</title>
+        <title> MUI Components: Table </title>
       </Helmet>
 
       <Box

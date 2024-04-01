@@ -12,7 +12,7 @@ import { useSettingsContext } from "../../../components/settings";
 import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import FoundersNewEditForm from "../../../sections/@dashboard/founders/FoundersNewEditForm";
-import { useGetServicesIdQuery } from "../../../state/apiService";
+import { useGetFoundersIdQuery } from "../../../state/founders";
 
 // ----------------------------------------------------------------------
 
@@ -20,17 +20,7 @@ export default function FoundersEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isServiseLoading } = useGetServicesIdQuery(name);
-    console.log("🚀 ~ file: ServiceEditPage.js:24 ~ ServiceEditPage ~ data:", data)
-    // const { data } = useGetServicesIdQuery(name)
-    // console.log("🚀 ~ file: UserEditPage.js:24 ~ Service ~ data:", data)
-    // const [Service, { isLoading }] = useEditServicesMutation()
-
-    // const currentService = data?.service?.find(
-    //     (service) => paramCase(service.name) === name
-    // );
-    // console.log("🚀 ~ file: ServiceEditPage.js:31 ~ ServiceEditPage ~ currentService:", currentService)
-
+    const { data, isFoundersLoading } = useGetFoundersIdQuery(name);
     return (
         <>
             <Helmet>
@@ -39,7 +29,7 @@ export default function FoundersEditPage() {
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Edit Founders"
+                    heading="Edit Founder"
                     links={[
                         {
                             name: "Dashboard",
@@ -49,11 +39,11 @@ export default function FoundersEditPage() {
                             name: "Founders",
                             href: PATH_DASHBOARD.founders.list,
                         },
-                        { name: data?.name },
+                        { name: data?.data?.name.en },
                     ]}
                 />
-                {isServiseLoading ? "loading" :
-                    <FoundersNewEditForm isEdit currentService={data?.servise} />
+                {isFoundersLoading ? "loading" :
+                    <FoundersNewEditForm isEdit currentService={data?.data} />
                 }
             </Container>
         </>

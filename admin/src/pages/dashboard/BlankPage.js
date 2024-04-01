@@ -13,7 +13,7 @@ export default function BlankPage() {
   return (
     <>
       <Helmet>
-        <title> Blank Page | Alriada & Alebdaa</title>
+        <title> Blank Page </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'xl'}>

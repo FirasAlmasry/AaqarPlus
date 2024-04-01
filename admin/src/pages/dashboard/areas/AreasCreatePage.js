@@ -22,7 +22,7 @@ export default function AreasCreatePage() {
 
             <Container maxWidth={themeStretch ? false : "lg"}>
                 <CustomBreadcrumbs
-                    heading="Create a new Areas"
+                    heading="Create a new area"
                     links={[
                         {
                             name: "Dashboard",
@@ -32,7 +32,7 @@ export default function AreasCreatePage() {
                             name: "areas",
                             href: PATH_DASHBOARD.areas.list,
                         },
-                        { name: "New areas" },
+                        { name: "New area" },
                     ]}
                 />
                 <AreasNewEditForm />

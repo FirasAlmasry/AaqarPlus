@@ -34,8 +34,10 @@ export default function PropertyTypeTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { title, imageUrl, type } = row;
-
+    const { name, icon, parent, children } = row;
+    // Check if the row has children
+    const hasChildren = children.length > 0;
+    const url = `https://aqarbackend.revampbrands.com/storage/${icon}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -58,32 +60,24 @@ export default function PropertyTypeTableRow({
 
     return (
         <>
-            <TableRow hover selected={selected}>
-                <TableCell padding="checkbox">
-                    <Checkbox checked={selected} onClick={onSelectRow} />
-                </TableCell>
-
+            <TableRow hover selected={selected}> 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={title?.ar} src={imageUrl} />
-
+                        <Avatar alt={name.ar} src={url} />
                         <Typography variant="subtitle2" noWrap>
-                            {title?.ar}
+                            {name.ar}
                         </Typography>
                     </Stack>
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {
-                        description?.ar ?
-                            description?.ar : description?.en
-                    }
-                </TableCell> */}
-                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {type}
+                <TableCell align="left">
+                    {name.en}
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {type?.title?.ar ? type?.title?.ar : type?.title?.en}
-                </TableCell> */}
+                <TableCell align="left">
+                    {parent ? parent.name.ar : 'main'} 
+                </TableCell>
+                <TableCell align="left">
+                    {parent ? parent.name.en : 'main'}
+                </TableCell>
                 <TableCell align="right">
                     <IconButton
                         color={openPopover ? "inherit" : "default"}
@@ -120,7 +114,6 @@ export default function PropertyTypeTableRow({
                     Edit
                 </MenuItem>
             </MenuPopover>
-
             <ConfirmDialog
                 open={openConfirm}
                 onClose={handleCloseConfirm}

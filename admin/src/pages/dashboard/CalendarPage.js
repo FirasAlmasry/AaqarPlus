@@ -243,7 +243,7 @@ export default function CalendarPage() {
   return (
     <>
       <Helmet>
-        <title> Calendar | Alriada & Alebdaa</title>
+        <title> Calendar </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'xl'}>

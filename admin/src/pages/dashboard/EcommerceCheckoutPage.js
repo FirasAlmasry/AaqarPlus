@@ -110,7 +110,7 @@ export default function EcommerceCheckoutPage() {
   return (
     <>
       <Helmet>
-        <title> Ecommerce: Checkout | Alriada & Alebdaa</title>
+        <title> Ecommerce: Checkout </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

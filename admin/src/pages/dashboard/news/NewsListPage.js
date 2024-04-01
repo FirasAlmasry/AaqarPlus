@@ -41,7 +41,7 @@ import {
     NewsTableToolbar,
     NewsTableRow,
 } from "../../../sections/@dashboard/news/list";
-import { useDeleteServicesMutation, useGetServicesQuery } from "../../../state/apiService";
+import { useDeleteFoundersMutation, useGetFoundersQuery } from "../../../state/founders";
 
 // ----------------------------------------------------------------------
 
@@ -50,13 +50,13 @@ const STATUS_OPTIONS = [];
 const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
-    { id: "title", label: "Title ar", align: "left" },
-    { id: "imageUrl", label: "Image", align: "left" },
-    { id: "description", label: "Description ar", align: "left" },
-    // { id: "cloudinary_id", label: "cloudinary", align: "left" },
-    // { id: "type", label: "type", align: "left" },
+    { id: "titlear", label: "Name ar", align: "left" },
+    { id: "titleen", label: "Name en", align: "left" },
+    { id: "descriptionar", label: "Description ar", align: "left" },
+    { id: "descriptionen", label: "Description en", align: "left" },
     { id: "" },
 ];
+
 
 // ----------------------------------------------------------------------
 
@@ -84,16 +84,14 @@ export default function NewsListPage() {
 
     const navigate = useNavigate();
 
-    const { data, isServiseLoading } = useGetServicesQuery({ page: page + 1, limit: rowsPerPage });
-    console.log(data)
+    const { data, isFoundersLoading, refetch } = useGetFoundersQuery('NEWS');
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
-        if (data && !isServiseLoading) {
-            setTableData(data?.servise)
+        if (data && !isFoundersLoading) {
+            setTableData(data?.data?.data)
         }
-    }, [data, tableData, isServiseLoading])
-
+    }, [data, tableData, isFoundersLoading])
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [filterName, setFilterName] = useState("");
@@ -147,13 +145,13 @@ export default function NewsListPage() {
         setPage(0);
         setFilterRole(event.target.value);
     };
-    const [deleteService] = useDeleteServicesMutation()
+    const [deleteFounder] = useDeleteFoundersMutation()
     const handleDeleteRow = async (id) => {
-        await deleteService(id);
-        const deleteRow = tableData.filter((row) => row._id !== id);
+        await deleteFounder(id);
+        const deleteRow = tableData?.filter((row) => row?.id !== id);
         setSelected([]);
         setTableData(deleteRow);
-
+        refetch()
         if (page > 0) {
             if (dataInPage.length < 2) {
                 setPage(page - 1);
@@ -184,7 +182,8 @@ export default function NewsListPage() {
     };
 
     const handleEditRow = (id) => {
-        navigate(PATH_DASHBOARD.service.edit(paramCase(id)));
+        id = String(id);
+        navigate(PATH_DASHBOARD.news.edit(paramCase(id)));
     };
 
     const handleResetFilter = () => {
@@ -217,7 +216,7 @@ export default function NewsListPage() {
                             variant="contained"
                             startIcon={<Iconify icon="eva:plus-fill" />}
                         >
-                            New News
+                            New
                         </Button>
                     }
                 />
@@ -301,19 +300,19 @@ export default function NewsListPage() {
                                         )
                                         .map((row) => (
                                             <NewsTableRow
-                                                key={row?._id}
+                                                key={row?.id}
                                                 row={row}
                                                 selected={selected.includes(
-                                                    row?._id
+                                                    row?.id
                                                 )}
                                                 onSelectRow={() =>
-                                                    onSelectRow(row?._id)
+                                                    onSelectRow(row?.id)
                                                 }
                                                 onDeleteRow={() =>
-                                                    handleDeleteRow(row?._id)
+                                                    handleDeleteRow(row?.id)
                                                 }
                                                 onEditRow={() =>
-                                                    handleEditRow(row?._id)
+                                                    handleEditRow(row?.id)
                                                 }
                                             />
                                         ))}
@@ -334,7 +333,7 @@ export default function NewsListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.totalDocs}
+                        count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -395,7 +394,7 @@ function applyFilter({
     if (filterName) {
         inputData = inputData.filter(
             (user) =>
-                user.title.ar
+                user.name.ar
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

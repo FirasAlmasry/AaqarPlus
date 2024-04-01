@@ -24,7 +24,7 @@ export default function InvoiceEditPage() {
   return (
     <>
       <Helmet>
-        <title> Invoice: Edit | Alriada & Alebdaa</title>
+        <title> Invoice: Edit </title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

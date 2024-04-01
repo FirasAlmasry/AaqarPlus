@@ -17,10 +17,6 @@ export const ApiAuth = api.injectEndpoints({
         url: '/blogs',
         method: 'POST',
         body: formData,
-        formData: true,
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
       }),
       invalidatesTags: ['blogs'],
     }),
@@ -29,9 +25,6 @@ export const ApiAuth = api.injectEndpoints({
           url: `/blogs/${id}`,
           method: 'POST',
           body: formData,
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-          },
         }),
         invalidatesTags: ['/blogs'],
       }),
@@ -40,9 +33,6 @@ export const ApiAuth = api.injectEndpoints({
           url: `/blogs/${id}`,
           method: 'Delete',
           body: build,
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-          },
         }),
         invalidatesTags: ['/blogs'],
       }),

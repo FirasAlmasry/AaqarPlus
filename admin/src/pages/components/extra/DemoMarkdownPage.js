@@ -122,7 +122,7 @@ export default function DemoMarkdownPage() {
   return (
     <>
       <Helmet>
-        <title> Extra Components: Markdown | Alriada & Alebdaa</title>
+        <title> Extra Components: Markdown </title>
       </Helmet>
 
       <Box

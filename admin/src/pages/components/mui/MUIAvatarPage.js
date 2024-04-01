@@ -33,7 +33,7 @@ export default function MUIAvatarPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Avatar | Alriada & Alebdaa</title>
+        <title> MUI Components: Avatar </title>
       </Helmet>
 
       <Box

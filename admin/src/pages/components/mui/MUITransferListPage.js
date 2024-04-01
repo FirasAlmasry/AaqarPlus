@@ -25,7 +25,7 @@ export default function MUITransferListPage() {
   return (
     <>
       <Helmet>
-        <title> MUI Components: Transfer List | Alriada & Alebdaa</title>
+        <title> MUI Components: Transfer List </title>
       </Helmet>
 
       <Box

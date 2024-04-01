@@ -34,10 +34,9 @@ export default function AttachesTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { title, imageUrl} = row;
-
+    const { name, icon} = row;
+    const url = `https://aqarbackend.revampbrands.com/storage/${icon}`
     const [openConfirm, setOpenConfirm] = useState(false);
-
     const [openPopover, setOpenPopover] = useState(null);
 
     const handleOpenConfirm = () => {
@@ -59,30 +58,24 @@ export default function AttachesTableRow({
     return (
         <>
             <TableRow hover selected={selected}>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                     <Checkbox checked={selected} onClick={onSelectRow} />
-                </TableCell>
+                </TableCell> */}
 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={title?.ar} src={imageUrl} />
+                        <Avatar alt={name.en} src={url} />
 
                         <Typography variant="subtitle2" noWrap>
-                            {title?.ar}
+                            {name.en}
                         </Typography>
                     </Stack>
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {
-                        description?.ar ?
-                            description?.ar : description?.en
-                    }
-                </TableCell> */}
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {name.ar}
+                </TableCell>
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {cloudinary_id}
-                </TableCell> */}
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {type?.title?.ar ? type?.title?.ar : type?.title?.en}
                 </TableCell> */}
                 <TableCell align="right">
                     <IconButton
