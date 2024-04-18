@@ -13,11 +13,9 @@ const OurProducts = ({ data }) => {
                 height: '30rem', display: 'flex',
                 backgroundSize: '100% 100%', mb: 2, position: 'relative', zIndex: 9
             }} >
-                <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', textAlign: 'center', width: '65%', ml: 'auto', mr: '2rem' }}>
-                    <Box sx={{ mb: 2 }}>
-                        <HeaderSection nameSection={t("OurProducts")} />
-                    </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '65%', ml: 'auto', mr: '2rem', justifyContent:'center' }}>
                     <Typography>
+                        <HeaderSection nameSection={t("OurProducts")} />
                         <div className="desc" dangerouslySetInnerHTML={{ __html: data }}></div>
                     </Typography>
                 </Box>

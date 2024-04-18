@@ -90,12 +90,12 @@ export const auth = [
         },
         {
                 path: `auth/sign-up`,
-                name: `تنشاء حساب`,
+                name: `انشاء حساب`,
                 name_en: `Sign Up`
         },
         {
                 path: `auth/sell`,
-                name: `بائع`,
+                name: `تسجيل كبائع`,
                 name_en: `Sell`
         },
 ]

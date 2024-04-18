@@ -35,7 +35,7 @@ const ContactUsPage = () => {
             <WrapperSection>
                 <GlobalList>
                     <Grid item md={6} sm={6} xs={12} sx={{ my: { md: 0, xs: 1 } }} >
-                        <Box sx={{ p: 2, background: '#F0EEEB', borderRadius: '16px', mx: { md: 2, xs: 0 }, height: '100%', }} >
+                        <Box sx={{ p: 2, background: '#F0EEEB', borderRadius: '16px', mx: { md: 2, xs: 0 }, height: '100%', pr: { md: 6 ,xs:2} }} >
                             <GlobalList>
                                 <Grid item xs={12} >
                                     <Box sx={{ ml:4 }} >

@@ -21,6 +21,7 @@ import ImageGallery from "react-image-gallery";
 
 // import stylesheet if you're not already using CSS @import
 import "react-image-gallery/styles/css/image-gallery.css";
+import { useTranslation } from 'react-i18next'
 
 const PropertyDetails = () => {
     const url = 'https://aqarbackend.revampbrands.com/storage/'
@@ -31,7 +32,7 @@ const PropertyDetails = () => {
     const [tableData, setTableData] = useState([]);
     const { data: Compound, isCompoundLoading } = useGetCompoundsIdQuery({ id: tableData?.compound_id , lng});
     const [CompoundData, setCompoundData] = useState([]);
-
+const {t} = useTranslation()
     useEffect(() => {
         if (data && !isBrandsLoading) {
             setTableData(data?.data)
@@ -112,7 +113,7 @@ const PropertyDetails = () => {
                             <Description data={tableData?.description} />
                         </Box>
                         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }} >
-                            <HeaderSection nameSection={`location`} />
+                            <HeaderSection nameSection={t("Contacts.Location")} />
                             <Description data={tableData?.url_location} />
                         </Box>
                     </Grid>
@@ -135,7 +136,7 @@ const PropertyDetails = () => {
                         </Box>
                     </Grid>
                 </GlobalList>
-                <HeaderSection nameSection={'Suggested Properties'} />
+                <HeaderSection nameSection={t("SuggestedProperties")} />
                     <GlobalList>
                     {isCompoundLoading ? 'Loading' : CompoundData?.properties?.slice(0, 3)?.map(res =>
                         <Grid item md={4} xs={12} key={res?.id}>

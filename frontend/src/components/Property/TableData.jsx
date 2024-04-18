@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useTranslation } from 'react-i18next';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -31,19 +32,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const TableData = ({ tableData }) => {
+    const {t} = useTranslation()
     return (
         <>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell align="center">Reference No.</StyledTableCell>
-                            <StyledTableCell align="center">Bedrooms</StyledTableCell>
-                            <StyledTableCell align="center">Bathrooms</StyledTableCell>
-                            <StyledTableCell align="center">DeliveryIn</StyledTableCell>
-                            <StyledTableCell align="center">Compound</StyledTableCell>
-                            <StyledTableCell align="center">SaleType</StyledTableCell>
-                            <StyledTableCell align="center">Finishing</StyledTableCell>
+                            <StyledTableCell align="center">{t("Reference")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("Bedrooms")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("Bathrooms")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("DeliveryIn")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("Compound")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("SaleType")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("Finishing")}</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

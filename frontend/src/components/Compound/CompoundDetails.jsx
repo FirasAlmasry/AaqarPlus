@@ -71,13 +71,13 @@ const CompoundDetails = () => {
                     <Description data={tableData?.description} />
                 </Box>
                 <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
-                    <HeaderSection nameSection={'Payment Plans'} />
+                    <HeaderSection nameSection={t("PaymentPlans")} />
                     <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", width: 'fit-content', py: 2, px: 4, flexWrap: 'wrap' }} >
                         <PaymentPlans data={tableData?.payment_plans} />
                     </Box>
                 </Box>
                 <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
-                    <HeaderSection nameSection={`Explore Properties in ${tableData?.name}`} length={tableData?.properties?.length === 0 ? t("NoResults") : tableData?.properties?.length} />
+                    <HeaderSection nameSection={`${t("ExplorePropertiesIn")} ${tableData?.name}`} length={tableData?.properties?.length === 0 ? t("NoResults") : tableData?.properties?.length} />
                     <Box sx={{ width: '100%' }}>
                         {
                             tableData?.properties &&

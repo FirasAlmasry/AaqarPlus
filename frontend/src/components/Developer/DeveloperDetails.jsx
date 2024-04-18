@@ -45,16 +45,16 @@ const DeveloperDetails = () => {
                     </Grid>
                     <Grid item md={6} xs={12} >
                         <Box sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
-                            <Typography color={'primary.main'} display={'inline'} variant='h6'>Developer Name : <span style={{ color: '#E00201' }}>{tableData?.name}</span></Typography>
-                            <Typography color={'primary.main'} display={'inline'} variant='h6'>Area : <span style={{ color: '#E00201' }}>{lng === 'ar' ? tableData?.area?.name?.ar : tableData?.area?.name?.en}</span></Typography>
-                            <Typography color={'primary.main'} display={'inline'} variant='h6'>top project title : <span style={{ color: '#E00201' }}>{tableData?.top_project_title}</span></Typography>
-                            <Typography color={'primary.main'} variant='h6'  >Brief </Typography>
+                            <Typography color={'primary.main'} display={'inline'} variant='h6'>{t("Dev.name")} : <span style={{ color: '#E00201' }}>{tableData?.name}</span></Typography>
+                            <Typography color={'primary.main'} variant='h6'  >{t("Dev.Brief")} </Typography>
                             <Typography style={{ color: '#7A7A7A' }}>{tableData?.bio_title}</Typography>
+                            <Typography color={'primary.main'} display={'inline'} variant='h6'>{t("Dev.area")} : <span style={{ color: '#E00201' }}>{lng === 'ar' ? tableData?.area?.name?.ar : tableData?.area?.name?.en}</span></Typography>
+                            <Typography color={'primary.main'} display={'inline'} variant='h6'>{t("Dev.TopProjectsTitle")} : <span style={{ color: '#E00201' }}>{tableData?.top_project_title}</span></Typography>
                         </Box>
                     </Grid>
                 </GlobalList>
-                <SectionTerm name={`Description Developer :`} description={tableData?.bio_description} />
-                <SectionTerm name={`Description Projects :`} description={tableData?.top_project_description} />
+                <SectionTerm name={t("Dev.DescDev")} description={tableData?.bio_description} />
+                <SectionTerm name={t("Dev.DescProjects")} description={tableData?.top_project_description} />
                 <HeaderSection nameSection={t('compound')} length={tableData?.compounds?.length === 0 ? t('NoResults') : tableData?.compounds?.length} />
                 <Box sx={{ width: '100%' }}> 
                     {

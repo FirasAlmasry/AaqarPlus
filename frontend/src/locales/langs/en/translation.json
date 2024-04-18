@@ -18,7 +18,22 @@
     "Founder":"Founders",
     "OurProducts":"Our Products",
     "OurNews": "Our News",
-    "Hero": {
+    "Price": "Price",
+    "MaxPrice": "Max Price",
+    "address": "Address",
+    "Amenities": "Amenities",
+    "PaymentPlans": "Payment Plans",
+    "ExplorePropertiesIn": "Explore Properties in",
+    "Reference": "Reference No",
+    "Bedrooms": "Bedrooms",
+    "Bathrooms": "Bathrooms",
+    "DeliveryIn": "DeliveryIn",
+    "Compound": "Compound",
+    "SaleType": "SaleType",
+    "Finishing": "Finishing",
+    "SuggestedProperties":"Suggested Properties",
+    "Description":"Description",
+        "Hero": {
         "title": "Find Your New Home",
         "desc": "Search  & Compare Among 5000+ Properities  and 500+ Compounds Or List your Old Property for Slae",
         "ReadMore": "Read More"
@@ -49,51 +64,12 @@
         "Location": "Location / Address",
         "Working": "Working Hours"
     },
-    "AboutUs": {
-        "TECHNICALSERVICESTitle": "ARD ALSAFA TECHNICAL SERVICES",
-        "TECHNICALSERVICESDesc": "would like to avail the opportunity to introduce themselves as an MEP contracting company established in Dubai, it has capability to execute complex projects of dierent residential commercial educational and industrial types and of various sizes, as well.It support all initiatives intend to make Dubparticular and the UAE in general as the smartest cities in the world, and it encourages sustainable development socially, economically and environmentally"
-    },
-    "Service": {
-        "OurService": "Our Service",
-        "title": "What We Do",
-        "description": "Ard Alsafa commitments are to provide the highest quality products and services for our Clients.",
-        "supDescription": " Ard Alsafa leaders hold this commitment as a critical business"
-    },
-    "UrbanDevelopment": {
-        "title": "Dubai urban development",
-        "description": "Dubai urban development The Emirate of Dubai is one of the most luxurious and luxurious cities in the world, and the development of Dubai's civilization and planning appears in its",
-        "supDescription": "buildings and towers, which are the tallest in the United Arab Emirates"
-    },
-    "OurValues": {
-        "title": "Our Core values"
-    },
-    "OurProjects": {
-        "title": "Our Projects",
-        "Proj1": "Commercial buildings",
-        "Proj2": "Medical and commercial centers",
-        "Proj3": "Residential villas"
-    },
-    "ContactUs": "Contact us",
-    "WhoWeAre": {
-        "title": "Who We Are",
-        "Introduction": "Introduction ",
-        "IntroductionDesc": "would like to avail the opportunity to introduce themselves as an MEP  contracting company established in Dubai, it has capability to execute complex  projects of dierent residential commercialeducational and industrial types and  of various sizes, as well.It support all initiatives intend to make Dubai in  particular and the UAE in general as the smartest cities in the world, and it  encourages sustainable development socially, economically and environmentally.",
-        "OurGuidelines": "Our guidelines are",
-        "OurGuidelines1": "Adding value to our clients.",
-        "OurGuidelines2": "Adopting, nurturing and promotion our talents.",
-        "OurGuidelines3": "Dedication towards delivery on time",
-        "OurGuidelines4": "Respecting our employees’ intense eorts and their contribution.",
-        "OurGuidelines5": "Our commitment against quality and safety. development.",
-        "OurMission": "Our Mission",
-        "OurMissionDesc": "Ard alsafa is supporting safety green buildings regulation in execution of their pertinent projects. As most MEP systems inspiriting buildings like most active systems in the human body,they have  to be strictly complied with green building regulations. The safer and greener MEP installations had been implemented in a building, the cleaner and safer environment, more happiness and welfare could be achieved for the UAE society  Ard alsafa supports all initiatives intend to make Dubai in particular and the UAE in general as the  smartest cities in the world, and encourages sustainable development socially, economically and  environmentally, and we are looking with great interest at Dubai as a good model to realize the  version of the wise rulers of the world-wide famous city-Dubai to achieve the best works in  construction development",
-        "OurVision": "Our Vision",
-        "OurVisionDesc1": "As Ard alsafa wasrst established, it is seeking to be one of the few leading players of construction world in the UAE, in order to support Dubai’s progress ",
-        "OurVisionDesc2": "Our aspiration is to become a sustainably growing and protable MEP & Low  CurrentEngineering & Contracting service provider through building eective  and ecient operations in UAE and to consolidate Loewe Electromechanical  Works as recognized quality centric brand in all oureldsof activities",
-        "OurVisionDesc3": "Guided by our vision and mission, we provide quality services exceeding all  expectations while adhering to the highest international standards of technical  and individual excellence through continuous improvement, training and  innovation."
-    },
-    "Projects": {
-        "title": "Project History",
-        "OurProjects": "Our Projects",
-        "SeeMore": "See More"
-    }
+    "Dev": {
+        "name":"Developer Name",
+        "Brief": "Brief",
+        "area": "Area",
+        "TopProjectsTitle": "Top Projects Title",
+        "DescDev": "Description Developer",
+        "DescProjects": "Description Top Projects"
+    } 
 }

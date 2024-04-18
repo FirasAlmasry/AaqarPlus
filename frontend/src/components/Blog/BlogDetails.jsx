@@ -7,6 +7,7 @@ import HeaderSection from '../global/HeaderSection'
 import { useGetBlogsIdQuery } from '../../state/blog'
 import i18next from 'i18next'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const BlogDetails = () => {
 
@@ -15,7 +16,7 @@ const BlogDetails = () => {
     let lng = i18next.language
     let { id } = useParams()
     const { data, isBrandsLoading } = useGetBlogsIdQuery({ lng, id });
-
+    const {t} = useTranslation()
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
         if (data && !isBrandsLoading) {
@@ -52,7 +53,7 @@ const BlogDetails = () => {
                             <HeaderSection nameSection={tableData?.name} />
                             <Typography color={'secondary.supMain'}>{tableData?.small_text}</Typography>
                             <Box sx={{ my:2 }}>
-                                <HeaderSection nameSection={`Description`} />
+                                <HeaderSection nameSection={t("Description")} />
                                 <div className="desc" dangerouslySetInnerHTML={{ __html: tableData?.large_text }}></div>
                             </Box>
                         </Box>
