@@ -5,12 +5,14 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Btn from './Btn';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 
 const CardArea = ({ img, Align, title, color, lengthCompounds, lengthDevelopers, id }) => {
 
-    // const navigate = useNavigate()
-
+    const {t} = useTranslation()
+    let lng = i18next.language
     return (
         <>
             <Card sx={{ maxWidth: '100%', m: 1, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)",  }} > 
@@ -24,14 +26,14 @@ const CardArea = ({ img, Align, title, color, lengthCompounds, lengthDevelopers,
                         <Typography gutterBottom variant="body2" component="div" color={'primary.main'} sx={{ textTransform: 'uppercase', fontWeight:'bold', mb:1 }} >
                             {title}
                         </Typography>
-                        <Btn path={`/area/${id}`}/>
+                        <Btn text={lng === 'en' ? 'See Details' :'المزيد'} path={`/area/${id}`}/>
                     </Box>
                     <Box>
                         <Typography variant="body2" color={color ? color : 'secondary.supMain'}>
-                            {lengthCompounds} Compounds
+                            {lengthCompounds} {t("compound")}
                         </Typography>
                         <Typography variant="body2" color={color ? color : 'secondary.supMain'}>
-                            {lengthDevelopers} Developers
+                            {lengthDevelopers} {t("Developers")}
                         </Typography>
                     </Box>
                 </CardContent>

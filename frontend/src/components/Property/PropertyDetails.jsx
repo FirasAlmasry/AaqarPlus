@@ -18,6 +18,7 @@ import { useGetPropertiesIdQuery } from '../../state/properties'
 import Description from '../global/Description'
 import { useGetCompoundsIdQuery } from '../../state/compounds'
 import ImageGallery from "react-image-gallery";
+
 // import stylesheet if you're not already using CSS @import
 import "react-image-gallery/styles/css/image-gallery.css";
 
@@ -28,7 +29,6 @@ const PropertyDetails = () => {
     const { data, isBrandsLoading } = useGetPropertiesIdQuery({ id, lng });
     
     const [tableData, setTableData] = useState([]);
-    console.log("🚀 ~ PropertyDetails ~ tableData:", tableData)
     const { data: Compound, isCompoundLoading } = useGetCompoundsIdQuery({ id: tableData?.compound_id , lng});
     const [CompoundData, setCompoundData] = useState([]);
 

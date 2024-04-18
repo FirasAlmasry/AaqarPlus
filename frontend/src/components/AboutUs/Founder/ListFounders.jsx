@@ -23,7 +23,7 @@ const ListFounders = () => {
     return (
         <>
             <WrapperSection>
-                <HeaderSection nameSection={t("Founders")} mb={2} />
+                <HeaderSection nameSection={t("Founder")} mb={2} />
                 <GlobalList>
                     {tableData?.map((res, i) =>
                         <Grid item md={3} xs={12} key={i} >

@@ -13,7 +13,9 @@ import mark from './../../assets/icons/Icon feather-bookmark.png'
 import whats from './../../assets/icons/Icon awesome-whatsapp.png'
 import phone from './../../assets/icons/Icon feather-phone.png'
 import Btn from './Btn';
+import i18next from 'i18next';
 const CardProperty = ({ img, Align, name, address, num1, num2, num3, month, years, price, is_favorite, whatsapp, phone_number, id }) => {
+    let lng = i18next.language
     return (
         <>
             <Card sx={{ maxWidth: '100%', m: 1, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)", }}>
@@ -30,17 +32,17 @@ const CardProperty = ({ img, Align, name, address, num1, num2, num3, month, year
                         <Typography gutterBottom variant="body2" component="div" color={'secondary.main'} sx={{ textTransform: 'uppercase', fontWeight: '500' }} >
                             {address}
                         </Typography>
-                        <Box sx={{ display:'flex', alignItems:'center', justifyContent:'space-evenly', gap:1 }} >
-                            <Box sx={{ display:'flex', alignItems:'center', gap:1, color:'#CACACA' }}>
-                                <CardMedia component={'img'} src={ic1} sx={{ width:'18px', height:'18px' }} />
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', gap: 1 }} >
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#CACACA' }}>
+                                <CardMedia component={'img'} src={ic1} sx={{ width: '18px', height: '18px' }} />
                                 {num1}
                             </Box>
-                            <Box sx={{ display:'flex', alignItems:'center', gap:1, color:'#CACACA' }}>
-                                <CardMedia component={'img'} src={ic2} sx={{ width:'18px', height:'18px' }} />
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#CACACA' }}>
+                                <CardMedia component={'img'} src={ic2} sx={{ width: '18px', height: '18px' }} />
                                 {num2}
                             </Box>
-                            <Box sx={{ display:'flex', alignItems:'center', gap:1, color:'#CACACA' }}>
-                                <CardMedia component={'img'} src={ic3} sx={{ width:'18px', height:'18px' }} />
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#CACACA' }}>
+                                <CardMedia component={'img'} src={ic3} sx={{ width: '18px', height: '18px' }} />
                                 {num3}
                             </Box>
                         </Box>
@@ -48,14 +50,15 @@ const CardProperty = ({ img, Align, name, address, num1, num2, num3, month, year
                             <Typography>{month} Monthly</Typography> / <Typography>{years} years</Typography>
                         </Box>
                         <Typography>{price}</Typography>
-                        <Btn text={'See Details'} path={`/property/${id}`} />
+                        <Btn text={lng === 'en' ? 'See Details' : 'المزيد'}
+                            path={`/property/${id}`} />
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', gap: 2 }} >
-                        <Box sx={{ borderRadius:'50%', background:'#E6E3DE'  }} >
-                            <CardMedia component={'img'} src={is_favorite ? heart : fiv} sx={{ m:1, width:'15px', height:'15px', objectFit:'contain' }} />
+                        <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
+                            <CardMedia component={'img'} src={is_favorite ? heart : fiv} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                         </Box>
-                        <Box sx={{ borderRadius:'50%', background:'#E6E3DE'  }} >
-                            <CardMedia component={'img'} src={mark} sx={{ m:1, width:'15px', height:'15px', objectFit:'contain' }} />
+                        <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
+                            <CardMedia component={'img'} src={mark} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                         </Box>
                         <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
                             <a href={`tel:${whatsapp}`} target="_blank" rel="noopener noreferrer">

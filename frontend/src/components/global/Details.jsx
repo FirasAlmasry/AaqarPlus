@@ -1,7 +1,9 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
 import Btn from './Btn'
+import i18next from 'i18next'
 const Details = ({ title, startPrice, endPrice, address, whatsapp, phone_number, children }) => {
+    let lng = i18next.language 
     return (
         <>
             <Box sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
@@ -17,10 +19,10 @@ const Details = ({ title, startPrice, endPrice, address, whatsapp, phone_number,
                 </Box>
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }} >
                     <a href={`tel:${whatsapp}`} target="_blank" rel="noopener noreferrer">
-                        <Btn bg={`#088D2B`} text='Whatsapp' />
+                        <Btn bg={`#088D2B`} text={lng === 'en' ? 'Whatsapp': 'واتس اب'} />
                     </a>
                     <a href={`tel:${phone_number}`} target="_blank" rel="noopener noreferrer">
-                        <Btn bg={`#E00201`} text='Call Us' />
+                        <Btn bg={`#E00201`} text={lng === 'en' ? 'Call Us': 'اتصل بنا'} />
                     </a>
                 </Box>
             </Box>

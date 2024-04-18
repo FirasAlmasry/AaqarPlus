@@ -52,6 +52,11 @@ const { t } = useTranslation()
                         shape="rounded"
                         page={currentPage}
                         onChange={(event, value) => onPageChange(value)}
+                        sx={{
+                            '.MuiPaginationItem-icon': {
+                                transform: lng === 'ar' ? 'rotate(180deg)' : 'rotate(0deg)'
+                            }
+                        }}
                     />
                 </Stack>
             </WrapperSection>

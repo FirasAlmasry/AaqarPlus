@@ -7,14 +7,14 @@ import Box from '@mui/material/Box';
 import whats from './../../assets/icons/Icon awesome-whatsapp.png'
 import phone from './../../assets/icons/Icon feather-phone.png'
 import Btn from './Btn';
+import i18next from 'i18next';
 const CardCompound = ({ img, Align, name, address, month, years, price, whatsapp, phone_number, id, }) => {
-    console.log("🚀 ~ CardCompound ~ phone_number:", phone_number)
-    console.log("🚀 ~ CardCompound ~ whatsapp:", whatsapp)
+     let lng = i18next.language 
     return (
         <>
             <Card sx={{ maxWidth: '100%', m: 1, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)", }}>
                 <CardMedia
-                    sx={{ height: 250, backgroundSize: '100% 100%' }}
+                    sx={{ height: 240, backgroundSize: '100% 100%' }}
                     image={img}
                     title="green iguana"
                 />
@@ -42,7 +42,7 @@ const CardCompound = ({ img, Align, name, address, month, years, price, whatsapp
                                 </Box>
                             </Box>
                         </Box>
-                        <Btn path={`/compound/${id}`} />
+                        <Btn text={lng === 'en' ? 'See Details' :'المزيد'} path={`/compound/${id}`} />
                     </Box>
                 </CardContent>
             </Card>

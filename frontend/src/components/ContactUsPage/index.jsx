@@ -56,14 +56,14 @@ const ContactUsPage = () => {
                                     <Box sx={{ display: 'flex', flexDirection:{md:'row', xs:'column'}, gap: { md: 4, xs: 1 }, ml: { md: 4, xs: 0 } }} >
                                         <CardMedia src={location} component={'img'} sx={{ width: {md:'7%',xs:'20%'}, m:{md:0,xs:'auto'}, objectFit:'contain' }} />
                                         <Box>
-                                            <Typography color={'primary.main'} variant={isMobile ? 'h6' : 'h6'} sx={{ my: 1.2 }} >{t("Contacts.AcceptableUse")}</Typography>
+                                            <Typography color={'primary.main'} variant={isMobile ? 'h6' : 'h6'} sx={{ my: 1.2 }} >{t("Contacts.Location")}</Typography>
                                             <Typography color={'secondary.supMain'} sx={{ my: 1.2 }} ><div dangerouslySetInnerHTML={{ __html: tableData?.address }}></div></Typography>
                                         </Box>
                                     </Box>
                                 </Grid>
                                 <Grid item xs={12} >
                                     <Box sx={{ ml:4 }} >
-                                        <Typography color={'primary.main'} variant={isMobile ? 'h6' : 'h6'} sx={{ my: 1.2 }} >{t("Contacts.AutomatedQueries")}</Typography>
+                                        <Typography color={'primary.main'} variant={isMobile ? 'h6' : 'h6'} sx={{ my: 1.2 }} >{t("Contacts.Working")}</Typography>
                                         <Typography color={'secondary.supMain'} sx={{ my: 1.2 }} >{contactData?.working_hours}</Typography>
                                     </Box>
                                 </Grid>

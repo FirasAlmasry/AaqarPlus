@@ -6,16 +6,16 @@ import { enUS, frFR, zhCN, viVN, arSA } from '@mui/material/locale';
 
 export const allLangs = [
   {
-    label: 'Arabic (Sudan)',
-    value: 'ar',
-    systemValue: arSA,
-    icon: '/assets/icons/flags/ic_flag_sa.svg',
-  },
-  {
     label: 'English',
     value: 'en',
     systemValue: enUS,
     icon: '/assets/icons/flags/ic_flag_en.svg',
+  },
+  {
+    label: 'Arabic (Sudan)',
+    value: 'ar',
+    systemValue: arSA,
+    icon: '/assets/icons/flags/ic_flag_sa.svg',
   },
   {
     label: 'French',

@@ -47,7 +47,7 @@ i18n
     debug: true,
     // fallbackLng: 'ar',
     saveMissing: true,
-    default: 'ar',
+    default: 'en',
     backend: {
       loadPath: '../locales/langs/{{lng}}/translation.json',
     },
