@@ -49,6 +49,8 @@ import { useGetCoinsQuery } from "../../../state/coins";
 import { useGetAttachedsQuery } from "../../../state/facilities";
 import { useTheme } from "@emotion/react";
 
+
+
 // ----------------------------------------------------------------------
 
 CompoundsNewEditForm.propTypes = {
@@ -124,6 +126,9 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
         setAttached(value);
     };
 
+    
+
+
     const NewCompoundsSchema = Yup.object().shape({
         name: Yup.object({
             en: Yup.string().required("name en is required"),
@@ -189,6 +194,10 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [currentService]
     );
+    const formatNumber = (number) => {
+        // تحويل الرقم إلى سلسلة نصية وتنسيقه بواسطة RegExp
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    };
 
     const methods = useForm({
         resolver: yupResolver(NewCompoundsSchema),
@@ -221,6 +230,9 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
 
     const onSubmit = async (data) => {
         try {
+            // تحويل القيمة من نص إلى رقم
+            const startPrice = parseFloat(data.start_price.replace(/,/g, ''));
+            const endPrice = parseFloat(data.end_price.replace(/,/g, ''));
             // const data = new FormData();
             const formData = new FormData();
             formData.append("ar_name", data.name.ar);
@@ -233,8 +245,8 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
             formData.append("en_payment_plans", data.payment_plans.en);
             formData.append("phone_number", data.phone_number);
             formData.append("whatsapp", data.whatsapp);
-            formData.append("start_price", data.start_price);
-            formData.append("end_price", data.end_price);
+            formData.append("start_price", startPrice);
+            formData.append("end_price", endPrice);
             formData.append("trending", data.trending);
             formData.append("url_location", data.url_location);
             formData.append("developer_id", Devi);
@@ -314,6 +326,9 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
     const handleRemoveAllFiles = () => {
         setValue('files', []);
     };
+
+    
+
 
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -446,8 +461,27 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
                             <RHFTextField name="address.en" label="Address en" />
                             <RHFTextField name="phone_number" label="Phone Number" />
                             <RHFTextField name="whatsapp" label="Whatsapp" />
-                            <RHFTextField name="start_price" label="Start price" />
-                            <RHFTextField name="end_price" label="End price" />
+                            <RHFTextField
+                                name="start_price"
+                                label="Start price"
+                                onChange={(e) => {
+                                    const { value } = e.target;
+                                    // تنسيق القيمة عند التغيير وتحديثها في الحالة
+                                    const formattedValue = formatNumber(value.replace(/,/g, ''));
+                                    setValue('start_price', formattedValue, { shouldValidate: true });
+                                }}
+                            />
+
+                            <RHFTextField
+                                name="end_price"
+                                label="End price"
+                                onChange={(e) => {
+                                    const { value } = e.target;
+                                    // تنسيق القيمة عند التغيير وتحديثها في الحالة
+                                    const formattedValue = formatNumber(value.replace(/,/g, ''));
+                                    setValue('end_price', formattedValue, { shouldValidate: true });
+                                }}
+                            /> 
                             <Box >
                                 <InputLabel id="Dev">Developer</InputLabel>
                                 <Select

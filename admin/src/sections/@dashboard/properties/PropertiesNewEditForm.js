@@ -257,18 +257,19 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
         is_available: Yup.string().required("is_available en is required"),
         // developer_id: Yup.string(),
         monthly_installment: Yup.number(),
-        down_payment: Yup.number(),
+        down_payment: Yup.string(),
         installment_years: Yup.string(),
         compound_id: Yup.string(),
         finish_id: Yup.string(),
         url_location: Yup.string(),
         coin_id: Yup.string(),
         payment_method: Yup.string(),
-        initial_payment: Yup.number(),
+        // initial_payment: Yup.number(),
+        initial_payment: Yup.string(),
         image_floor_plan: Yup.mixed(),
         master_plan: Yup.mixed(),
-        start_price: Yup.number().required("start_price en is required"),
-        end_price: Yup.number().required("end_price en is required"),
+        start_price: Yup.string().required("start_price en is required"),
+        end_price: Yup.string().required("end_price en is required"),
         attached: Yup.array(),
         files: Yup.array().required('required'),
     });
@@ -316,7 +317,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             url_location: currentService?.property?.url_location || '',
             image_floor_plan: currentService?.property?.image_floor_plan || [],
             master_plan: currentService?.property?.master_plan || [],
-            initial_payment: currentService?.property?.initial_payment || '',
+            initial_payment: currentService?.property?.initial_payment || '0',
             payment_method: TargetMethod || '',
             compound_id: CompoundsId || '',
             finish_id: FinishingId || '',
@@ -356,9 +357,21 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
     const { refetch } = useGetPropertiesQuery();
     const [addProperties] = useAddPropertiesMutation()
     const [EditProperties] = useEditPropertiesMutation()
+
+    const formatNumber = (number) => {
+        // تحويل الرقم إلى سلسلة نصية وتنسيقه بواسطة RegExp
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    };
+
     const onSubmit = async (data) => {
         console.log(data);
         try {
+            // تحويل القيمة من نص إلى رقم
+            const startPrice = parseFloat(data.start_price.replace(/,/g, ''));
+            const endPrice = parseFloat(data.end_price.replace(/,/g, ''));
+            // const installmentYears = parseFloat(data.installment_years.replace(/,/g, ''));
+            const initialPayment = parseFloat(data.initial_payment.replace(/,/g, ''));
+            const downPayment = parseFloat(data.down_payment.replace(/,/g, ''));
             // const data = new FormData();
             const formData = new FormData();
             formData.append("ar_name", data.name.ar);
@@ -375,8 +388,8 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             formData.append("en_payment_plans_title", data.payment_plans_title.en);
             formData.append("phone_number", data.phone_number);
             formData.append("whatsapp", data.whatsapp);
-            formData.append("start_price", data.start_price);
-            formData.append("end_price", data.end_price);
+            formData.append("start_price", startPrice);
+            formData.append("end_price", endPrice);
             formData.append("house_area", data.house_area);
             formData.append("bedrooms", data.bedrooms);
             formData.append("bathrooms", data.bathrooms);
@@ -387,11 +400,12 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             formData.append("is_available", data.is_available);
             formData.append("url_location", data.url_location);
             formData.append("payment_method", TargetMethod);
-            formData.append("initial_payment", data.initial_payment);
+            formData.append("initial_payment", initialPayment);
+            // formData.append("initial_payment", data.initial_payment);
             formData.append("property_type_id", TypeId);
             formData.append("compound_id", CompoundsId);
             formData.append("finish_id", FinishingId);
-            formData.append("down_payment", data.down_payment);
+            formData.append("down_payment", downPayment);
             formData.append("coin_id", coin);
             Attached?.map((res) => formData.append("attached[]", res));
             if (typeof data.image_floor_plan === 'object' && data.image_floor_plan instanceof File) {
@@ -510,8 +524,27 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                             <RHFTextField name="address.en" label="Address en *" />
                             <RHFTextField name="phone_number" label="Phone Number *" />
                             <RHFTextField name="whatsapp" label="Whatsapp *" />
-                            <RHFTextField name="start_price" label="Start Price *" />
-                            <RHFTextField name="end_price" label="End Price *" />
+                            <RHFTextField
+                                name="start_price"
+                                label="Start price *"
+                                onChange={(e) => {
+                                    const { value } = e.target;
+                                    // تنسيق القيمة عند التغيير وتحديثها في الحالة
+                                    const formattedValue = formatNumber(value.replace(/,/g, ''));
+                                    setValue('start_price', formattedValue, { shouldValidate: true });
+                                }}
+                            />
+
+                            <RHFTextField
+                                name="end_price"
+                                label="End price *"
+                                onChange={(e) => {
+                                    const { value } = e.target;
+                                    // تنسيق القيمة عند التغيير وتحديثها في الحالة
+                                    const formattedValue = formatNumber(value.replace(/,/g, ''));
+                                    setValue('end_price', formattedValue, { shouldValidate: true });
+                                }}
+                            /> 
                             {/* coins */}
                             <Box >
                                 <InputLabel id="coin">Currency *</InputLabel>
@@ -633,11 +666,22 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     {method?.map((res) => <MenuItem value={res}>{res}</MenuItem>)}
                                 </Select>
                             </Box>
-                            {TargetMethod === 'installment' &&  <RHFTextField name="initial_payment" label="Initial Payment" />}
+                            {/* {TargetMethod === 'installment' && <RHFTextField name="initial_payment" label="Initial Payment" />} */}
+                            {TargetMethod === 'installment' && <RHFTextField name="initial_payment" label="Initial Payment" onChange={(e) => {
+                                const { value } = e.target;
+                                // تنسيق القيمة عند التغيير وتحديثها في الحالة
+                                const formattedValue = formatNumber(value.replace(/,/g, ''));
+                                setValue('initial_payment', formattedValue, { shouldValidate: true });
+                            }} />}
                             <RHFTextField name="payment_plans_title.ar" label="Payment Plans Title ar *" />
                             <RHFTextField name="payment_plans_title.en" label="Payment Plans Title en *" />
                             <RHFTextField name="monthly_installment" label="Monthly Installment" />
-                            <RHFTextField name="down_payment" label="Down Payment" />
+                            <RHFTextField name="down_payment" label="Down Payment" onChange={(e) => {
+                                const { value } = e.target;
+                                // تنسيق القيمة عند التغيير وتحديثها في الحالة
+                                const formattedValue = formatNumber(value.replace(/,/g, ''));
+                                setValue('down_payment', formattedValue, { shouldValidate: true });
+                            }} />
                             <RHFTextField name="installment_years" label="Installment Years" />
                         </Box> 
                         {/* Desc Arabic*/}

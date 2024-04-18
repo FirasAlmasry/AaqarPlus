@@ -1,9 +1,9 @@
 {
-  "name": "@minimal/minimal-kit-react",
-  "author": "Minimals UI",
+  "name": "admin_plus",
+  "author": "admin plus",
   "version": "4.3.0",
   "description": "Javascript Version",
-  "homepage": ".",
+  "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

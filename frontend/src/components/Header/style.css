@@ -1,0 +1,28 @@
+
+
+.textSlide {
+      display: flex;
+    flex-direction: column;
+    gap: 32px;
+    position: absolute;
+    top: 50%;
+    z-index: 9;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+}
+
+@media only screen and (max-width: 767px) {
+.textSlide {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  top: 50%;
+  z-index: 9;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  width: 100%;
+}
+}

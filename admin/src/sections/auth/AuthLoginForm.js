@@ -29,8 +29,8 @@ export default function AuthLoginForm() {
   });
 
   const defaultValues = {
-    email: 'admin@admin.com',
-    password: '12345678',
+    email: 'admin@aqarplus.eg.com',
+    password: '******',
   };
 
   const methods = useForm({
@@ -83,15 +83,6 @@ export default function AuthLoginForm() {
       </Stack>
 
       <Stack alignItems="flex-end" sx={{ my: 2 }}>
-        {/* <Link
-          component={RouterLink}
-          to={PATH_AUTH.resetPassword}
-          variant="body2"
-          color="inherit"
-          underline="always"
-        >
-          Forgot password?
-        </Link> */}
       </Stack>
 
       <LoadingButton

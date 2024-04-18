@@ -48,12 +48,12 @@ export default function NavVertical({ openNav, onCloseNav }) {
       }}
     >
       <Stack
-        spacing={3}
+        // spacing={3}
         sx={{
           pt: 3,
           pb: 0,
           px: 2.5,
-          flexShrink: 0,
+          flexShrink: 1,
         }}
       >
         <Logo />

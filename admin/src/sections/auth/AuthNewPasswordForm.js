@@ -5,14 +5,14 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, FormHelperText } from '@mui/material';
+import { Stack, IconButton, InputAdornment} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 import Iconify from '../../components/iconify';
 import { useSnackbar } from '../../components/snackbar';
-import FormProvider, { RHFTextField, RHFCodes } from '../../components/hook-form';
+import FormProvider, { RHFTextField} from '../../components/hook-form';
 import { useNewPassMutation } from '../../state/ApiAuth';
 
 // ----------------------------------------------------------------------

@@ -1,16 +1,15 @@
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, FormHelperText } from '@mui/material';
+import { Stack} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 import { useSnackbar } from '../../components/snackbar';
-import FormProvider, { RHFCodes } from '../../components/hook-form';
+import FormProvider from '../../components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +44,7 @@ export default function AuthVerifyCodeForm() {
 
   const {
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {

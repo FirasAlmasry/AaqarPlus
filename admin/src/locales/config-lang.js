@@ -29,12 +29,12 @@ export const allLangs = [
   //   systemValue: zhCN,
   //   icon: '/assets/icons/flags/ic_flag_cn.svg',
   // },
-  {
-    label: 'Arabic (Sudan)',
-    value: 'ar',
-    systemValue: arSA,
-    icon: '/assets/icons/flags/ic_flag_sa.svg',
-  },
+  // {
+  //   label: 'Arabic (Sudan)',
+  //   value: 'ar',
+  //   systemValue: arSA,
+  //   icon: '/assets/icons/flags/ic_flag_sa.svg',
+  // },
 ];
 
 export const defaultLang = allLangs[0]; // English

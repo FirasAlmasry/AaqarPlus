@@ -5,7 +5,8 @@ import axios from '../utils/axios';
 import localStorageAvailable from '../utils/localStorageAvailable';
 //
 import { isValidToken, setSession } from './utils';
-
+import { PATH_AUTH } from '../routes/paths';
+import { useHistory } from 'react-router-dom';
 // ----------------------------------------------------------------------
 
 // NOTE:
@@ -71,16 +72,11 @@ export function AuthProvider({ children }) {
   const initialize = useCallback(async () => {
     try {
       const accessToken = storageAvailable ? localStorage.getItem('accessToken') : '';
-      console.log("🚀 ~ initialize ~ accessToken:", accessToken)
-      const user = storageAvailable ? JSON.parse(localStorage.getItem('user')) : '';
-
-      if (accessToken && user) {
+      
+      if (accessToken) {
         setSession(accessToken);
-
-        // const response = await axios.get('/api/account/my-account');
-
-        // const { user } = response.data;
-
+        const user = storageAvailable ? JSON.parse(localStorage.getItem('user')) : '';
+        console.log("🚀 ~ initialize ~ user:", user)
         dispatch({
           type: 'INITIAL',
           payload: {
@@ -96,6 +92,7 @@ export function AuthProvider({ children }) {
             user: null,
           },
         });
+        // window.location.href = PATH_AUTH.login
       }
     } catch (error) {
       console.error(error);
@@ -106,8 +103,10 @@ export function AuthProvider({ children }) {
           user: null,
         },
       });
+      // window.location.href = PATH_AUTH.login
     }
   }, [storageAvailable]);
+
 
   useEffect(() => {
     initialize();
@@ -119,13 +118,10 @@ export function AuthProvider({ children }) {
       email,
       password,
     });
-    console.log("🚀 ~ login ~ response:", response)
     const { ...user } = response.data;
-    const { token } = response.data.data;
-    console.log("🚀 ~ login ~ token:", token)
     localStorage.setItem('user', JSON.stringify(user));
     setSession(response?.data?.data.token);
-    localStorage.setItem('accessToken', response?.data?.data.token);
+    // localStorage.setItem('accessToken', response?.data?.data.token);
     dispatch({
       type: 'LOGIN',
       payload: {
@@ -143,7 +139,6 @@ export function AuthProvider({ children }) {
     });
     console.log("🚀 ~ register ~ response.data.data:", response?.data)
     const { token, user } = response.data;
-    console.log("🚀 ~ register ~ token:", token)
 
     localStorage.setItem('accessToken', token);
 
@@ -166,6 +161,7 @@ export function AuthProvider({ children }) {
   const logout = useCallback(() => {
     axios.post('/admin/logout')
     setSession(null);
+    localStorage.removeItem('user');
     console.log('logUot')
     
     dispatch({

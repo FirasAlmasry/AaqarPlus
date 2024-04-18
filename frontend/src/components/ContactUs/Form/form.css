@@ -1,0 +1,13 @@
+.input {
+    background-color: #FFF !important;
+    width: 100%;
+        /* border: none !important; */
+    outline: none !important;
+    padding: 18px;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+}
+
+.css-11nnf0g-MuiFormControl-root-MuiTextField-root {
+    background-color: #FFF !important;
+}

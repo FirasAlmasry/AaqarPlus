@@ -6,6 +6,7 @@ import axios from '../utils/axios';
 // ----------------------------------------------------------------------
 
 function jwtDecode(token) {
+  console.log("🚀 ~ jwtDecode ~ token:", token)
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   const jsonPayload = decodeURIComponent(
@@ -22,6 +23,7 @@ function jwtDecode(token) {
 // ----------------------------------------------------------------------
 
 export const isValidToken = (accessToken) => {
+  console.log("🚀 ~ isValidToken ~ accessToken:", accessToken)
   if (!accessToken) {
     return false;
   }
