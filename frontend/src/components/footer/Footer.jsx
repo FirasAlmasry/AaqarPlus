@@ -4,7 +4,7 @@ import Logo from './logo'
 import Areas from './Areas'
 import Compounds from './Compounds'
 import Property from './Property'
-import img from './../../assets/foot.png'
+// import img from './../../assets/foot.png'
 import { useTranslation } from 'react-i18next'
 
 const Footer = () => {
@@ -13,9 +13,9 @@ const Footer = () => {
         <>
             <footer>
                 <Box position={'relative'} sx={{
-                    backgroundImage: `url(${img})`, minHeight: { md: '20rem', xs: '950px' }, display: 'flex', alignItems: 'center', backgroundSize: '100% 100%', position: 'relative'
+                    background: 'rgba(235, 235, 235, 90%)', py: 3, display: 'flex', alignItems: 'center', position: 'relative'
                 }} >
-                    <Box sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(255,255,255, 80%)', py: 3 }} >
+                    {/* <Box sx={{ position: 'relative', width: '100%', height: '100%', background: 'rgba(255,255,255, 80%)', py: 3 }} > */}
                         <Container maxWidth={'lg'} >
                             <Grid container spacing={1} >
                                 <Grid item md={3} xs={12}>
@@ -35,7 +35,7 @@ const Footer = () => {
                                 {t("copeRight")}
                             </Typography>
                         </Container>
-                    </Box>
+                    {/* </Box> */}
                 </Box>
             </footer>
         </>
