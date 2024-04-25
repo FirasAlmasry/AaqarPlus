@@ -6,8 +6,10 @@ import Gallery from './../../assets/icons/image-gallery.png'
 import Master from './../../assets/icons/master-plan.png'
 // import Map from './../../assets/icons/location.png'
 import BoxDrawer from './BoxDrawer'
+import i18next from 'i18next'
 
 const GalleryProperty = ({ tableData }) => {
+    let lng = i18next.language
     const [selectedBox, setSelectedBox] = useState(null);
     const [drawer, setDrawer] = useState(false);
     const handleBoxClick = (box) => {
@@ -17,7 +19,7 @@ const GalleryProperty = ({ tableData }) => {
 
     return (
         <>
-            <HeaderSection nameSection={'Details'} />
+            <HeaderSection nameSection={lng === 'en' ? 'Details': "تفاصيل"} />
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 2, flexWrap: 'wrap' }} >
                 {tableData?.image_floor_plan &&
                     <Box sx={{ border: "1px solid #707070", p: 1, m: 1, borderRadius: '8px' }}

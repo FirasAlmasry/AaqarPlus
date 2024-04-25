@@ -8,12 +8,12 @@ import MultiItemSlider from '../global/MultiItemSlider'
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-const TopProperty = () => {
+const AvailableUnits = () => {
 
     const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
-    const { t } = useTranslation()
-    const { data, isBrandsLoading } = useGetPropertiesQuery({ lng, trending: 1 });
+
+    const { data, isBrandsLoading } = useGetPropertiesQuery({ lng });
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
@@ -21,15 +21,17 @@ const TopProperty = () => {
             setTableData(data?.data?.data)
         }
     }, [data, tableData, isBrandsLoading])
+    const available = tableData?.filter(res => res?.is_available === 1)
+    const { t } = useTranslation()
 
 
     return (
         <>
             <WrapperSection>
                 <Box sx={{ width: '100%' }}>
-                    <HeaderSection nameSection={t("Top") + t("Properties")} length={tableData?.length} />
+                    <HeaderSection nameSection={t("AvailableUnits")} length={available?.length} />
                     <MultiItemSlider>
-                        {tableData?.map(res =>
+                        {available?.map(res =>
                             <Box key={res?.id} sx={{ my: 2 }}>
                                 <CardProperty img={url + res?.master_plan}
                                     name={res?.name}
@@ -53,4 +55,4 @@ const TopProperty = () => {
     )
 }
 
-export default TopProperty
+export default AvailableUnits

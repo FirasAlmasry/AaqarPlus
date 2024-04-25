@@ -7,21 +7,7 @@
     color:#f00000;
     text-decoration: underline;
 }
-
-@media only screen and (max-width: 767px) {
-
-    .link {
-        color:#10446F;
-        text-decoration: none;
-        transition: 0.5s;
-    }
-    .link:hover {
-        color:#f00000;
-        text-decoration: underline;
-    }
-
-
-}
+.nav-logo {height: 45px;}
 
 .bgC::before {
     content: '';
@@ -59,4 +45,16 @@
     left: 0%;
     transform: translateX(70%);
 }
+
+    .link {
+        color:#10446F;
+        text-decoration: none;
+        transition: 0.5s;
+    }
+    .link:hover {
+        color:#f00000;
+        text-decoration: underline;
+    }
+    .nav-logo {height: 45px;}
+
 }

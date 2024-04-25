@@ -7,9 +7,9 @@ export const ApiAuth = api.injectEndpoints({
         getProperties: build.query({
             query: ({ lng, trending, currentPage }) => {
                 if (trending === 1) {
-                    return `/properties?local=${lng}&trending=${trending}`;
+                    return `/properties?local=${lng}&trending=${trending}`; 
                 } else {
-                    return `/properties?local=${lng}&page=${currentPage}&per_page=9`;
+                    return `/properties?local=${lng}&page=${currentPage}&per_page=9`; 
                 }
             },
             providesTags: ["properties"],

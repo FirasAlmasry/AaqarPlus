@@ -37,18 +37,18 @@ export const Pages = [
         },
         {
                 path: `properties`,
-                name:`المشاريع`,
-                name_en:`properties`
+                name:`الوحدات المتاحة`,
+                name_en:`Available Units`
         },
         {
                 path: `income-property`,
                 name:` المشاريع القادمة`,
-                name_en:`Income Property`
+                name_en:`Launching Soon`
         },
         {
                 path: `design`,
-                name:`تصميم`,
-                name_en:`Design`
+                name:`التصميم الداخلي والديكورات`,
+                name_en:`Internal Designs`
         },
         {
                 path: `terms`,

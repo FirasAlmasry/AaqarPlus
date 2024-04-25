@@ -30,16 +30,22 @@
     "DeliveryIn": "DeliveryIn",
     "Compound": "Compound",
     "SaleType": "SaleType",
+    "UnitType":"Unit Type",
+    "search":"Area, City , Country",
     "Finishing": "Finishing",
     "SuggestedProperties":"Suggested Properties",
     "Description":"Description",
+    "AvailableUnits": "Available Units ", 
+    "Trending": "Trending",
+    "btn":"Search",
+    "LaunchingSoon":"Launching Soon",
         "Hero": {
         "title": "Find Your New Home",
         "desc": "Search  & Compare Among 5000+ Properities  and 500+ Compounds Or List your Old Property for Slae",
         "ReadMore": "Read More"
     },
     "Explore" : {
-        "title":"Explore New Projects",
+        "title":"Explore Developers",
         "desc":"All You Need To Know About Trending And Up Coming Projects",
         "btn": "View All"
     },

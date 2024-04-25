@@ -28,7 +28,7 @@ const Form = () => {
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', textAlign:'left' }} >
                                 <Box sx={{ width: { md: '100%', xs: '100%' }, }}>
                                     <InputLabel htmlFor="bootstrap-input" sx={{ my: 1 }} >
-                                        Name <span style={{ color: '#FFA53B' }} >*</span>
+                                        Name <span style={{ color: '#FFA53B' }} >*</span> 
                                     </InputLabel>
                                     <input
                                         style={{ backgroundColor: '#FFF' }}

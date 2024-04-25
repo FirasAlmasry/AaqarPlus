@@ -44,7 +44,7 @@ export default function NavDrawer({ setDrawer, drawer }) {
                                 alignItems: "center",
                             }}>
                             <Link to="/">
-                                <img src={logo} alt="logo" style={{ width:'50%' }} className="nav-logo" ></img>
+                                <img src={logo} alt="logo" style={{ width:'50%' }} ></img>
                             </Link>
                             <IconButton onClick={() => setDrawer(false)}>
                                 {/* <img src={close} style={{ height:'20px' }} alt="close" ></img> */}

@@ -44,7 +44,8 @@ url_location
                         height: '100% !important ',
                         borderBottomRightRadius: '16px',
                         overflow: 'hidden',
-                        width: '40vw'
+                        width: { md: '40vw', xs:'80vw'},
+                        px:3
                     },
                     position: 'relative',
                 }}

@@ -10,11 +10,22 @@ import TransLang from "./TransLang"
 import logo from './../../assets/logo.png'
 import './Nav.css'
 // import theme from './../../util/theme';
-import { Pages } from "../../constants";
+// import { Pages } from "../../constants";
 import i18next from "i18next";
 import Auth from "./Auth";
+import MenuItems from "./MenuItems";
+import MenuItem from '@mui/material/MenuItem';
+import theme from "../../util/theme";
 
 function NavBar() {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     let lng = i18next.language
     const [drawer, setDrawer] = useState(false);
     const location = useLocation();
@@ -25,10 +36,10 @@ function NavBar() {
                 style={{
                     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                     padding: "10px",
-                    position: path === 'auth' ? 'relative' :'fixed',
-                    top:0,
-                    zIndex: 999, 
-                    backgroundColor:'rgba(235, 235, 235, 90%)'
+                    position: path === 'auth' ? 'relative' : 'sticky',
+                    top: 0,
+                    zIndex: 999,
+                    backgroundColor: 'rgba(235, 235, 235, 90%)'
                 }}>
                 {/* <div className={lng === 'ar' ? "bgC" : "bgCEn"}></div> */}
                 <Container maxWidth="100%">
@@ -40,7 +51,7 @@ function NavBar() {
                                 marginInlineStart: 1,
                                 display: { md: "flex", xs: "none" },
                                 alignItems: "center",
-                                justifyContent: 'space-between'
+                                justifyContent: 'space-between',
                             }}>
                             <Link
                                 to="/"
@@ -48,7 +59,7 @@ function NavBar() {
                                     textDecoration: "none",
                                     marginInlineStart: 8
                                 }}>
-                                <img src={logo} height={60} alt="logo" className="nav-logo" />
+                                <img src={logo} alt="logo" className="nav-logo" />
                             </Link>
                             <Box
                                 sx={{
@@ -57,19 +68,117 @@ function NavBar() {
                                     alignItems: 'center',
                                     width: '90%'
                                 }}>
-                                { 
+                                <Link
+                                    to={'/'}
+                                    style={{ textTransform: 'capitalize', }}
+                                    className="link">
+                                    {lng === 'en' ? 'Home': 'الرئيسية'}
+                                </Link>
+                                <MenuItems name={lng === 'en' ? 'Available Units': "الوحدات المتاحة"} handleClick={handleClick} anchorEl={anchorEl} open={open} handleClose={handleClose} >
+                                    <Link
+                                        to={'/'}
+                                        style={{ textTransform: 'capitalize', }}
+                                        className="link">
+                                        <MenuItem onClick={handleClose} disableRipple>
+                                            Unit1
+                                        </MenuItem>
+                                    </Link>
+                                    <Link
+                                        to={'/'}
+                                        style={{ textTransform: 'capitalize', }}
+                                        className="link">
+                                        <MenuItem onClick={handleClose} disableRipple>
+                                            Unit2
+                                        </MenuItem>
+                                    </Link>
+                                    <Link
+                                        to={'/'}
+                                        style={{ textTransform: 'capitalize', }}
+                                        className="link">
+                                        <MenuItem onClick={handleClose} disableRipple>
+                                            Unit3
+                                        </MenuItem>
+                                    </Link>
+                                </MenuItems>
+                                <MenuItems name={lng === 'en' ? 'Top Compounds': "اهم المجمعات السكنية"} handleClick={handleClick} anchorEl={anchorEl} open={open} handleClose={handleClose} >
+                                    <Link
+                                        to={'/'}
+                                        style={{ textTransform: 'capitalize', }}
+                                        className="link">
+                                        <MenuItem onClick={handleClose} disableRipple>
+                                            Unit1
+                                        </MenuItem>
+                                    </Link>
+                                    <Link
+                                        to={'/'}
+                                        style={{ textTransform: 'capitalize', }}
+                                        className="link">
+                                        <MenuItem onClick={handleClose} disableRipple>
+                                            Unit2
+                                        </MenuItem>
+                                    </Link>
+                                    <Link
+                                        to={'/'}
+                                        style={{ textTransform: 'capitalize', }}
+                                        className="link">
+                                        <MenuItem onClick={handleClose} disableRipple>
+                                            Unit3
+                                        </MenuItem>
+                                    </Link>
+                                </MenuItems>
+                                <MenuItems name={lng === 'en' ? 'Countries To Invot In': "أستثمر بالخارج"} handleClick={handleClick} anchorEl={anchorEl} open={open} handleClose={handleClose} >
+                                    <Link
+                                        to={'/'}
+                                        style={{ textTransform: 'capitalize', }}
+                                        className="link">
+                                        <MenuItem onClick={handleClose} disableRipple>
+                                            Unit1
+                                        </MenuItem>
+                                    </Link>
+                                    <Link
+                                        to={'/'}
+                                        style={{ textTransform: 'capitalize', }}
+                                        className="link">
+                                        <MenuItem onClick={handleClose} disableRipple>
+                                            Unit2
+                                        </MenuItem>
+                                    </Link>
+                                    <Link
+                                        to={'/'}
+                                        style={{ textTransform: 'capitalize', }}
+                                        className="link">
+                                        <MenuItem onClick={handleClose} disableRipple>
+                                            Unit3
+                                        </MenuItem>
+                                    </Link>
+                                </MenuItems>
+                                <Link
+                                    to={'/design'}
+                                    style={{ textTransform: 'capitalize', }}
+                                    className="link">
+                                    {lng === 'en' ? 'Internal Designs' : "التصميم الداخلي والديكورات"}
+                                </Link>
+                                <Link
+                                    to={'/blogs'}
+                                    style={{ textTransform: 'capitalize', }}
+                                    className="link">
+                                    {lng === 'en' ? 'Blogs' :"المقالات"}
+                                </Link>
+                                <Link
+                                    to={'/contact-us'}
+                                    style={{ textTransform: 'capitalize', }}
+                                    className="link">
+                                    {lng === 'en' ? 'Contact Us':"اتصل بنا"}
+                                </Link>
+                                {/* { 
                                     Pages?.map((page, i) => <Link
                                         key={i}
                                         to={page.path}
-                                        style={{
-                                            // fontSize: 14,
-                                            textTransform: 'capitalize',
-                                            // fontWeight: 'bold'
-                                        }}
+                                        style={{textTransform: 'capitalize',}}
                                         className="link">
                                         {lng === 'ar' ? page.name : page.name_en} 
                                     </Link>
-                                    )} 
+                                    )}  */}
                                 <TransLang />
                                 <Auth />
                             </Box>
@@ -81,6 +190,7 @@ function NavBar() {
                                     display: { md: "none", xs: "flex" },
                                     justifyContent: "space-between",
                                     width: "100%",
+                                    alignItems: 'center' 
                                 }}>
                                 <Link
                                     to="/"
@@ -88,10 +198,10 @@ function NavBar() {
                                         textDecoration: "none",
                                         marginInlineStart: 8
                                     }}>
-                                    <img src={logo} height={60} alt="logo" className="nav-logo" ></img>
+                                    <img src={logo} alt="logo" className="nav-logo" ></img>
                                 </Link>
                                 <IconButton onClick={() => setDrawer(true)}>
-                                    <MenuIcon sx={{ fontSize: '3rem', color: '#fff' }} />
+                                    <MenuIcon sx={{ fontSize: '2rem', color: theme.palette.primary.main }} />
                                 </IconButton>
                             </Box>
                         </Box>
