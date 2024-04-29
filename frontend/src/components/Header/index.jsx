@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import React from 'react'
 import HeroText from './HeroText'
-import img from './../../assets/header/head.png'
+import img from './../../assets/header/aerial-photography-beautiful-coastline-sanya.jpg'
 import { useTranslation } from 'react-i18next'
 const Header = () => {
     const { t } = useTranslation()

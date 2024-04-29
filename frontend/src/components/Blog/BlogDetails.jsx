@@ -23,27 +23,30 @@ const BlogDetails = () => {
             setTableData(data?.data)
         }
     }, [data, tableData, isBrandsLoading])
+    console.log(tableData?.large_text)
     return (
         <>
             <WrapperSection>
                 <GlobalList>
                     <Grid item md={5} xs={12} >
-                        <CardBlogs
-                            img={url + tableData?.main_image}
-                            title={tableData?.name}
-                            type={tableData?.date}
-                            date={tableData?.time}
-                        />
-                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4, mt: 4 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }} >
-                                {tableData?.images?.map(res => <Box item md={3} xs={12} key={res?.id} >
-                                    <Box>
-                                        <CardMedia
-                                            sx={{ height: 160, width: 160, borderRadius: '16px', }}
-                                            image={url + res?.image}
-                                            title="green iguana" />
-                                    </Box>
-                                </Box>)}
+                        <Box sx={{ position:'sticky', top:'15%' }} >
+                            <CardBlogs
+                                img={url + tableData?.main_image}
+                                title={tableData?.name}
+                                type={tableData?.date}
+                                date={tableData?.time}
+                            />
+                            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4, mt: 4 }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }} >
+                                    {tableData?.images?.map(res => <Box item md={3} xs={12} key={res?.id} >
+                                        <Box>
+                                            <CardMedia
+                                                sx={{ height: 160, width: 160, borderRadius: '16px', }}
+                                                image={url + res?.image}
+                                                title="green iguana" />
+                                        </Box>
+                                    </Box>)}
+                                </Box>
                             </Box>
                         </Box>
                     </Grid>

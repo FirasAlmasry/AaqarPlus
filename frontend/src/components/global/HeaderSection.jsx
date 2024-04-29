@@ -17,6 +17,8 @@ const HeaderSection = ({ nameSection, length, mb }) => {
               length &&
             <Box>
               <Typography color={'secondary.supMain'} >{length} {t("Results")}</Typography>
+
+              
             </Box>
             }
         </Box>

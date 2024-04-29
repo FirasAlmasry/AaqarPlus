@@ -23,7 +23,7 @@ const ListNews = () => {
             <GlobalList>
                 {tableData?.map((res, i) => 
                     <Grid item md={4} xs={12} key={i}>
-                        <CardNews img={url + res?.image} title={res?.name} data={res?.description?.slice(0,200)} />
+                        <CardNews img={url + res?.image} title={res?.name} data={`${res?.description?.slice(0,25)}...`} />
                 </Grid>
             )}
             </GlobalList>

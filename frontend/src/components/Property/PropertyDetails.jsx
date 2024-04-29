@@ -66,13 +66,12 @@ const PropertyDetails = () => {
                         <Slider nav={false} >
                             {tableData?.files?.map(img =>
                                 <CardMedia key={img?.id} src={url + img?.file} component="img"
-                                    height="auto"
                                     alt="green iguana"
                                     sx={{
-                                        height: 'auto',
+                                        height: '400px',
                                         borderRadius: '18px',
                                         backgroundSize: '100% 100%',
-                                        // objectFit: 'contain',
+                                        objectFit: 'contain',
                                         width: { md: '100%', xs: '100%' }
                                     }} />
                             )}
@@ -103,17 +102,17 @@ const PropertyDetails = () => {
             </Box> */}
                 <GlobalList>
                     <Grid item md={8} xs={12} >
-                        <Box>
+                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }} >
                             <GalleryProperty tableData={tableData} />
+                            <HeaderSection nameSection={tableData?.name} />
+                            <Description data={tableData?.description} />
+                        </Box>
+                        <Box>
                             <PaymentPlans
                                 DownPayment={tableData?.down_payment}
                                 InstallmentYears={tableData?.installment_years}
                                 MonthlyInstallment={tableData?.monthly_installment}
                             />
-                        </Box>
-                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }} >
-                            <HeaderSection nameSection={tableData?.name} />
-                            <Description data={tableData?.description} />
                         </Box>
                         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }} >
                             <HeaderSection nameSection={t("Contacts.Location")} />
