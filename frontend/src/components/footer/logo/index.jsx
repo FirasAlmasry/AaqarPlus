@@ -9,7 +9,7 @@ const Logo = () => {
             <CardMedia 
                 component={'img'}
                 src={img} 
-                sx={{ width:'50%' }}
+                sx={{ width:'30%' }}
                 />
                 
         </Box>

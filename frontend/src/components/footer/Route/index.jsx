@@ -26,7 +26,7 @@ const Route = () => {
             <Link
                 to={'/'}
                 style={{ textTransform: 'capitalize', color: '#707070', textDecoration: 'none' }}>
-                {lng === 'en' ? 'Carers' : "كارير"}
+                {lng === 'en' ? 'Careers' : "كارير"}
             </Link>
         </Box>
     )

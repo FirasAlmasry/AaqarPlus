@@ -7,7 +7,7 @@ const SectionTerm = ({ name, description }) => {
         <>
             <WrapperSection>
                 <HeaderSection nameSection={name} />
-                <Typography color={'secondary.supMain'} my={2} sx={{ width:'100%' }} >
+                <Typography color={'secondary.supMain'} sx={{ width:'100%' }} >
                     <div dangerouslySetInnerHTML={{ __html: description }}></div>
                 </Typography>
             </WrapperSection>

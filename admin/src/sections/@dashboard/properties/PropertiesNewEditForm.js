@@ -23,6 +23,7 @@ import {
     Switch,
     // Switch,
     Typography,
+    Button
     // FormControlLabel,
     // InputAdornment,
 } from "@mui/material";
@@ -34,6 +35,8 @@ import { PATH_DASHBOARD } from "../../../routes/paths";
 // import { countries } from "../../../assets/data";
 // components
 import Label from "../../../components/label";
+import Iconify from '../../../components/iconify';
+
 import { useSnackbar } from "../../../components/snackbar";
 import FormProvider, {
     // RHFSelect,
@@ -51,9 +54,23 @@ import { useGetPropertyTypeQuery } from "../../../state/PropertyType";
 import { useGetCompoundsQuery } from "../../../state/compounds";
 import { useGetFinishingQuery } from "../../../state/finishing";
 import { useTheme } from "@emotion/react";
+import { FileNewFolderDialog } from "../file";
 
 // ----------------------------------------------------------------------
-
+// const FILE_TYPE_OPTIONS = [
+//     'folder',
+//     'txt',
+//     'zip',
+//     'audio',
+//     'image',
+//     'video',
+//     'word',
+//     'excel',
+//     'powerpoint',
+//     'pdf',
+//     'photoshop',
+//     'illustrator',
+// ];
 PropertiesNewEditForm.propTypes = {
     isEdit: PropTypes.bool,
     currentService: PropTypes.object,
@@ -80,7 +97,6 @@ const MenuProps = {
 };
 
 export default function PropertiesNewEditForm({ isEdit = false, currentService }) {
-    console.log("🚀 ~ PropertiesNewEditForm ~ currentService:", currentService)
     const { enqueueSnackbar } = useSnackbar();
     const theme = useTheme();
     const [selectedIds, setSelectedIds] = useState([]);
@@ -112,6 +128,20 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
         setFinishingId(event.target.value);
     };
 
+    // CountryDataId
+    const { data: Country, isCountryLoading } = useGetFinishingQuery()
+    //  useGetCountryQuery();
+    const CountryDataId = Country?.data?.data
+    let country_id = currentService?.property?.country_id
+    country_id = String(country_id)
+    const [CountryId, setCountryId] = useState(country_id);
+    useEffect(() => {
+        setCountryId(country_id);
+    }, [country_id]);
+    const handleChangeCountry = (event) => {
+        setCountryId(event.target.value);
+    };
+
     // Coin Id
     let coin_id = currentService?.property?.coin_id
     coin_id = String(coin_id)
@@ -124,6 +154,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
     const handleChangeCoin = (event) => {
         setCoin(event.target.value);
     };
+
     // PropertyType Id
     const { data: PropertyType, isPropertyTypeIdLoading } = useGetPropertyTypeQuery();
     const PropertyTypeId = PropertyType?.data?.data
@@ -166,28 +197,6 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
         return options;
     };
 
-
-    // attachedDataId
-    // const { data: attachedData, isAttachedData } = useGetAttachedsQuery();
-    // let attached_id = currentService?.property?.attached
-    // console.log("🚀 ~ PropertiesNewEditForm ~ attached_id:", attached_id)
-    // const fullData = attachedData?.data?.data
-    // const [Attached, setAttached] = useState([]);
-    // console.log("🚀 ~ PropertiesNewEditForm ~ Attached:", Attached)
-    // useEffect(() => {
-    //     if (isEdit) {
-    //         setAttached([attached_id]);
-    //     }
-    // }, [isEdit, attached_id]);
-    // const handleChangeAtt = (event) => {
-    //     const {
-    //         target: { value },
-    //     } = event;
-    //     setAttached(
-    //         typeof value === 'string' ? value.split(',') : value,
-    //     );
-    // };
-    
     // Attached
     const { data: attachedData, isAttachedData } = useGetAttachedsQuery();
     const fullData = attachedData?.data?.data;
@@ -218,17 +227,28 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
     const method = [
         'cash',
         'installment',
-        'mixed']
+        'cash or installment']
+
+
+    let sale_type = currentService?.property?.sale_type
+    const [saleType, setSaleType] = useState(sale_type)
+    useEffect(() => {
+        setSaleType(sale_type);
+    }, [sale_type]);
+
+    const handleChangeSaleType = (event) => {
+        setSaleType(event.target.value);
+    };
+
+    const SaleTypeOption = [
+        'primary',
+        'resale',]
 
 
     const NewPropertiesSchema = Yup.object().shape({
         name: Yup.object({
             en: Yup.string().required("name en is required"),
             ar: Yup.string().required("name ar is required"),
-        }),
-        sale_type: Yup.object({
-            en: Yup.string().required("sale_type en is required"),
-            ar: Yup.string().required("sale_type ar is required"),
         }),
         address: Yup.object({
             en: Yup.string().required("address en is required"),
@@ -261,10 +281,12 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
         installment_years: Yup.string(),
         compound_id: Yup.string(),
         finish_id: Yup.string(),
+        country_id: Yup.string(),
         url_location: Yup.string(),
         coin_id: Yup.string(),
+        agent_code: Yup.string(),
         payment_method: Yup.string(),
-        // initial_payment: Yup.number(),
+        sale_type: Yup.string(),
         initial_payment: Yup.string(),
         image_floor_plan: Yup.mixed(),
         master_plan: Yup.mixed(),
@@ -280,10 +302,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                 en: currentService?.property?.name?.en || "",
                 ar: currentService?.property?.name?.ar || "",
             },
-            sale_type: {
-                en: currentService?.property?.sale_type?.en || "",
-                ar: currentService?.property?.sale_type?.ar || "",
-            },
+            sale_type: saleType || '',
             address: {
                 en: currentService?.property?.address?.en || "",
                 ar: currentService?.property?.address?.ar || "",
@@ -321,7 +340,9 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             payment_method: TargetMethod || '',
             compound_id: CompoundsId || '',
             finish_id: FinishingId || '',
+            country_id: CountryDataId || '',
             coin_id: coin || "",
+            agent_code: currentService?.property?.agent_code || "",
             attached: Attached || [],
             files: currentService?.property?.images || [],
         }),
@@ -376,8 +397,6 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             const formData = new FormData();
             formData.append("ar_name", data.name.ar);
             formData.append("en_name", data.name.en);
-            formData.append("ar_sale_type", data.sale_type.ar);
-            formData.append("en_sale_type", data.sale_type.en);
             formData.append("ar_address", data.address.ar);
             formData.append("en_address", data.address.en);
             formData.append("ar_description", data.description.ar);
@@ -400,13 +419,16 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             formData.append("is_available", data.is_available);
             formData.append("url_location", data.url_location);
             formData.append("payment_method", TargetMethod);
+            formData.append("sale_type", saleType);
             formData.append("initial_payment", initialPayment);
             // formData.append("initial_payment", data.initial_payment);
             formData.append("property_type_id", TypeId);
             formData.append("compound_id", CompoundsId);
             formData.append("finish_id", FinishingId);
+            formData.append("country_id", CountryDataId);
             formData.append("down_payment", downPayment);
             formData.append("coin_id", coin);
+            formData.append("agent_code", data.agent_code);
             Attached?.map((res) => formData.append("attached[]", res));
             if (typeof data.image_floor_plan === 'object' && data.image_floor_plan instanceof File) {
                 formData.append("image_floor_plan", data.image_floor_plan);
@@ -414,7 +436,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             if (typeof data.master_plan === 'object' && data.master_plan instanceof File) {
                 formData.append("master_plan", data.master_plan);
             }
-            data.files?.map((img) => {
+            files?.map((img) => {
                 if (typeof img === 'object' && img instanceof File) {
                     formData.append("files[]", img)
                 }
@@ -442,7 +464,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             enqueueSnackbar(errorMessage, { variant: 'error' });
         }
     };
-
+    
     const handleDrop = useCallback(
         (acceptedFiles) => {
             const file = acceptedFiles[0];
@@ -473,36 +495,46 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
         [setValue]
     );
 
-    const handleMulteDrop = useCallback(
-        (acceptedFiles) => {
-            const files = values.files || [];
+    // const handleMulteDrop = useCallback(
+    //     (acceptedFiles) => {
+    //         const files = values.files || [];
 
-            const newFiles = acceptedFiles.map((file) =>
-                Object.assign(file, {
-                    preview: URL.createObjectURL(file),
-                })
-            );
+    //         const newFiles = acceptedFiles.map((file) =>
+    //             Object.assign(file, {
+    //                 preview: URL.createObjectURL(file),
+    //             })
+    //         );
 
-            setValue('files', [...files, ...newFiles], { shouldValidate: true });
-        },
-        [setValue, values.files]
-    );
+    //         setValue('files', [...files, ...newFiles], { shouldValidate: true });
+    //     },
+    //     [setValue, values.files]
+    // );
 
-    const handleRemoveFile = (inputFile) => {
-        const filtered = values.files && values.files?.filter((file) => {
-            if (typeof file === 'object' && file instanceof File) {
-                return file !== inputFile
-            }
-            return file?.id !== inputFile?.id
-        })
-        setSelectedIds(prevIds => [...prevIds, inputFile.id]);
-        setValue('files', filtered);
+    // const handleRemoveFile = (inputFile) => {
+    //     const filtered = values.files && values.files?.filter((file) => {
+    //         if (typeof file === 'object' && file instanceof File) {
+    //             return file !== inputFile
+    //         }
+    //         return file?.id !== inputFile?.id
+    //     })
+    //     setSelectedIds(prevIds => [...prevIds, inputFile.id]);
+    //     setValue('files', filtered);
+    // };
+
+    // const handleRemoveAllFiles = () => {
+    //     setValue('files', []);
+    // };
+    const [files, setFiles] = useState([]);
+    console.log("🚀 ~ PropertiesNewEditForm ~ files:", files)
+    const [openUploadFile, setOpenUploadFile] = useState(false);
+    console.log("🚀 ~ PropertiesNewEditForm ~ openUploadFile:", openUploadFile)
+    const handleOpenUploadFile = () => {
+        setOpenUploadFile(true);
     };
 
-    const handleRemoveAllFiles = () => {
-        setValue('files', []);
+    const handleCloseUploadFile = () => {
+        setOpenUploadFile(false);
     };
-
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
@@ -534,7 +566,6 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     setValue('start_price', formattedValue, { shouldValidate: true });
                                 }}
                             />
-
                             <RHFTextField
                                 name="end_price"
                                 label="End price *"
@@ -568,7 +599,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     {renderOptions(PropertyTypeId)}
                                 </Select>
                             </Box>
-                            <RHFTextField name="house_area" label="House Area *" />
+                            <RHFTextField name="house_area" label="Floor M" />
                             <RHFTextField name="bedrooms" label="Bedrooms *" />
                             <RHFTextField name="bathrooms" label="Bathrooms *" />
                             <RHFTextField name="delivery_in" label="Delivery In *" />
@@ -585,8 +616,22 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     {CompoundsDataId?.map((res) => <MenuItem value={res?.id}>{res?.name.ar}</MenuItem>)}
                                 </Select>
                             </Box>
-                            <RHFTextField name="sale_type.ar" label="Sale Type ar *" />
-                            <RHFTextField name="sale_type.en" label="Sale Type en *" />
+                            {/* <RHFTextField name="sale_type.ar" label="Sale Type ar *" />
+                            <RHFTextField name="sale_type.en" label="Sale Type en *" /> */}
+                            {/* {sale_type} */}
+                            <Box>
+                                <InputLabel id="sale_type">Sale Type</InputLabel>
+                                <Select
+                                    sx={{ width: '100%' }}
+                                    labelId="sale_type"
+                                    value={saleType}
+                                    onChange={handleChangeSaleType}
+                                    name="sale_type"
+                                >
+                                    {SaleTypeOption?.map((res) => <MenuItem value={res}>{res}</MenuItem>)}
+                                </Select>
+                            </Box>
+
                             {/* {finish_id} */}
                             <Box>
                                 <InputLabel id="finish_id">finish *</InputLabel>
@@ -596,6 +641,19 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     value={FinishingId}
                                     onChange={handleChangeFinishing}
                                     name="finish_id"
+                                >
+                                    {FinishingDataId?.map((res) => <MenuItem value={res?.id}>{res?.name.ar}</MenuItem>)}
+                                </Select>
+                            </Box>
+                            {/* {country} */}
+                            <Box>
+                                <InputLabel id="country">country *</InputLabel>
+                                <Select
+                                    sx={{ width: '100%' }}
+                                    labelId="country"
+                                    value={CountryId}
+                                    onChange={handleChangeCountry}
+                                    name="country"
                                 >
                                     {FinishingDataId?.map((res) => <MenuItem value={res?.id}>{res?.name.ar}</MenuItem>)}
                                 </Select>
@@ -630,25 +688,6 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                         </MenuItem>
                                     ))}
                                 </Select>
-                                {/* <Select
-                                    name="attached"
-                                    sx={{ width: '100%' }}
-                                    labelId="demo-multiple-checkbox-label"
-                                    id="demo-multiple-checkbox"
-                                    multiple
-                                    value={Attached}
-                                    onChange={handleChangeAtt}
-                                    input={<OutlinedInput label="Tag" />}
-                                    renderValue={(selected) => selected.join(', ')}
-                                    // MenuProps={MenuProps}
-                                >
-                                    {fullData?.map((name) => (
-                                        <MenuItem key={name.id} value={name.id}>
-                                            <Checkbox checked={Attached.indexOf(name.id) > -1} />
-                                            <ListItemText primary={name.name.ar} />
-                                        </MenuItem>
-                                    ))}
-                                </Select> */}
                             </Box>
                             
                             <RHFTextField name="payment_method_title.ar" label="Payment Method Title ar *" />
@@ -683,6 +722,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                 setValue('down_payment', formattedValue, { shouldValidate: true });
                             }} />
                             <RHFTextField name="installment_years" label="Installment Years" />
+                            <RHFTextField name="agent_code" label="Agent Code" />
                         </Box> 
                         {/* Desc Arabic*/}
                         <Grid item xs={12} md={12} sx={{mt: 2, minHeight: 50,}}>
@@ -741,7 +781,16 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                             </Label>
                         )}
                         {/* files */}
-                        <Box sx={{ mb: 5 }}>
+                        <Button
+                            variant="contained"
+                            startIcon={<Iconify icon="eva:cloud-upload-fill" />}
+                            onClick={handleOpenUploadFile}
+                        >
+                            Upload Files
+                        </Button>
+                        <FileNewFolderDialog open={openUploadFile} onClose={handleCloseUploadFile} files={files}
+                            setFiles={setFiles} />
+                        {/* <Box sx={{ mb: 5 }}>
                             <Stack spacing={1}>
                                 <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
                                     Files *
@@ -757,7 +806,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     onUpload={() => console.log('ON UPLOAD')}
                                 />
                             </Stack>
-                        </Box>
+                        </Box> */}
                         <Box sx={{ display:'flex', justifyContent:'space-around', alignItems:'center' }} >
                             {/* image_floor_plan */}
                             <Box sx={{ mb: 5 }}>

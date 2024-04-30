@@ -36,15 +36,18 @@ export default function FileNewFolderDialog({
   //
   folderName,
   onChangeFolderName,
+  files,
+setFiles,
   ...other
 }) {
-  const [files, setFiles] = useState([]);
+  // const [files, setFiles] = useState([]);
+  console.log("🚀 ~ files:", files)
 
   useEffect(() => {
     if (!open) {
       setFiles([]);
     }
-  }, [open]);
+  }, [open,setFiles]);
 
   const handleDrop = useCallback(
     (acceptedFiles) => {
@@ -56,7 +59,7 @@ export default function FileNewFolderDialog({
 
       setFiles([...files, ...newFiles]);
     },
-    [files]
+    [files,setFiles]
   );
 
   const handleUpload = () => {
@@ -84,6 +87,7 @@ export default function FileNewFolderDialog({
             label="Folder name"
             value={folderName}
             onChange={onChangeFolderName}
+            name='files'
             sx={{ mb: 3 }}
           />
         )}

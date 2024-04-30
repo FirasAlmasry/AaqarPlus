@@ -34,6 +34,7 @@ import FormProvider, {
     // RHFSelect,
     RHFSwitch,
     RHFTextField,
+    RHFUpload,
     RHFUploadAvatar,
 } from "../../../components/hook-form";
 import { useAddDevelopersMutation, useEditDevelopersMutation, useGetDevelopersQuery } from "../../../state/developers";
@@ -86,7 +87,8 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
             en: Yup.string().required("top_project_description en is required"),
         }),
         area_id: Yup.string(),
-        image: Yup.mixed().required("Avatar is required"),
+        // image: Yup.mixed().required("Avatar is required"),
+        files: Yup.array().required('required'),
     });
 
     const defaultValues = useMemo(
@@ -111,8 +113,13 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
                 ar: currentDevelopers?.top_project_description?.ar || "",
                 en: currentDevelopers?.top_project_description?.en || "",
             },
+            location: {
+                ar: currentDevelopers?.location?.ar || "",
+                en: currentDevelopers?.location?.en || "",
+            },
             area_id: age || '',
-            image: currentDevelopers?.image || [],
+            // image: currentDevelopers?.image || [],
+            files: currentDevelopers?.images || [],
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [currentDevelopers]
@@ -143,6 +150,7 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isEdit, currentDevelopers]);
+    const [selectedIds, setSelectedIds] = useState([]);
     const { refetch } = useGetDevelopersQuery()
     const [editDevelopers] = useEditDevelopersMutation()
     const [addDevelopers] = useAddDevelopersMutation()
@@ -159,9 +167,22 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
             formData.append("en_top_project_title", data.top_project_title.en);
             formData.append("ar_top_project_description", data.top_project_description.ar);
             formData.append("en_top_project_description", data.top_project_description.en);
+            formData.append("ar_location", data.location.ar);
+            formData.append("en_location", data.location.en);
             formData.append("area_id", age);
-            if (typeof data.image === 'object' && data.image instanceof File) {
-                formData.append("image", data.image);
+            // if (typeof data.image === 'object' && data.image instanceof File) {
+            //     formData.append("image", data.image);
+            // }
+            data.files?.map((img) => {
+                if (typeof img === 'object' && img instanceof File) {
+                    formData.append("files[]", img)
+                }
+                return null;
+            });
+            if (selectedIds?.length) {
+                selectedIds?.map((id) =>
+                    formData.append("images_to_delete[]", id)
+                );
             }
             // eslint-disable-next-line no-lone-blocks
             {
@@ -180,21 +201,49 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
             console.error(error);
         }
     };
-
-    const handleDrop = useCallback(
+    const handleMulteDrop = useCallback(
         (acceptedFiles) => {
-            const file = acceptedFiles[0];
+            const files = values.files || [];
 
-            const newFile = Object.assign(file, {
-                preview: URL.createObjectURL(file),
-            });
+            const newFiles = acceptedFiles.map((file) =>
+                Object.assign(file, {
+                    preview: URL.createObjectURL(file),
+                })
+            );
 
-            if (file) {
-                setValue("image", newFile, { shouldValidate: true });
-            }
+            setValue('files', [...files, ...newFiles], { shouldValidate: true });
         },
-        [setValue]
+        [setValue, values.files]
     );
+
+    const handleRemoveFile = (inputFile) => {
+        const filtered = values.files && values.files?.filter((file) => {
+            if (typeof file === 'object' && file instanceof File) {
+                return file !== inputFile
+            }
+            return file?.id !== inputFile?.id
+        })
+        setSelectedIds(prevIds => [...prevIds, inputFile.id]);
+        setValue('files', filtered);
+    };
+
+    const handleRemoveAllFiles = () => {
+        setValue('files', []);
+    };
+    // const handleDrop = useCallback(
+    //     (acceptedFiles) => {
+    //         const file = acceptedFiles[0];
+
+    //         const newFile = Object.assign(file, {
+    //             preview: URL.createObjectURL(file),
+    //         });
+
+    //         if (file) {
+    //             setValue("image", newFile, { shouldValidate: true });
+    //         }
+    //     },
+    //     [setValue]
+    // );
 
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -219,7 +268,22 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
                             </Label>
                         )}
                         <Box sx={{ mb: 5 }}>
-                            <RHFUploadAvatar
+                            <Stack spacing={1}>
+                                <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
+                                    Images
+                                </Typography>
+                                <RHFUpload
+                                    multiple
+                                    thumbnail
+                                    name="files"
+                                    maxSize={3145728}
+                                    onDrop={handleMulteDrop}
+                                    onRemove={handleRemoveFile}
+                                    onRemoveAll={handleRemoveAllFiles}
+                                    onUpload={() => console.log('ON UPLOAD')}
+                                />
+                            </Stack>
+                            {/* <RHFUploadAvatar
                                 name="image"
                                 maxSize={3145728}
                                 onDrop={handleDrop}
@@ -238,7 +302,7 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
                                         <br /> max size of {fData(3145728)}
                                     </Typography>
                                 }
-                            />
+                            /> */}
                         </Box>
                     </Card>
                 </Grid>
@@ -268,8 +332,8 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
                                 {type?.map((res) => <MenuItem value={res?.id}>{res?.name.ar}</MenuItem>)}
                             </Select>
                             </Box>
-                            <RHFTextField name="bio_title.ar" label="Title ar" />
-                            <RHFTextField name="bio_title.en" label="Title en" />
+                            <RHFTextField name="bio_title.ar" label="bio ar" />
+                            <RHFTextField name="bio_title.en" label="bio en" />
                             <Grid
                                 item
                                 xs={12}

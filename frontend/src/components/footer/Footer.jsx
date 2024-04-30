@@ -15,7 +15,7 @@ const Footer = () => {
         <>
             <footer>
                 <Box position={'relative'} sx={{
-                    background: 'rgba(235, 235, 235, 90%)', pt: 2, display: 'flex', alignItems: 'center', position: 'relative'
+                    background: 'rgba(235, 235, 235, 90%)', py: 1, display: 'flex', alignItems: 'center', position: 'relative'
                 }} >
                         <Container maxWidth={'lg'} >
                             <Grid container spacing={1} sx={{ alignItems:'center' }} >
@@ -36,9 +36,9 @@ const Footer = () => {
                                 </Box>
                                 </Grid>
                             </Grid>
-                            <Typography color={'secondary.supMain'} textAlign={'center'} p={2} >
+                            {/* <Typography color={'secondary.supMain'} textAlign={'center'} p={2} >
                                 {t("copeRight")}
-                            </Typography>
+                            </Typography> */}
                         </Container>
                     {/* </Box> */}
                 </Box>

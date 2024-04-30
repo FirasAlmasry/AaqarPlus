@@ -8,7 +8,7 @@ import ic1 from './../../assets/icons/Icon ionic-ios-book.png'
 import ic2 from './../../assets/icons/Icon map-grocery-or-supermarket.png'
 import ic3 from './../../assets/icons/Icon simple-sitepoint.png'
 import fiv from './../../assets/icons/share.png'
-import heart from './../../assets/icons/heart.png'
+// import heart from './../../assets/icons/heart.png'
 import mark from './../../assets/icons/Icon feather-bookmark.png'
 import whats from './../../assets/icons/Icon awesome-whatsapp.png'
 import phone from './../../assets/icons/Icon feather-phone.png'
@@ -17,8 +17,29 @@ import Floor from './../../assets/icons/blueprint.png'
 import Btn from './Btn';
 import i18next from 'i18next';
 import theme from '../../util/theme';
+import { useState } from 'react';
+import Share from '../Share/Share';
+import { useLocation } from 'react-router-dom';
 const CardProperty = ({ img, Align, name, address, num1, num2, num3, num4, month, years, price, is_favorite, whatsapp, phone_number, id }) => {
     let lng = i18next.language
+    const [show, setShow] = useState(false)
+    React.useEffect(() => {
+        const handleClickOutside = (event) => {
+            // إعادة الـ 'show' للقيمة الافتراضية إذا تم النقر خارج العنصر
+            if (event.target.closest('.icon_share') === null) {
+                setShow(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+    const location = useLocation();
+    let path = location.pathname.split('/')[1]
+    let isHome = path === '' 
     return (
         <>
             <Card sx={{ maxWidth: '100%', m: 1, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)", }}>
@@ -50,10 +71,10 @@ const CardProperty = ({ img, Align, name, address, num1, num2, num3, num4, month
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#CACACA' }}>
                                 <CardMedia component={'img'} src={Floor} sx={{ width: '18px', height: '18px' }} />
-                                {num3}
+                                {num4}
                             </Box>
                         </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap:'wrap' }}>
                             <Typography>{month} Monthly</Typography> / <Typography>{years} years</Typography>
                         </Box>
                         <Typography>{price}</Typography>
@@ -68,7 +89,8 @@ const CardProperty = ({ img, Align, name, address, num1, num2, num3, num4, month
                             <CardMedia component={'img'} src={mark} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                         </Box>
                         <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
-                            <CardMedia component={'img'} src={is_favorite ? heart : fiv} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
+                            <CardMedia component={'img'} src={fiv} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} onClick={() => setShow(true)} />
+                            <Share show={show} isHome={isHome} />
                         </Box>
                         <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
                             <a href={`tel:${whatsapp}`} target="_blank" rel="noopener noreferrer">

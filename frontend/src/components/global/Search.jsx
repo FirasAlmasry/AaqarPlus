@@ -59,7 +59,7 @@ const Search = () => {
                             width: '150px', py: 1.5, px: 4, fontWeight: 'bold'
                         }} >{'Invest'}</Button>
                 </Box>
-                <Box sx={{ py:4,px: 2, boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", background: '#FFF', borderRadius: '8px', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: { md: 'row', xs: 'column' },gap:1 }} >
+                <Box sx={{ py: 4, px: 2, boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", background: '#FFF', borderRadius: { md: '8px',xs:0 }, width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: { md: 'row', xs: 'column' },gap:1 }} >
                     <Box sx={{ mx: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1, flexDirection: { md: 'row', xs: 'column' }, width: '100%' }} >
                         <Box sx={{
                             width: { md: '35%', xs: '100%' },

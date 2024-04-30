@@ -47,6 +47,7 @@ const PropertyDetails = () => {
     //     thumbnail: `${url}${image?.file}`, // صورة مصغرة (يمكنك استبدالها بالحجم الصغير المطلوب)
     //     description: image.id.toString(), // وصف اختياري
     // }));
+    
     return (
         <>
             <WrapperSection>
@@ -96,7 +97,7 @@ const PropertyDetails = () => {
                     </Grid>
                 </GlobalList>
             </WrapperSection>
-            <WrapperSection>
+            <WrapperSection position='static'>
                 {/* <Box sx={{ pb:2, width:'100%' }} >
                     <TableData tableData={tableData} />
             </Box> */}

@@ -98,6 +98,15 @@ const navConfig = [
                 ],
             },
             {
+                title: "Country",
+                path: PATH_DASHBOARD.country.root,
+                icon: ICONS.calendar,
+                children: [
+                    { title: "list", path: PATH_DASHBOARD.country.list },
+                    { title: "create", path: PATH_DASHBOARD.country.new },
+                ],
+            },
+            {
                 title: "Developers",
                 path: PATH_DASHBOARD.developers.root,
                 icon: ICONS.user,

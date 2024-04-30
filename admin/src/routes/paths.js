@@ -57,6 +57,12 @@ export const PATH_DASHBOARD = {
         list: path(ROOTS_DASHBOARD, "/areas/list"),
         edit: (name) => path(ROOTS_DASHBOARD, `/areas/${name}/edit`),
     },
+    country: {
+        root: path(ROOTS_DASHBOARD, "/country"),
+        new: path(ROOTS_DASHBOARD, "/country/new"),
+        list: path(ROOTS_DASHBOARD, "/country/list"),
+        edit: (name) => path(ROOTS_DASHBOARD, `/country/${name}/edit`),
+    },
     finishing: {
         root: path(ROOTS_DASHBOARD, "/finishing"),
         new: path(ROOTS_DASHBOARD, "/finishing/new"),

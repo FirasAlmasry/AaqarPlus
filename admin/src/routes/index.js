@@ -113,6 +113,9 @@ import {
     FinishingListPage,
     FinishingCreatePage,
     FinishingEditPage,
+    CountryListPage,
+    CountryCreatePage,
+    CountryEditPage,
     // DescriptionBuyerListPage,
     // DescriptionBuyerCreatePage,
     // DescriptionBuyerEditPage,
@@ -201,6 +204,20 @@ export default function Router() {
                         { path: "list", element: <AreasListPage /> },
                         { path: "new", element: <AreasCreatePage /> },
                         { path: ":name/edit", element: <AreasEditPage /> },
+                    ],
+                },
+                {
+                    path: "country",
+                    children: [
+                        {
+                            element: (
+                                <Navigate to="/dashboard/country/list" replace />
+                            ),
+                            index: true,
+                        },
+                        { path: "list", element: <CountryListPage /> },
+                        { path: "new", element: <CountryCreatePage /> },
+                        { path: ":name/edit", element: <CountryEditPage /> },
                     ],
                 },
                 {

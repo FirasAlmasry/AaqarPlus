@@ -1,6 +1,6 @@
 import * as React from "react";
 import Drawer from "@mui/material/Drawer";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import TransLang from "./TransLang"
 import { Pages, auth } from "../../constants";
@@ -51,7 +51,78 @@ export default function NavDrawer({ setDrawer, drawer }) {
                             </IconButton>
                         </Box>
                         {
-                            Pages?.map((page, i) => (
+                            Pages?.slice(0,6)?.map((page, i) => (
+                                <Link
+                                    key={i}
+                                    to={page.path}
+                                    style={{
+                                        textDecoration: "none",
+                                        fontSize: 14,
+                                        textTransform: 'capitalize',
+                                        fontWeight: 'bold'
+                                    }}
+                                    className="link"
+                                    onClick={() => setDrawer(false)}
+                                >
+                                    {lng === 'ar' ? page.name : page.name_en}
+                                </Link>
+                            ))
+                        }
+                        <Typography 
+                            style={{
+                                textDecoration: "none",
+                                fontSize: 14,
+                                textTransform: 'capitalize',
+                                fontWeight: 'bold'
+                            }} className="link">{lng === 'en' ? 'Countries To Invot In' : "أستثمر بالخارج"}</Typography>
+                        <Box sx={{
+                            pl: 2, gap: 3,
+                            display: "flex",
+                            flexDirection: "column",
+                            textAlign: lng === 'en' ? 'left' : 'right', }} >
+                            <Link
+                                to={''}
+                                style={{
+                                    textDecoration: "none",
+                                    fontSize: 14,
+                                    textTransform: 'capitalize',
+                                    fontWeight: 'bold'
+                                }}
+                                className="link"
+                                onClick={() => setDrawer(false)}
+                            >
+                                {lng === 'ar' ?' - page.name ': '- page.name_en'}
+                            </Link>
+                            <Link
+                                to={''}
+                                style={{
+                                    textDecoration: "none",
+                                    fontSize: 14,
+                                    textTransform: 'capitalize',
+                                    fontWeight: 'bold'
+                                }}
+                                className="link"
+                                onClick={() => setDrawer(false)}
+                            >
+                                {lng === 'ar' ?' - page.name ': '- page.name_en'}
+                            </Link>
+                            <Link
+                                to={''}
+                                style={{
+                                    textDecoration: "none",
+                                    fontSize: 14,
+                                    textTransform: 'capitalize',
+                                    fontWeight: 'bold'
+                                }}
+                                className="link"
+                                onClick={() => setDrawer(false)}
+                            >
+                                {lng === 'ar' ?' - page.name ': '- page.name_en'}
+                            </Link>
+                            </Box>
+
+                        {
+                            Pages?.slice(6)?.map((page, i) => (
                                 <Link
                                     key={i}
                                     to={page.path}

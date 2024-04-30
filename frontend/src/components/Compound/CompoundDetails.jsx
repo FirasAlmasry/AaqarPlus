@@ -58,7 +58,7 @@ const CompoundDetails = () => {
                             whatsapp={tableData?.whatsapp}
                             phone_number={tableData?.phone_number} >
                             {tableData?.attacheds?.map((res) =>
-                                <Box key={res?.name} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}  >
+                                <Box key={res?.name} sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap:'wrap' }}  >
                                     <CardMedia component={'img'} src={icon} sx={{ width: '18px', height: '18px' }} />
                                     {res?.name}
                                 </Box>

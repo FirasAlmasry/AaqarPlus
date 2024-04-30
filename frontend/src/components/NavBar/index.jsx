@@ -16,6 +16,7 @@ import Auth from "./Auth";
 import MenuItems from "./MenuItems";
 import MenuItem from '@mui/material/MenuItem';
 import theme from "../../util/theme";
+// import Share from "../Share/Share";
 
 function NavBar() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -73,6 +74,12 @@ function NavBar() {
                                     style={{ textTransform: 'capitalize', }}
                                     className="link">
                                     {lng === 'en' ? 'Home': 'الرئيسية'}
+                                </Link>
+                                <Link
+                                    to={'/developers'}
+                                    style={{ textTransform: 'capitalize', }}
+                                    className="link">
+                                    {lng === 'en' ? 'developers': 'المطورون'}
                                 </Link>
                                 <MenuItems name={lng === 'en' ? 'Available Units': "الوحدات المتاحة"} handleClick={handleClick} anchorEl={anchorEl} open={open} handleClose={handleClose} >
                                     <Link

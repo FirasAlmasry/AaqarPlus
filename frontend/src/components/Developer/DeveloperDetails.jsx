@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom'
 import { useGetDevelopersIdQuery } from '../../state/developers'
 import MultiItemSlider from '../global/MultiItemSlider'
 import { useTranslation } from 'react-i18next'
+import CardProperty from '../global/CardProperty'
 
 const DeveloperDetails = () => {
     const url = 'https://aqarbackend.revampbrands.com/storage/'
@@ -55,6 +56,43 @@ const DeveloperDetails = () => {
                 </GlobalList>
                 <SectionTerm name={t("Dev.DescDev")} description={tableData?.bio_description} />
                 <SectionTerm name={t("Dev.DescProjects")} description={tableData?.top_project_description} />
+                {tableData?.location && 
+                <SectionTerm name={t("Contacts.Location")} description={tableData?.location} />
+                }
+                <HeaderSection nameSection={t('related')} length={tableData?.compounds?.length === 0 ? t('NoResults') : tableData?.compounds?.length} />
+                <Box sx={{ width: '100%' }}> 
+                    {
+                        tableData?.compounds && 
+                            <MultiItemSlider>
+                        {tableData?.compounds?.map(res =>
+                            <Box key={res?.id} sx={{ my: 2 }}>
+                                <CardCompound
+                                    img={url + res?.image_location}
+                                    name={lng === 'ar' ? res?.name?.ar : res?.name?.en}
+                                    address={lng === 'ar' ? res?.address?.ar : res?.address?.en}
+                                    price={res?.end_price}
+                                    whatsapp={res?.whatsapp}
+                                    phone_number={res?.phone_number}
+                                    id={res?.id}
+                                />
+                                {/* <CardProperty img={url + res?.master_plan}
+                                    name={res?.name}
+                                    address={res?.address}
+                                    num1={res?.bedrooms}
+                                    num2={res?.bathrooms}
+                                    num3={res?.house_area}
+                                    month={res?.monthly_installment}
+                                    years={res?.installment_years}
+                                    price={res?.end_price}
+                                    whatsapp={res?.whatsapp}
+                                    phone_number={res?.phone_number}
+                                    id={res?.id}
+                                /> */}
+                            </Box>
+                        )}
+                </MultiItemSlider>
+                    }
+                </Box>
                 <HeaderSection nameSection={t('compound')} length={tableData?.compounds?.length === 0 ? t('NoResults') : tableData?.compounds?.length} />
                 <Box sx={{ width: '100%' }}> 
                     {

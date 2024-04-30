@@ -11,7 +11,7 @@ const Slider = ({ nav= false ,children }) => {
                 fullHeightHover={true}
                 sx={{
                     marginTop: "25px",
-                    width: { md: "75%", xs: "100%" },
+                    width: { md: "100%", xs: "100%" },
                     margin: "auto"
                 }}>
                 {children}

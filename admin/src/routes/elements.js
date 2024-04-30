@@ -61,6 +61,17 @@ export const AreasCreatePage = Loadable(
 export const AreasEditPage = Loadable(
     lazy(() => import("../pages/dashboard/areas/AreasEditPage"))
 );
+
+// DASHBOARD: Country
+export const CountryListPage = Loadable(
+    lazy(() => import("../pages/dashboard/country/CountryListPage"))
+);
+export const CountryCreatePage = Loadable(
+    lazy(() => import("../pages/dashboard/country/CountryCreatePage"))
+);
+export const CountryEditPage = Loadable(
+    lazy(() => import("../pages/dashboard/country/CountryEditPage"))
+);
 // DASHBOARD: Finishing
 export const FinishingListPage = Loadable(
     lazy(() => import("../pages/dashboard/finishing/FinishingListPage"))
