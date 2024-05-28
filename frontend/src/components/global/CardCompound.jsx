@@ -12,7 +12,7 @@ const CardCompound = ({ img, Align, name, address, month, years, price, whatsapp
      let lng = i18next.language 
     return (
         <>
-            <Card sx={{ maxWidth: '100%', m: 1, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)", }}>
+            <Card sx={{ maxWidth: '100%', my: 1, mx: { md: 1, xs: 0 }, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)", }}>
                 <CardMedia
                     sx={{ height: 240, backgroundSize: '100% 100%' }}
                     image={img}

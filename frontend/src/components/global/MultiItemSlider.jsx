@@ -21,7 +21,7 @@ const MultiItemSlider = ({ children }) => {
 
     return (
         <>
-            <Box sx={{ p: 1 }} >
+            <Box sx={{ py: 1, p:{md:1,xs:0} }} >
                 <Carousel
                     autoPlay={true}
                     swipeable={true}

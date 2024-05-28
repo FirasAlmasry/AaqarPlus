@@ -42,7 +42,7 @@ const CardProperty = ({ img, Align, name, address, num1, num2, num3, num4, month
     let isHome = path === ''
     return (
         <>
-            <Card sx={{ maxWidth: '100%', my: 1, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)", height:'32rem' }}>
+            <Card sx={{ maxWidth: '100%', my: 1,mx:{md:1,xs:0}, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)", height:'32rem' }}>
                 {
                     img &&
                     <CardMedia
