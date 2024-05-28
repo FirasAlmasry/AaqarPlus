@@ -51,8 +51,8 @@ export default function CountryNewEditForm({ isEdit = false, currentCountry }) {
             ar: Yup.string().required("name ar is required"),
             en: Yup.string().required("name en is required"),
         }),
-        image: Yup.mixed().required("Avatar is required"),
-        trending: Yup.string().required("trending is required"),
+        // image: Yup.mixed().required("Avatar is required"),
+        // trending: Yup.string().required("trending is required"),
     });
 
     const defaultValues = useMemo(

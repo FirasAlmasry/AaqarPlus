@@ -8,9 +8,11 @@ const PaymentPlans = ({ MonthlyInstallment ,DownPayment ,InstallmentYears }) => 
     return (
         <>
             <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2, py: 2 }}>
-                <HeaderSection nameSection={t("PaymentPlans")} />
+                {!MonthlyInstallment?.startsWith('0') && !DownPayment?.startsWith('0') && !InstallmentYears && (
+                    <HeaderSection nameSection={t("PaymentPlans")} />
+                )}
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap:'wrap' }}>
-                    <Typography color={'primary.main'} sx={{ fontWeight:'bold' }} >{MonthlyInstallment} <span style={{ color:'#E00201' }} >Monthly</span></Typography> | <Typography>{DownPayment}-Down Payment</Typography> | <Typography color={'primary.main'} sx={{ fontWeight:'bold' }} >{InstallmentYears}Years</Typography>
+                    {MonthlyInstallment && !MonthlyInstallment?.startsWith('0') && <Typography color={'primary.main'} sx={{ fontWeight: 'bold' }} >{parseFloat(MonthlyInstallment).toLocaleString()}  <span style={{ color: '#E00201' }} >Monthly</span> | </Typography>} {DownPayment && !DownPayment?.startsWith('0') && <Typography>{parseFloat(DownPayment).toLocaleString()} {DownPayment?.split(' ')[1]}-Down Payment | </Typography>} {InstallmentYears && !InstallmentYears?.startsWith('0') &&<Typography color={'primary.main'} sx={{ fontWeight: 'bold' }} >{InstallmentYears}Years</Typography>}
                 </Box>
             </Box>
         </>

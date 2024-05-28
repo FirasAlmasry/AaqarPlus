@@ -5,7 +5,7 @@ export const ApiAuth = api.injectEndpoints({
     reducerPath: "apiUser",
     endpoints: (build) => ({
         getMessages: build.query({
-            query: () => `/messages`,
+            query: (currentPage) => `/messages?page=${currentPage}&per_page=5`,
             providesTags: ["messages"],
         }),
         deleteMessages: build.mutation({

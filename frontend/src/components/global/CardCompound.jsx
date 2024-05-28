@@ -28,10 +28,10 @@ const CardCompound = ({ img, Align, name, address, month, years, price, whatsapp
                         </Typography>
                         {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}><Typography>{month} Monthly</Typography> / <Typography>{years} years</Typography></Box> */}
                         <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'space-between' }}>
-                            <Typography>{price}</Typography>
+                            <Typography>{parseFloat(price).toLocaleString()} {price.split(' ')[1]}</Typography>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
-                                    <a href={`tel:${whatsapp}`} target="_blank" rel="noopener noreferrer">
+                                    <a href={`whatsapp://send?phone=${whatsapp}`} target="_blank" rel="noopener noreferrer">
                                         <CardMedia component={'img'} src={whats} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                                     </a>
                                 </Box>

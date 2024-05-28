@@ -5,7 +5,7 @@ export const ApiAuth = api.injectEndpoints({
     reducerPath: "apiUser",
     endpoints: (build) => ({
         getAreas: build.query({
-            query: () => `/areas`,
+            query: ({ currentPage, limit }) => `/areas?page=${currentPage}&per_page=${limit}`,
             providesTags: ["areas"],
         }),
         getAreasId: build.query({

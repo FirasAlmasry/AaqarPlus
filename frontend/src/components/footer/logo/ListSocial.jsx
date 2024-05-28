@@ -24,7 +24,7 @@ const ListSocial = () => {
           <CardMedia
             component={'img'}
             src={insta}
-            sx={{ width: '2.5rem', height: '2.5rem', objectFit:'contain' }}
+            sx={{ width: {md:'2.5rem', xs:'1.75rem'}, height: {md:'2.5rem', xs:'1.75rem'}, objectFit:'contain' }}
           />
         </a>
       </Box>
@@ -33,16 +33,16 @@ const ListSocial = () => {
           <CardMedia
             component={'img'}
             src={face}
-            sx={{ width: '2.5rem', height: '2.5rem', objectFit:'contain' }}
+            sx={{ width: {md:'2.5rem', xs:'1.75rem'}, height: {md:'2.5rem', xs:'1.75rem'}, objectFit:'contain' }}
           />
         </a>
       </Box>
       <Box >
-        <a href={contactData?.whatsapp} target="_blank" rel="noopener noreferrer" >
+        <a href={`whatsapp://send?phone=${contactData?.whatsapp}`} target="_blank" rel="noopener noreferrer" >
           <CardMedia
             component={'img'}
             src={whats}
-            sx={{ width: '2.5rem', height: '2.5rem', objectFit:'contain' }}
+            sx={{ width: {md:'2.5rem', xs:'1.75rem'}, height: {md:'2.5rem', xs:'1.75rem'}, objectFit:'contain' }}
           />
         </a>
       </Box>

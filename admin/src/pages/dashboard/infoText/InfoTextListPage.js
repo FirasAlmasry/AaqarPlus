@@ -511,7 +511,7 @@ export default function InfoTextListPage() {
                         </Scrollbar>
                     </TableContainer>
 
-                    <TablePaginationCustom
+                    {/* <TablePaginationCustom
                         count={11}
                         page={page}
                         rowsPerPage={rowsPerPage}
@@ -520,7 +520,7 @@ export default function InfoTextListPage() {
                         //
                         dense={dense}
                         onChangeDense={onChangeDense}
-                    />
+                    /> */}
                 </Card>
             </Container>
 

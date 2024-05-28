@@ -13,6 +13,7 @@ import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import CompoundsNewEditForm from "../../../sections/@dashboard/compounds/CompoundsNewEditForm";
 import { useGetCompoundsIdQuery } from "../../../state/compounds";
+import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +21,19 @@ export default function CompoundsEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isCompoundsLoading } = useGetCompoundsIdQuery(name);
+    const { data, isCompoundsLoading, refetch } = useGetCompoundsIdQuery(name);
+    const [compoundData, setCompoundData] = useState(null);
+
+    useEffect(() => {
+        if (data) {
+            setCompoundData(data.data);
+        }
+    }, [data]);
+
+    useEffect(() => {
+        refetch(); // سيؤدي إلى إعادة جلب البيانات عندما يتغير `name` في useParams
+    }, [name, refetch]);
+
     return (
         <>
             <Helmet>
@@ -39,11 +52,11 @@ export default function CompoundsEditPage() {
                             name: "Compounds",
                             href: PATH_DASHBOARD.compounds.list,
                         },
-                        { name: data?.data?.compound?.name.en },
+                        { name: compoundData?.compound?.name.en },
                     ]}
                 />
                 {isCompoundsLoading ? "loading" :
-                    <CompoundsNewEditForm isEdit currentService={data?.data} />
+                    <CompoundsNewEditForm isEdit currentService={compoundData} />
                 }
             </Container>
         </>

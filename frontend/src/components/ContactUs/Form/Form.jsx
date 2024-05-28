@@ -6,13 +6,13 @@ import * as Yup from "yup";
 import { useAddMessagesMutation } from '../../../state/message';
 // form
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup"; 
+import { yupResolver } from "@hookform/resolvers/yup";
 import { enqueueSnackbar } from "notistack";
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 
 const Form = ({ children }) => {
-const { t } = useTranslation()
+    const { t } = useTranslation()
     const NewMessagesSchema = Yup.object().shape({
         name: Yup.string(),
         phone_number: Yup.string(),
@@ -53,12 +53,12 @@ const { t } = useTranslation()
                 <Box component={'form'} onSubmit={handleSubmit(onSubmit)} >
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }} >
                         <Box sx={{ width: { md: '100%', xs: '100%' }, }}>
-                            <InputLabel htmlFor="name" sx={{ my: 1, textAlign:lng === 'en'? 'left':'right' }} >
-                                {t("Form.name")} 
+                            <InputLabel htmlFor="name" sx={{ my: 1, textAlign: lng === 'en' ? 'left' : 'right' }} >
+                                {t("Form.name")}<span style={{ color: '#F00000' }} >*</span>
                             </InputLabel>
                             <input
                                 style={{ backgroundColor: '#FFF' }}
-                                // required
+                                required
                                 id="name"
                                 variant="filled"
                                 size="medium"
@@ -68,11 +68,11 @@ const { t } = useTranslation()
                             />
                         </Box>
                         <Box sx={{ width: { md: '100%', xs: '100%' }, }}  >
-                            <InputLabel htmlFor="phone_number" sx={{ my: 1, textAlign:lng === 'en'? 'left':'right' }} >
-                                {t("Form.PhoneNumber")}
+                            <InputLabel htmlFor="phone_number" sx={{ my: 1, textAlign: lng === 'en' ? 'left' : 'right' }} >
+                                {t("Form.PhoneNumber")} <span style={{ color:'#F00000' }} >*</span>
                             </InputLabel>
                             <input
-                                // required
+                                required
                                 style={{ backgroundColor: '#FFF' }}
                                 id="phone_number"
                                 variant="filled"
@@ -84,10 +84,10 @@ const { t } = useTranslation()
                         </Box>
                         <Box sx={{ width: '100%', }}  >
                             <InputLabel htmlFor="preferred_location" sx={{ my: 1, textAlign: lng === 'en' ? 'left' : 'right' }} >
-                                {t("UnitType")} 
+                                {t("UnitType")} <span style={{ color:'#F00000' }} >*</span>
                             </InputLabel>
                             <input
-                                // required
+                                required
                                 style={{ backgroundColor: '#FFF' }}
                                 id="preferred_location"
                                 variant="filled"
@@ -98,7 +98,7 @@ const { t } = useTranslation()
                             />
                         </Box>
                         <Box sx={{ width: '100%', }}  >
-                            <InputLabel htmlFor="location" sx={{ my: 1, textAlign:lng === 'en'? 'left':'right' }} >
+                            <InputLabel htmlFor="location" sx={{ my: 1, textAlign: lng === 'en' ? 'left' : 'right' }} >
                                 {t("Form.Location")} 
                             </InputLabel>
                             <input
@@ -112,10 +112,10 @@ const { t } = useTranslation()
                                 {...register("location")}
                             />
                         </Box>
-                       
+
                         <Box sx={{ width: { md: '100%', xs: '100%' }, }}  >
-                            <InputLabel htmlFor="description" sx={{ my: 1, textAlign:lng === 'en'? 'left':'right' }} >
-                                {t("Form.Message")} 
+                            <InputLabel htmlFor="description" sx={{ my: 1, textAlign: lng === 'en' ? 'left' : 'right' }} >
+                                {t("Form.Message")}
                             </InputLabel>
                             <textarea
                                 // required

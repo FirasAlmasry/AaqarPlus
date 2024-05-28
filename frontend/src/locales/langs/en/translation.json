@@ -1,5 +1,5 @@
 {
-    "copeRight": "All rights reserved © Revamp Agency",
+    "copeRight": "© Copyright 2024 - Aqar Plus.",
     "div": "Designed and developed by ",
     "Top": "Top ",
     "area": "Areas",
@@ -13,37 +13,46 @@
     "HowItWorks": "How It Works",
     "Buyer":"Buyer",
     "Seller":"Seller",
-    "Blogs":"Blogs",
-    "aboutUs":"aboutUs",
+    "Blogs":"Our Blogs",
+    "aboutUs":"About Us",
     "Founder":"Founders",
     "OurProducts":"Our Products",
     "OurNews": "Our News",
     "Price": "Price",
     "MaxPrice": "Max Price",
-    "address": "Address",
+    "address": "Area",
     "Amenities": "Amenities",
     "PaymentPlans": "Payment Plans",
     "ExplorePropertiesIn": "Explore Properties in",
     "Reference": "Reference No",
     "Bedrooms": "Bedrooms",
     "Bathrooms": "Bathrooms",
-    "DeliveryIn": "DeliveryIn",
+    "DeliveryIn": "Delivery In",
     "Compound": "Compound",
-    "SaleType": "SaleType",
+    "SaleType": "Sale Type",
     "UnitType":"Unit Type",
     "search":"Area, City , Country",
     "Finishing": "Finishing",
     "SuggestedProperties":"Suggested Properties",
     "Description":"Description",
     "AvailableUnits": "Available Units ", 
+    "AvailableCompounds": "Compounds available in ",
+    "AvailableProp": "Units available in ",
     "Trending": "Trending",
     "btn":"Search",
     "LaunchingSoon":"Launching Soon",
     "related":"Related Units",
+    "aq":"Aqar Plus",
+    "EmptyContent": "No results found on this page",
         "Hero": {
         "title": "Find Your New Home",
-        "desc": "Search  & Compare Among 5000+ Properities  and 500+ Compounds Or List your Old Property for Slae",
+        "desc": "Search  & Compare Among 5000+ Properties  and 500+ Compounds Or List your Old Property for Sale",
         "ReadMore": "Read More"
+    },
+    "Bnr": {
+        "title":"Sell Your Property",
+        "desc":"Sell your property in 3 simple steps",
+        "btn":"Learn More"
     },
     "Explore" : {
         "title":"Explore Developers",
@@ -87,10 +96,10 @@
         "ContactUsDesc":"For inquiries, complaints, or comments regarding these terms of use, please contact us at sales@aqarpluseg.com. This section provides users with contact information for reaching out to Aqar Plus regarding any issues related to the terms of use or privacy policy."
     },
     "Contacts": {
-        "title": "Contacts",
+        "title": "Contact Us",
         "Need": "Need Expert Advice ?",
         "Email": "Email Address",
-        "Location": "Location / Address",
+        "Location": "Location",
         "Working": "Working Hours"
     },
     "Dev": {
@@ -98,7 +107,13 @@
         "Brief": "Brief",
         "area": "Area",
         "TopProjectsTitle": "Top Projects Title",
-        "DescDev": "Description Developer",
-        "DescProjects": "Description Top Projects"
-    } 
+        "DescDev": "About Developer",
+        "DescProjects": "About Top Projects",
+        "Projects":"Projects"
+    },
+    "design": {
+        "title": "Distinctive Interior Designs with Aqar Plus",
+        "desc": "Welcome to the world of luxury and elegance, where creativity shines in every detail! We are Aqar Plus, a leading real estate company specializing in transforming ordinary spaces into palaces of beauty and comfort. Our deep expertise and creative vision are embodied in every interior design we undertake. We aim to create unique experiences for our clients, blending authenticity and innovation, elegance and functionality, to create spaces that reflect their personalities and meet their needs in every detail. Our exceptional team of designers and architects is dedicated to turning ideas into tangible reality, considering every element of luxury and sophistication. We combine modern styles and cutting-edge techniques to achieve designs that exceed expectations and inspire admiration. Whether you're looking to renovate your current residence or planning to build your dream home, Aqar Plus is the perfect partner to realize your vision. Discover with us the world of creativity and excellence, and let us bring to life everything you dream of in the realm of interior design. Contact us today to embark on a journey to transform your home into an artistic masterpiece that reflects your personality and fulfills all your aspirations!",
+        "btn": "Contact Us"
+    }
 }

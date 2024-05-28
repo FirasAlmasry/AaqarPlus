@@ -34,7 +34,7 @@ export default function MessagesTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { name,preferred_location,location,phone_number,description,} = row;
+    const { name,preferred_location,location,phone_number,description,created_at} = row;
 
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -73,6 +73,9 @@ export default function MessagesTableRow({
                 </TableCell>
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {description}
+                </TableCell> 
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {created_at}
                 </TableCell> 
                 <TableCell align="right">
                     <IconButton

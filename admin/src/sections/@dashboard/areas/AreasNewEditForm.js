@@ -61,7 +61,7 @@ export default function AreasNewEditForm({ isEdit = false, currentAreas }) {
                 ar: currentAreas?.name?.ar || "",
                 en: currentAreas?.name?.en || "",
             },
-            image: currentAreas?.image || [],
+            image: currentAreas?.image,
             trending: currentAreas?.trending || '0',
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps

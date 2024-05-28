@@ -13,6 +13,7 @@ import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import { useGetPropertyTypeIdQuery } from "../../../state/PropertyType";
 import PropertyTypeNewEditForm from "../../../sections/@dashboard/propertyType/PropertyTypeNewEditForm";
+import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +21,18 @@ export default function AttachesEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isServiseLoading } = useGetPropertyTypeIdQuery(name);
+    const { data, isServiseLoading, refetch } = useGetPropertyTypeIdQuery(name);
+
+    const [propertyTypeData, setPropertyTypeData] = useState(null);
+
+    useEffect(() => {
+        if (data) {
+            setPropertyTypeData(data.data.property_type);
+        }
+    }, [data]);
+    useEffect(() => {
+        refetch(); // هذا سيؤدي إلى إعادة جلب البيانات عندما يتغير `name` في useParams
+    }, [name, refetch]);
     return (
         <>
             <Helmet>
@@ -39,11 +51,11 @@ export default function AttachesEditPage() {
                             name: "PropertyType",
                             href: PATH_DASHBOARD.propertyType.list,
                         },
-                        { name: data?.data.name.en },
+                        { name: data?.data?.property_type?.name?.en },
                     ]}
                 />
                 {isServiseLoading ? "loading" :
-                    <PropertyTypeNewEditForm isEdit currentService={data?.data} />
+                    <PropertyTypeNewEditForm isEdit currentService={propertyTypeData} />
                 }
             </Container>
         </>

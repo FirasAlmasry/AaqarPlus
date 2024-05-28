@@ -52,14 +52,15 @@ const CompoundDetails = () => {
                     <Grid item md={6} xs={12}>
                         <Details
                             title={tableData?.name}
+                            devName={tableData?.developer_name}
                             address={tableData?.address}
                             startPrice={tableData?.start_price}
                             endPrice={tableData?.end_price}
                             whatsapp={tableData?.whatsapp}
                             phone_number={tableData?.phone_number} >
                             {tableData?.attacheds?.map((res) =>
-                                <Box key={res?.name} sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap:'wrap' }}  >
-                                    <CardMedia component={'img'} src={icon} sx={{ width: '18px', height: '18px' }} />
+                                <Box key={res?.name} sx={{ display: 'flex', alignItems: 'center', gap: 1, }}  >
+                                    <CardMedia component={'img'} src={res?.icon ? `${url}${res?.icon}` : icon} sx={{ width: '18px', height: '18px' }} />
                                     {res?.name}
                                 </Box>
                             )}
@@ -82,7 +83,7 @@ const CompoundDetails = () => {
                         {
                             tableData?.properties &&
                             <MultiItemSlider>
-                                    {tableData?.properties?.map(res =>
+                                {tableData?.properties?.map(res =>
                                     <Box key={res?.id} sx={{ my: 2 }}>
                                         <CardProperty img={url + res?.master_plan}
                                             name={lng === 'ar' ? res?.name?.ar : res?.name?.en}
@@ -96,31 +97,13 @@ const CompoundDetails = () => {
                                             whatsapp={res?.whatsapp}
                                             phone_number={res?.phone_number}
                                             id={res?.id}
+                                            agent_id={res?.agent_code}
                                         />
                                     </Box>
                                 )}
                             </MultiItemSlider>
                         }
                     </Box>
-                    {/* <GlobalList>
-                        {tableData?.properties?.map(res =>
-                            <Grid item md={4} xs={12} key={res?.id}>
-                                <CardProperty img={url + res?.master_plan}
-                                    name={lng === 'ar' ? res?.name?.ar : res?.name?.en}
-                                    address={lng === 'ar' ? res?.address?.ar : res?.address?.en}
-                                    num1={res?.bedrooms}
-                                    num2={res?.bathrooms}
-                                    num3={res?.house_area}
-                                    month={res?.monthly_installment}
-                                    years={res?.installment_years}
-                                    price={res?.end_price}
-                                    whatsapp={res?.whatsapp}
-                                    phone_number={res?.phone_number}
-                                    id={res?.id}
-                                />
-                            </Grid>
-                        )}
-                    </GlobalList> */}
                 </Box>
             </WrapperSection>
         </>

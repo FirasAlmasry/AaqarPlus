@@ -38,6 +38,10 @@ export default function FileNewFolderDialog({
   onChangeFolderName,
   files,
 setFiles,
+  handleMultyDrop,
+handleRemoveFile,
+handleUpload,
+handleRemoveAllFiles,
   ...other
 }) {
   // const [files, setFiles] = useState([]);
@@ -49,32 +53,33 @@ setFiles,
     }
   }, [open,setFiles]);
 
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const newFiles = acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
-      );
+  // const handleMultyDrop = useCallback(
+  //   (acceptedFiles) => {
+  //     const newFiles = acceptedFiles.map((file) =>
+  //       Object.assign(file, {
+  //         preview: URL.createObjectURL(file),
+  //       })
+  //     );
 
-      setFiles([...files, ...newFiles]);
-    },
-    [files,setFiles]
-  );
+  //     setFiles([...files, ...newFiles]);
+  //   },
+  //   [files,setFiles]
+  // );
 
-  const handleUpload = () => {
-    onClose();
-    console.log('ON UPLOAD');
-  };
+  // const handleUpload = () => {
+  //   onClose();
+  //   console.log('ON UPLOAD');
+  //   handleMultyDrop()
+  // };
 
-  const handleRemoveFile = (inputFile) => {
-    const filtered = files.filter((file) => file !== inputFile);
-    setFiles(filtered);
-  };
+  // const handleRemoveFile = (inputFile) => {
+  //   const filtered = files.filter((file) => file !== inputFile);
+  //   setFiles(filtered);
+  // };
 
-  const handleRemoveAllFiles = () => {
-    setFiles([]);
-  };
+  // const handleRemoveAllFiles = () => {
+  //   setFiles([]);
+  // };
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose} {...other}>
@@ -92,7 +97,7 @@ setFiles,
           />
         )}
 
-        <Upload multiple files={files} onDrop={handleDrop} onRemove={handleRemoveFile} />
+        <Upload multiple files={files} onDrop={handleMultyDrop} onRemove={handleRemoveFile} />
       </DialogContent>
 
       <DialogActions>

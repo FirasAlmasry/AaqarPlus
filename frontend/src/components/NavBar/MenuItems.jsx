@@ -2,29 +2,11 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
-// import MenuItem from '@mui/material/MenuItem';
-// import EditIcon from '@mui/icons-material/Edit';
-// import Divider from '@mui/material/Divider';
-// import ArchiveIcon from '@mui/icons-material/Archive';
-// import FileCopyIcon from '@mui/icons-material/FileCopy';
-// import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// import { useTranslation } from 'react-i18next';
-import { Typography } from '@mui/material';
+import { Fade,  Typography } from '@mui/material';
 
 
 export default function MenuItems({ name, children, handleClick, anchorEl, open, handleClose, wid=140 }) { 
-    // const [anchorEl, setAnchorEl] = React.useState(null);
-    // const open = Boolean(anchorEl);
-    // const handleClick = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
-
-    // const { t } = useTranslation()
-
     const StyledMenu = styled((props) => (
         <Menu
             elevation={0}
@@ -36,6 +18,8 @@ export default function MenuItems({ name, children, handleClick, anchorEl, open,
                 vertical: 'top',
                 horizontal: 'center',
             }}
+            transitionDuration={800}
+            TransitionProps={Fade}
             {...props}
         />
     ))(({ theme }) => ({
@@ -56,12 +40,6 @@ export default function MenuItems({ name, children, handleClick, anchorEl, open,
                     color: theme.palette.text.secondary,
                     marginRight: theme.spacing(1.5),
                 },
-                // '&:active': {
-                //     backgroundColor: alpha(
-                //         theme.palette.primary.main,
-                //         theme.palette.action.selectedOpacity,
-                //     ),
-                // },
             },
         },
     }));
@@ -93,26 +71,8 @@ export default function MenuItems({ name, children, handleClick, anchorEl, open,
                 }}
                 anchorEl={anchorEl}
                 open={open}
-                onClose={handleClose}
-            >
+                onClose={handleClose}>
                 {children}
-                {/* <MenuItem onClick={handleClose} disableRipple>
-                    <EditIcon />
-                    Edit
-                </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple>
-                    <FileCopyIcon />
-                    Duplicate
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={handleClose} disableRipple>
-                    <ArchiveIcon />
-                    Archive
-                </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple>
-                    <MoreHorizIcon />
-                    More
-                </MenuItem> */}
             </StyledMenu>
         </div>
     );

@@ -20,21 +20,21 @@ export const Pages = [
         //         name:`المشاريع`,
         //         name_en:`Rent`
         // },
-        {
-                path: `areas`,
-                name:`المناطق`,
-                name_en:`Areas`
-        },
+        // {
+        //         path: `areas`,
+        //         name:`المناطق`,
+        //         name_en:`Areas`
+        // },
         {
                 path: `developers`,
                 name:`المطورين`,
                 name_en:`Developers`
         },
-        {
-                path: `compounds`,
-                name:`الوحدات`,
-                name_en:`compounds`
-        },
+        // {
+        //         path: `compounds`,
+        //         name:`الوحدات`,
+        //         name_en:`compounds`
+        // },
         {
                 path: `properties`,
                 name:`الوحدات المتاحة`,
@@ -45,15 +45,15 @@ export const Pages = [
                 name:` المشاريع القادمة`,
                 name_en:`Launching Soon`
         },
+        // {
+        //         path: `areas`,
+        //         name:` اهم المجمعات السكنية`,
+        //         name_en:`Top Projects`
+        // },
         {
                 path: `design`,
                 name:`التصميم الداخلي والديكورات`,
-                name_en:`Internal Designs`
-        },
-        {
-                path: `terms`,
-                name:`شروط`,
-                name_en:`Terms`
+                name_en:`Interior Designs`
         },
         {
                 path: `how-it-works`,
@@ -61,19 +61,24 @@ export const Pages = [
                 name_en:`How It Works`
         },
         {
+                path: `terms`,
+                name:`شروط`,
+                name_en:`Terms`
+        },
+        {
                 path: `blogs`,
                 name:`المقالات`,
-                name_en:`Blogs`
+                name_en:`Our Blog`
         },
         {
                 path: `about-us`,
                 name:`من نحن`,
-                name_en:`About`
+                name_en:`About Us`
         },
         {
                 path: `contact-us`,
                 name:`تواصل معنا`,
-                name_en:`Contact`
+                name_en:`Contact Us`
         },
         // {
         //         path: `favorites`,

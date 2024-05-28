@@ -9,6 +9,9 @@ import BoxDrawer from './BoxDrawer'
 import i18next from 'i18next'
 
 const GalleryProperty = ({ tableData }) => {
+
+    
+
     let lng = i18next.language
     const [selectedBox, setSelectedBox] = useState(null);
     const [drawer, setDrawer] = useState(false);
@@ -22,7 +25,7 @@ const GalleryProperty = ({ tableData }) => {
             <HeaderSection nameSection={lng === 'en' ? 'Details': "تفاصيل"} />
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 2, flexWrap: 'wrap' }} >
                 {tableData?.image_floor_plan &&
-                    <Box sx={{ border: "1px solid #707070", p: 1, m: 1, borderRadius: '8px' }}
+                    <Box sx={{ border: "1px solid #707070", p: 1, m: 1, borderRadius: '8px', cursor:'pointer' }}
                         onClick={() => handleBoxClick('image_floor_plan')}>
                         <Box sx={{ py: 2, px: 4, borderRadius: '8px', backgroundColor: '#F0EFEE', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
                             <CardMedia
@@ -35,7 +38,7 @@ const GalleryProperty = ({ tableData }) => {
                     </Box>
                 }
                 {tableData?.files  &&
-                    <Box sx={{ border: "1px solid #707070", p: 1, m: 1, borderRadius: '8px' }}
+                    <Box sx={{ border: "1px solid #707070", p: 1, m: 1, borderRadius: '8px', cursor:'pointer' }}
                         onClick={() => handleBoxClick('files')}>
                         <Box sx={{ py: 2, px: 4, borderRadius: '8px', backgroundColor: '#F0EFEE', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
                             <CardMedia
@@ -48,7 +51,7 @@ const GalleryProperty = ({ tableData }) => {
                     </Box>
                 }
                 {tableData?.master_plan &&
-                    <Box sx={{ border: "1px solid #707070", p: 1, m: 1, borderRadius: '8px' }}
+                    <Box sx={{ border: "1px solid #707070", p: 1, m: 1, borderRadius: '8px', cursor:'pointer' }}
                         onClick={() => handleBoxClick('master_plan')}>
                         <Box sx={{ py: 2, px: 4, borderRadius: '8px', backgroundColor: '#F0EFEE', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
                             <CardMedia
@@ -61,7 +64,7 @@ const GalleryProperty = ({ tableData }) => {
                     </Box>
                 }
                 {/* {tableData?.url_location &&
-                    <Box sx={{ border: "1px solid #707070", p: 1, m: 1, borderRadius: '8px' }}
+                    <Box sx={{ border: "1px solid #707070", p: 1, m: 1, borderRadius: '8px', cursor:'pointer' }}
                         onClick={() => handleBoxClick('url_location')}>
                         <Box sx={{ py: 2, px: 4, borderRadius: '8px', backgroundColor: '#F0EFEE', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
                             <CardMedia

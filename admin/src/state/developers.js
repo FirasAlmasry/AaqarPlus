@@ -5,7 +5,7 @@ export const ApiAuth = api.injectEndpoints({
     reducerPath: "apiUser",
     endpoints: (build) => ({
         getDevelopers: build.query({
-            query: () => `/developers`,
+            query: ({currentPage, limit}) => `/developers?page=${currentPage}&per_page=${limit}`,
             providesTags: ["developers"],
         }),
         getDevelopersId: build.query({

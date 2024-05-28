@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(6, 35, 113, 40%);
+  background: rgba(6, 35, 113, 30%);
   z-index: 2;
   display: flex;
   justify-content: center;
@@ -17,7 +17,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(6, 35, 113, 40%);
+    background: rgba(6, 35, 113, 30%);
     z-index: 2;
     display: flex;
     justify-content: center;
@@ -39,4 +39,9 @@
   border-radius: 50%;
   width: 2rem;
   height: 2rem;
+}
+
+.desc iframe {
+  width: 100%;
+  height: 250px;
 }

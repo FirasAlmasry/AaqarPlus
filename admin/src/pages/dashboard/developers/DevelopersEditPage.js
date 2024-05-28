@@ -13,6 +13,7 @@ import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import DevelopersNewEditForm from "../../../sections/@dashboard/developers/DevelopersNewEditForm";
 import { useGetDevelopersIdQuery } from "../../../state/developers";
+import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +22,19 @@ export default function DevelopersEditPage() {
 
     const { name } = useParams();
 
-    const { data } = useGetDevelopersIdQuery(name)
+    const { data, isDevelopersLoading, refetch } = useGetDevelopersIdQuery(name);
+    const [developerData, setDeveloperData] = useState(null);
+
+    useEffect(() => {
+        if (data) {
+            setDeveloperData(data.data);
+        }
+    }, [data]);
+
+    useEffect(() => {
+        refetch(); // سيؤدي إلى إعادة جلب البيانات عندما يتغير `name` في useParams
+    }, [name, refetch]);
+    
     return (
         <>
             <Helmet>
@@ -40,11 +53,11 @@ export default function DevelopersEditPage() {
                             name: "Developers",
                             href: PATH_DASHBOARD.developers.list,
                         },
-                        { name: data?.data?.name.en },
+                        { name: developerData?.name?.en },
                     ]}
                 />
 
-                <DevelopersNewEditForm isEdit currentDevelopers={data?.data} />
+                <DevelopersNewEditForm isEdit currentDevelopers={developerData} />
             </Container>
         </>
     );

@@ -5,7 +5,7 @@ export const ApiAuth = api.injectEndpoints({
     reducerPath: "apiUser",
     endpoints: (build) => ({
         getFounders: build.query({
-            query: (type) => `/founders?type=${type}`,
+            query: (type) => `/founders?type=${type}&per_page=4`,
             providesTags: ["founders"],
         }),
         getFoundersId: build.query({

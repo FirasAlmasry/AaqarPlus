@@ -85,7 +85,7 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
     const [selectedIds, setSelectedIds] = useState([]);
 
 // Devlober
-    const { data: developer, isDevLoading } = useGetDevelopersQuery();
+    const { data: developer, isDevLoading } = useGetDevelopersQuery({ currentPage:1, limit: 1000 });
     let developer_id = currentService?.compound?.developer_id
     developer_id = String(developer_id)
     const [Devi, setDevi] = useState(developer_id);
@@ -143,18 +143,19 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
             ar: Yup.string().required("description ar is required"),
         }),
         payment_plans: Yup.object({
-            en: Yup.string().required("payment_plans en is required"),
-            ar: Yup.string().required("payment_plans ar is required"),
+            en: Yup.string().required("payment plans en is required"),
+            ar: Yup.string().required("payment plans ar is required"),
         }),
-        phone_number: Yup.string().required("phone_number en is required"),
+        phone_number: Yup.string().required("phone number en is required"),
         whatsapp: Yup.string().required("whatsapp en is required"),
         trending: Yup.string().required("trending en is required"),
         developer_id: Yup.string(),
-        url_location: Yup.string().required("url_location en is required"),
+        url_location: Yup.string().required("url location en is required"),
         coin_id: Yup.string(),
-        image_location: Yup.mixed().required("image_location is required"),
-        start_price: Yup.string().required("start_price en is required"),
-        end_price: Yup.string().required("end_price en is required"),
+        image_location: Yup.mixed().required("image location is required"),
+        start_price: Yup.string().required("start price en is required"),
+        end_price: Yup.string().required("end price en is required"),
+        is_available: Yup.string(),
         attached: Yup.array().required('required'),
         files: Yup.array().required('required'),
     });
@@ -183,11 +184,12 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
             end_price: currentService?.compound?.end_price || '0',
             trending: currentService?.compound?.trending || '0',
             url_location: currentService?.compound?.url_location || '',
-            image_location: currentService?.compound?.image_location || [],
+            image_location: currentService?.compound?.image_location ,
             developer_id: Devi || '',
             coin_id: coin || "",
+            is_available: currentService?.compound?.is_available || '0',
             attached: Attached || [],
-            files: currentService?.compound?.images || [],
+            files: currentService?.compound?.images ,
         }),
 
 
@@ -244,6 +246,7 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
             formData.append("ar_payment_plans", data.payment_plans.ar);
             formData.append("en_payment_plans", data.payment_plans.en);
             formData.append("phone_number", data.phone_number);
+            formData.append("is_available", data.is_available);
             formData.append("whatsapp", data.whatsapp);
             formData.append("start_price", startPrice);
             formData.append("end_price", endPrice);
@@ -386,7 +389,7 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
                                             color: "text.secondary",
                                         }}
                                     >
-                                        image_location<br />
+                                        location image <br />
                                         Allowed *.jpeg, *.jpg, *.png, *.gif
                                         <br /> max size of {fData(3145728)}
                                     </Typography>
@@ -440,6 +443,52 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
                                 justifyContent: "space-between",
                             }}
                         />
+                        {/* is_available */}
+                        <FormControlLabel
+                            labelPlacement="start"
+                            control={
+                                <Controller
+                                    name="is_available"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Switch
+                                            {...field}
+                                            checked={
+                                                field.value !== '0'
+                                            }
+                                            onChange={(event) =>
+                                                field.onChange(
+                                                    event.target.checked
+                                                        ? '1'
+                                                        : '0'
+                                                )
+                                            }
+                                        />
+                                    )}
+                                />
+                            }
+                            label={
+                                <>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{ mb: 0.5 }}
+                                    >
+                                        Available
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ color: "text.secondary" }}
+                                    >
+                                        Apply Available
+                                    </Typography>
+                                </>
+                            }
+                            sx={{
+                                mx: 0,
+                                mb: 3,
+                                width: 1,
+                                justifyContent: "space-between",
+                            }} />
                     </Card>
                 </Grid>
 
@@ -531,7 +580,7 @@ export default function CompoundsNewEditForm({ isEdit = false, currentService })
                                             value={name?.id}
                                             style={getStyles(name, Attached, theme)}
                                         >
-                                            {name?.name.ar}
+                                            {name?.name.en}
                                         </MenuItem>
                                     ))}
                                 </Select>

@@ -15,6 +15,13 @@ import {
     Container,
     IconButton,
     TableContainer,
+    Box,
+    Pagination,
+    TablePagination,
+    Typography,
+    Select,
+    MenuItem
+
 } from "@mui/material";
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
@@ -34,7 +41,7 @@ import {
     TableEmptyRows,
     TableHeadCustom,
     TableSelectedAction,
-    TablePaginationCustom,
+    // TablePaginationCustom,
 } from "../../../components/table";
 // sections
 import {
@@ -43,6 +50,7 @@ import {
 } from "../../../sections/@dashboard/properties/list";
 import { useDeletePropertiesMutation, useGetPropertiesQuery } from "../../../state/properties";
 import { useSnackbar } from "notistack";
+import { Stack } from "@mui/system";
 
 // ----------------------------------------------------------------------
 
@@ -56,6 +64,7 @@ const TABLE_HEAD = [
 
 
     { id: "ref_number", label: "Ref Number", align: "left" },
+    { id: "agent_code", label: "Agent Code", align: "left" },
     { id: "nameAr", label: "nameAr ", align: "left" },
     // { id: "nameEn", label: "nameEn", align: "left" },
     // { id: "addressAr", label: "addressAr", align: "left" },
@@ -81,7 +90,7 @@ export default function PropertiesListPage() {
         page,
         order,
         orderBy,
-        rowsPerPage,
+        // rowsPerPage,
         setPage,
         //
         selected,
@@ -99,14 +108,6 @@ export default function PropertiesListPage() {
 
     const navigate = useNavigate();
 
-    const { data, isPropertiesLoading, refetch } = useGetPropertiesQuery();
-
-    const [tableData, setTableData] = useState([]);
-    useEffect(() => {
-        if (data && !isPropertiesLoading) {
-            setTableData(data?.data?.data)
-        }
-    }, [data, tableData, isPropertiesLoading])
 
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -115,7 +116,36 @@ export default function PropertiesListPage() {
     const [filterRole, setFilterRole] = useState("all");
 
     const [filterStatus, setFilterStatus] = useState("all");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const onPageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+    const onRowsPerPageChange = (event) => {
+        setRowsPerPage(event.target.value);
+        setCurrentPage(1); // عندما يتم تغيير عدد العناصر في كل صفحة، يجب عليك إعادة تعيين الصفحة الحالية إلى الصفحة الأولى
+    };
+    const [tableData, setTableData] = useState([]);
+    console.log("🚀 ~ PropertiesListPage ~ tableData:", tableData)
+    const { data, isPropertiesLoading } = useGetPropertiesQuery({ onlyTrashed: 'false', currentPage, limit: rowsPerPage, ref_number: filterName });
+    console.log("🚀 ~ PropertiesListPage ~ data:", data)
 
+    useEffect(() => {
+        if (data && !isPropertiesLoading) {
+            setTableData(data?.data?.data);
+        }
+    }, [data, isPropertiesLoading,]);
+    useEffect(() => {
+        // Call applyFilter whenever filterName changes
+        setTableData(applyFilter({
+            inputData: data?.data?.data || [], // Ensure inputData is defined
+            comparator: getComparator(order, orderBy),
+            filterName,
+            filterStatus,
+            filterRole,
+        }));
+
+    }, [filterName, data, order, orderBy, filterStatus, filterRole]);
     const dataFiltered = applyFilter({
         inputData: tableData,
         comparator: getComparator(order, orderBy),
@@ -123,8 +153,16 @@ export default function PropertiesListPage() {
         filterRole,
         filterStatus,
     });
+    // const dataFiltered = applyFilter({
+    //     inputData: tableData,
+    //     comparator: getComparator(order, orderBy),
+    //     filterName,
+    //     filterRole,
+    //     filterStatus,
+    // });
 
-    const dataInPage = dataFiltered.slice(
+    // Apply pagination after filtering
+    const dataInPage = dataFiltered?.slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
     );
@@ -167,7 +205,6 @@ export default function PropertiesListPage() {
     const handleDeleteRow = async (id) => {
         const response = await deleteProperties(id);
         if (response && response.error) {
-            console.error("An error occurred while deleting area:", response.error);
             const errorMessage = response.error.data.message || 'An error occurred';
             enqueueSnackbar(errorMessage, { variant: 'error' });
             handleCloseConfirm(); // تنفيذ الدالة لإغلاق الـ "بوب آب"
@@ -176,38 +213,38 @@ export default function PropertiesListPage() {
             const deleteRow = tableData?.filter((row) => row?.id !== id);
             setSelected([]);
             setTableData(deleteRow);
-            refetch();
+            // refetch();
             handleCloseConfirm(); // تنفيذ الدالة لإغلاق الـ "بوب آب"
             setOpenConfirm(false);
             if (page > 0) {
-                if (dataInPage.length < 2) {
+                if (dataInPage?.length < 2) {
                     setPage(page - 1);
                 }
             }
         }
     };
 
-    const handleDeleteRows = (selectedRows) => {
-        const deleteRows = tableData.filter(
-            (row) => !selectedRows.includes(row.id)
-        );
-        setSelected([]);
-        setTableData(deleteRows);
+    // const handleDeleteRows = (selectedRows) => {
+    //     const deleteRows = tableData.filter(
+    //         (row) => !selectedRows.includes(row.id)
+    //     );
+    //     setSelected([]);
+    //     setTableData(deleteRows);
 
-        if (page > 0) {
-            if (selectedRows.length === dataInPage.length) {
-                setPage(page - 1);
-            } else if (selectedRows.length === dataFiltered.length) {
-                setPage(0);
-            } else if (selectedRows.length > dataInPage.length) {
-                const newPage =
-                    Math.ceil(
-                        (tableData.length - selectedRows.length) / rowsPerPage
-                    ) - 1;
-                setPage(newPage);
-            }
-        }
-    };
+    //     if (page > 0) {
+    //         if (selectedRows.length === dataInPage.length) {
+    //             setPage(page - 1);
+    //         } else if (selectedRows.length === dataFiltered.length) {
+    //             setPage(0);
+    //         } else if (selectedRows.length > dataInPage.length) {
+    //             const newPage =
+    //                 Math.ceil(
+    //                     (tableData.length - selectedRows.length) / rowsPerPage
+    //                 ) - 1;
+    //             setPage(newPage);
+    //         }
+    //     }
+    // };
 
     const handleEditRow = (id) => {
         id = String(id);
@@ -238,14 +275,26 @@ export default function PropertiesListPage() {
                         { name: "List" },
                     ]}
                     action={
-                        <Button
-                            component={RouterLink}
-                            to={PATH_DASHBOARD.properties.new}
-                            variant="contained"
-                            startIcon={<Iconify icon="eva:plus-fill" />}
-                        >
-                            New Property
-                        </Button>
+                        <>
+                            <Box sx={{ display: 'flex', gap: 2 }}>
+                                <Button
+                                    component={RouterLink}
+                                    to={PATH_DASHBOARD.properties.new}
+                                    variant="contained"
+                                    startIcon={<Iconify icon="eva:plus-fill" />}
+                                >
+                                    New Property
+                                </Button>
+                                <Button
+                                    component={RouterLink}
+                                    to={PATH_DASHBOARD.properties.archef}
+                                    variant="contained"
+                                // startIcon={<Iconify icon="eva:plus-fill" />}
+                                >
+                                    Archive
+                                </Button>
+                            </Box>
+                        </>
                     }
                 />
 
@@ -322,11 +371,11 @@ export default function PropertiesListPage() {
 
                                 <TableBody>
                                     {dataFiltered
-                                        .slice(
+                                        ?.slice(
                                             page * rowsPerPage,
                                             page * rowsPerPage + rowsPerPage
                                         )
-                                        .map((row) => (
+                                        ?.map((row) => (
                                             <PropertiesTableRow
                                                 key={row?.id}
                                                 row={row}
@@ -342,6 +391,7 @@ export default function PropertiesListPage() {
                                                 onEditRow={() =>
                                                     handleEditRow(row?.id)
                                                 }
+                                                is_available={true}
                                             />
                                         ))}
 
@@ -360,8 +410,26 @@ export default function PropertiesListPage() {
                         </Scrollbar>
                     </TableContainer>
 
-                    <TablePaginationCustom
-                        count={data?.data?.per_page}
+                    <Box sx={{ display: 'flex', justifyContent: 'space-around', py: 2, alignItems: 'center' }}>
+                        <Typography fontSize={'small'} >{rowsPerPage} item in each page</Typography>
+                        <Select value={rowsPerPage} onChange={onRowsPerPageChange} style={{ width: '75px', height: '35px' }}>
+                            <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={25}>25</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                        </Select>
+                        <Pagination
+                            count={data?.data?.last_page}
+                            shape="rounded"
+                            page={currentPage}
+                            showFirstButton
+                            showLastButton
+                            onChange={(event, value) => onPageChange(value)}
+                        />
+                        <Typography fontSize={'small'} >item available {data?.data?.total}</Typography>
+                    </Box>
+                    {/* <TablePaginationCustom
+                        count={data?.data?.total}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -369,7 +437,7 @@ export default function PropertiesListPage() {
                         //
                         dense={dense}
                         onChangeDense={onChangeDense}
-                    />
+                    /> */}
                 </Card>
             </Container>
 
@@ -388,7 +456,7 @@ export default function PropertiesListPage() {
                         variant="contained"
                         color="error"
                         onClick={() => {
-                            handleDeleteRows(selected);
+                            // handleDeleteRows(selected);
                             handleCloseConfirm();
                         }}
                     >
@@ -399,7 +467,6 @@ export default function PropertiesListPage() {
         </>
     );
 }
-
 // ----------------------------------------------------------------------
 
 function applyFilter({
@@ -410,7 +477,6 @@ function applyFilter({
     filterRole,
 }) {
     const stabilizedThis = inputData.map((el, index) => [el, index]);
-
     stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0]);
         if (order !== 0) return order;
@@ -422,7 +488,7 @@ function applyFilter({
     if (filterName) {
         inputData = inputData.filter(
             (user) =>
-                user.name.ar
+                user.ref_number
                     .toLowerCase()
                     .indexOf(filterName.toLowerCase()) !== -1
         );

@@ -44,8 +44,8 @@ const ContactUsPage = () => {
                                     </Box>
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <Box sx={{ display: 'flex', flexDirection:{md:'row', xs:'column'}, gap: { md: 4 ,xs:1}, ml: { md: 4,xs:0 }}} >
-                                        <CardMedia src={user} component={'img'} sx={{ width: {md:'7%',xs:'20%'}, m:{md:0,xs:'auto'}, objectFit:'contain' }} />
+                                    <Box sx={{ display: 'flex', flexDirection:{md:'row', xs:'row'}, gap: { md: 4 ,xs:1}, ml: { md: 4,xs:0 }}} >
+                                        <CardMedia src={user} component={'img'} sx={{ width: {md:'7%',xs:'15%'}, m:0, objectFit:'contain' }} />
                                         <Box>
                                             <Typography color={'primary.main'} variant={isMobile ? 'h6' : 'h6'} sx={{ my: 1.2 }} >{t("Contacts.Email")}</Typography>
                                             <Typography color={'secondary.supMain'} sx={{ my: 1.2 }} >{contactData?.email}</Typography>
@@ -53,8 +53,8 @@ const ContactUsPage = () => {
                                     </Box>
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <Box sx={{ display: 'flex', flexDirection:{md:'row', xs:'column'}, gap: { md: 4, xs: 1 }, ml: { md: 4, xs: 0 } }} >
-                                        <CardMedia src={location} component={'img'} sx={{ width: {md:'7%',xs:'20%'}, m:{md:0,xs:'auto'}, objectFit:'contain' }} />
+                                    <Box sx={{ display: 'flex', flexDirection:{md:'row', xs:'row'}, gap: { md: 4, xs: 1 }, ml: { md: 4, xs: 0 } }} >
+                                        <CardMedia src={location} component={'img'} sx={{ width: {md:'7%',xs:'15%'}, m:0, objectFit:'contain' }} />
                                         <Box>
                                             <Typography color={'primary.main'} variant={isMobile ? 'h6' : 'h6'} sx={{ my: 1.2 }} >{t("Contacts.Location")}</Typography>
                                             <Typography color={'secondary.supMain'} sx={{ my: 1.2 }} ><div dangerouslySetInnerHTML={{ __html: tableData?.address }}></div></Typography>

@@ -138,6 +138,10 @@ export const PropertiesListPage = Loadable(
     lazy(() => import("../pages/dashboard/properties/PropertiesListPage"))
 );
 
+export const PropertiesListArchefPage = Loadable(
+    lazy(() => import("../pages/dashboard/properties/PropertiesArchefListPage"))
+);
+
 export const PropertiesEditPage = Loadable(
     lazy(() => import("../pages/dashboard/properties/PropertiesEditPage"))
 );
@@ -157,6 +161,19 @@ export const FoundersEditPage = Loadable(
 
 export const FoundersCreatePage = Loadable(
     lazy(() => import("../pages/dashboard/founders/FoundersCreatePage"))
+);
+
+// DASHBOARD: Banners
+export const BannersListPage = Loadable(
+    lazy(() => import("../pages/dashboard/banners/BannersListPage"))
+);
+
+export const BannersEditPage = Loadable(
+    lazy(() => import("../pages/dashboard/banners/BannersEditPage"))
+);
+
+export const BannersCreatePage = Loadable(
+    lazy(() => import("../pages/dashboard/banners/BannersCreatePage"))
 );
 
 // DASHBOARD: Blogs

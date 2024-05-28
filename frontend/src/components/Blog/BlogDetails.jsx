@@ -23,7 +23,6 @@ const BlogDetails = () => {
             setTableData(data?.data)
         }
     }, [data, tableData, isBrandsLoading])
-    console.log(tableData?.large_text)
     return (
         <>
             <WrapperSection>

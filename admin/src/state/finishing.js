@@ -5,7 +5,7 @@ export const ApiAuth = api.injectEndpoints({
     reducerPath: "apiUser",
     endpoints: (build) => ({
         getFinishing: build.query({
-            query: () => `/finishing`,
+            query: () => `/finishing?per_page=100`,
             providesTags: ["finishing"],
         }),
         getFinishingId: build.query({

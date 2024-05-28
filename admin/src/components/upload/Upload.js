@@ -136,7 +136,7 @@ export default function Upload({
 
       {hasFiles && (
         <>
-          <Box sx={{ my: 3 }}>
+          <Box sx={{ my: 3, display:'flex', flexWrap:'wrap', gap:1 }}>
             <MultiFilePreview files={files} thumbnail={thumbnail} onRemove={onRemove} />
           </Box>
 

@@ -5,7 +5,7 @@ export const ApiAuth = api.injectEndpoints({
     reducerPath: "apiUser",
     endpoints: (build) => ({
         getAttacheds: build.query({
-            query: () => `/attacheds`,
+            query: () => `/attacheds?per_page=100`,
         }),
         invalidatesTags: ["attacheds"],
         getAttachedsId: build.query({

@@ -9,6 +9,7 @@ import i18next from 'i18next'
 import { useGetCompoundsQuery } from '../../state/compounds'
 import { Pagination, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import EmptyContent from '../global/EmptyContent'
 
 const ListCompounds = () => {
     const url = 'https://aqarbackend.revampbrands.com/storage/'
@@ -26,39 +27,45 @@ const ListCompounds = () => {
     const onPageChange = (newPage) => {
         setCurrentPage(newPage);
     };
-const { t } = useTranslation()
+    const { t } = useTranslation()
     return (
         <>
             <WrapperSection>
-                <HeaderSection nameSection={ t("compound") } length={tableData?.length} />
-                <GlobalList>
-                    {tableData?.map(res =>
-                        <Grid item md={4} xs={12} key={res?.id}>
-                            <CardCompound
-                                img={url + res?.main_image?.file}
-                                name={res?.name}
-                                address={res?.address}
-                                price={res?.end_price}
-                                whatsapp={res?.whatsapp}
-                                phone_number={res?.phone_number}
-                                id={res?.id}
+                {tableData && tableData?.length > 0 ? (
+                    <>
+                        <HeaderSection nameSection={t("compound")} length={tableData?.length} />
+                        <GlobalList>
+                            {tableData?.map(res =>
+                                <Grid item md={4} xs={12} key={res?.id}>
+                                    <CardCompound
+                                        img={url + res?.main_image?.file}
+                                        name={res?.name}
+                                        address={res?.address}
+                                        price={res?.end_price}
+                                        whatsapp={res?.whatsapp}
+                                        phone_number={res?.phone_number}
+                                        id={res?.id}
+                                    />
+                                </Grid>
+                            )}
+                        </GlobalList>
+                        <Stack spacing={2}>
+                            <Pagination
+                                count={data?.data?.last_page}
+                                shape="rounded"
+                                page={currentPage}
+                                onChange={(event, value) => onPageChange(value)}
+                                sx={{
+                                    '.MuiPaginationItem-icon': {
+                                        transform: lng === 'ar' ? 'rotate(180deg)' : 'rotate(0deg)'
+                                    }
+                                }}
                             />
-                        </Grid>
-                    )}
-                </GlobalList>
-                <Stack spacing={2}>
-                    <Pagination
-                        count={data?.data?.last_page}
-                        shape="rounded"
-                        page={currentPage}
-                        onChange={(event, value) => onPageChange(value)}
-                        sx={{
-                            '.MuiPaginationItem-icon': {
-                                transform: lng === 'ar' ? 'rotate(180deg)' : 'rotate(0deg)'
-                            }
-                        }}
-                    />
-                </Stack>
+                        </Stack>
+                    </>) : (
+                    // إذا لم تكن هناك بيانات، استدعاء المكون الآخر هنا
+                    <EmptyContent title={t("EmptyContent")} />
+                )}
             </WrapperSection>
         </>
     )

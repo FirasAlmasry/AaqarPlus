@@ -95,7 +95,6 @@ export default function FinishingNewEditForm({ isEdit = false, currentFinishing 
     const [editFinishing] = useEditFinishingMutation()
     const [addFinishing] = useAddFinishingMutation()
     const onSubmit = async (data) => {
-        console.log(data);
         try {
             const formData = new FormData();
             formData.append("ar_name", data.name.ar);

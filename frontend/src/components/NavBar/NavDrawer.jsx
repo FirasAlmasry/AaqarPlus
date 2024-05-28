@@ -1,16 +1,69 @@
 import * as React from "react";
 import Drawer from "@mui/material/Drawer";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import TransLang from "./TransLang"
 import { Pages, auth } from "../../constants";
 import i18next from "i18next";
 import { IconButton } from "@mui/material";
 import logo from './../../assets/logo.png'
+// import { useGetCountryQuery } from "../../state/Country";
+// import { useEffect } from "react";
+import CountryAccordion from "./CountryAccordion";
 // import close from './../../assets/Icon ionic-md-close-circle.png'
 
 export default function NavDrawer({ setDrawer, drawer }) {
     let lng = i18next.language
+    // const { data: country, isCountryLoading } = useGetCountryQuery(lng);
+
+    // const [countryData, setCountryData] = React.useState([]);
+    // useEffect(() => {
+    //     if (country && !isCountryLoading) {
+    //         setCountryData(country?.data?.data)
+    //     }
+    // }, [country, countryData, isCountryLoading])
+
+
+    // // دالة تقوم بتقديم النصوص بناءً على لغة المستخدم
+    // const renderTitle = (lng) => {
+    //     return (
+    //         <Typography
+    //             style={{
+    //                 textDecoration: "none",
+    //                 fontSize: 14,
+    //                 textTransform: 'capitalize',
+    //                 fontWeight: 'bold'
+    //             }}
+    //             className="link">
+    //             {lng === 'en' ? 'Countries To Invest In' : "أستثمر بالخارج"}
+    //         </Typography>
+    //     );
+    // }
+
+    // // دالة تقوم بتقديم قائمة العناصر
+    // const renderItems = (countryData, setDrawer) => {
+    //     return (
+    //         <Box sx={{ pl: 2, gap: 1, display: "flex", flexDirection: "column" }}>
+    //             {countryData?.map((res) => (
+    //                 <Link
+    //                     key={res?.id}
+    //                     to={`/country/${res?.id}`}
+    //                     style={{
+    //                         textDecoration: "none",
+    //                         fontSize: 13,
+    //                         textTransform: 'capitalize',
+    //                         fontWeight: 'bold'
+    //                     }}
+    //                     className="link"
+    //                     onClick={() => setDrawer(false)}
+    //                 >
+    //                     - {res?.name}
+    //                 </Link>
+    //             ))}
+    //         </Box>
+    //     );
+    // }
+
     return (
         <div>
             <React.Fragment>
@@ -29,7 +82,7 @@ export default function NavDrawer({ setDrawer, drawer }) {
                     <Box
                         sx={{
                             width: 300,
-                            gap: 3,
+                            gap: 2,
                             display: "flex",
                             flexDirection: "column",
                             textAlign:  lng === 'en' ? 'left' : 'right',
@@ -51,7 +104,7 @@ export default function NavDrawer({ setDrawer, drawer }) {
                             </IconButton>
                         </Box>
                         {
-                            Pages?.slice(0,6)?.map((page, i) => (
+                            Pages?.slice(0,4)?.map((page, i) => (
                                 <Link
                                     key={i}
                                     to={page.path}
@@ -68,61 +121,39 @@ export default function NavDrawer({ setDrawer, drawer }) {
                                 </Link>
                             ))
                         }
-                        <Typography 
+                        <CountryAccordion setDrawer={setDrawer} />
+                        {/* <Typography 
                             style={{
                                 textDecoration: "none",
                                 fontSize: 14,
                                 textTransform: 'capitalize',
                                 fontWeight: 'bold'
-                            }} className="link">{lng === 'en' ? 'Countries To Invot In' : "أستثمر بالخارج"}</Typography>
+                            }} className="link">{lng === 'en' ? 'Countries To Invest In' : "أستثمر بالخارج"}</Typography>
                         <Box sx={{
-                            pl: 2, gap: 3,
+                            pl: 2, gap: 1,
                             display: "flex",
                             flexDirection: "column",
                             textAlign: lng === 'en' ? 'left' : 'right', }} >
-                            <Link
-                                to={''}
+                                {
+                                countryData?.map((res) => <Link
+                                key={res?.id}
+                                    to={`/country/${res?.id}`}
                                 style={{
                                     textDecoration: "none",
-                                    fontSize: 14,
+                                    fontSize: 13,
                                     textTransform: 'capitalize',
                                     fontWeight: 'bold'
                                 }}
                                 className="link"
                                 onClick={() => setDrawer(false)}
                             >
-                                {lng === 'ar' ?' - page.name ': '- page.name_en'}
+                                    -{res?.name}
                             </Link>
-                            <Link
-                                to={''}
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: 14,
-                                    textTransform: 'capitalize',
-                                    fontWeight: 'bold'
-                                }}
-                                className="link"
-                                onClick={() => setDrawer(false)}
-                            >
-                                {lng === 'ar' ?' - page.name ': '- page.name_en'}
-                            </Link>
-                            <Link
-                                to={''}
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: 14,
-                                    textTransform: 'capitalize',
-                                    fontWeight: 'bold'
-                                }}
-                                className="link"
-                                onClick={() => setDrawer(false)}
-                            >
-                                {lng === 'ar' ?' - page.name ': '- page.name_en'}
-                            </Link>
-                            </Box>
+                            )}
+                            </Box> */}
 
                         {
-                            Pages?.slice(6)?.map((page, i) => (
+                            Pages?.slice(4)?.map((page, i) => (
                                 <Link
                                     key={i}
                                     to={page.path}
@@ -150,7 +181,7 @@ export default function NavDrawer({ setDrawer, drawer }) {
                                         textTransform: 'capitalize',
                                         fontWeight: 'bold'
                                     }}
-                                    className="link"
+                                    className="link_auth"
                                     onClick={() => setDrawer(false)}
                                 >
                                     {lng === 'ar' ? page.name : page.name_en}

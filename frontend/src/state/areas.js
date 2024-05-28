@@ -7,7 +7,7 @@ export const ApiAuth = api.injectEndpoints({
         getAreas: build.query({
             query: ({ lng, trending, currentPage }) => {
                 if (trending === 1) {
-                    return `/areas?local=${lng}&trending=${trending}`;
+                    return `/areas?local=${lng}&trending=${trending}&page=${currentPage}&per_page=9`;
                 } else {
                     return `/areas?local=${lng}&page=${currentPage}&per_page=9`;
                 }
@@ -15,7 +15,7 @@ export const ApiAuth = api.injectEndpoints({
             providesTags: ["areas"],
         }),
         getAreasId: build.query({
-            query: ({ id, lng }) => `/areas/${id}?local=${lng}`,
+            query: ({ id, lng, currentPage }) => `/areas/${id}?page=${currentPage}&local=${lng}`,
             providesTags: ["areas"],
         }),
     }),

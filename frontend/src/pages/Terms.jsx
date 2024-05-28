@@ -17,12 +17,14 @@ const Terms = () => {
         }
     }, [data, tableData, isBrandsLoading])
 const {t} = useTranslation()
+// console.log(tableData?.acceptable_use)
+// console.log(tableData?.automated_queries)
     return (
         <>
             <Header title={t("Terms.title")} />
             <SectionTerm name={t("Terms.Conditions")} description={tableData?.terms_and_conditions} />
-            <SectionTerm name={t("Terms.AcceptableUse")} description={tableData?.acceptable_use} />
-            <SectionTerm name={t("Terms.AutomatedQueries")} description={tableData?.automated_queries} />
+            {/* {tableData?.acceptable_use && <SectionTerm name={t("Terms.AcceptableUse")} description={tableData?.acceptable_use} />} */}
+            {/* {tableData?.automated_queries && <SectionTerm name={t("Terms.AutomatedQueries")} description={tableData?.automated_queries} />} */}
 
             <SectionTerm name={t("Terms.PrivacyPolicy")} description={t("Terms.PrivacyPolicyDesc")} />
             <SectionTerm name={t("Terms.Disclaimer_of_Responsibility")} description={t("Terms.Disclaimer_of_ResponsibilityDesc")} />

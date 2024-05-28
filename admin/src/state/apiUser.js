@@ -17,7 +17,7 @@ export const api = createApi({
   tagTypes: ["User"],
   endpoints: (build) => ({
     getUser: build.query({
-      query: () => `/users`,
+      query: ({ currentPage, limit }) => `/users?page=${currentPage}&per_page=${limit}`,
       providesTags: ["users"],
     }),
     getUserId: build.query({

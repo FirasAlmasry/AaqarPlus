@@ -168,8 +168,8 @@ export default function PropertyTypeNewEditForm({ isEdit = false, currentService
 
         items?.forEach((item) => {
             const currentPath = parentPath
-                ? `${item.name.ar}`
-                : item.name.ar;
+                ? `${item?.name?.en}`
+                : item?.name?.en;
 
             const indentation = level * 10; // Adjust the factor (10 pixels) here
 

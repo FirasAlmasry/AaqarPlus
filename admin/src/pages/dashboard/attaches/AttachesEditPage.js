@@ -13,6 +13,7 @@ import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import AttachesNewEditForm from "../../../sections/@dashboard/attaches/AttachesNewEditForm";
 import { useGetAttachedsIdQuery } from "../../../state/facilities";
+import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +21,18 @@ export default function AttachesEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isServiseLoading } = useGetAttachedsIdQuery(name);
+    const { data, isServiseLoading, refetch } = useGetAttachedsIdQuery(name);
+
+    const [attachedData, setAttachedData] = useState(null);
+    useEffect(() => {
+        if (data) {
+            setAttachedData(data.data);
+        }
+    }, [data]);
+
+    useEffect(() => {
+        refetch(); // سيؤدي إلى إعادة جلب البيانات عندما يتغير `name` في useParams
+    }, [name, refetch]);
     return (
         <>
             <Helmet>
@@ -43,7 +55,7 @@ export default function AttachesEditPage() {
                     ]}
                 />
                 {isServiseLoading ? "loading" :
-                    <AttachesNewEditForm isEdit currentService={data?.data} />
+                    <AttachesNewEditForm isEdit currentService={attachedData} />
                 }
             </Container>
         </>

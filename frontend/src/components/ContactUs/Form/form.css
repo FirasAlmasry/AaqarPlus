@@ -11,3 +11,23 @@
 .css-11nnf0g-MuiFormControl-root-MuiTextField-root {
     background-color: #FFF !important;
 }
+.input_search {
+    background-color: #FFF !important;
+    width: 33%;
+        /* border: none !important; */
+    outline: none !important;
+    padding: 12px;
+    border: 1px solid #707070;
+    border-radius: 8px;
+}
+@media only screen and (max-width: 767px) {
+.input_search {
+    background-color: #FFF !important;
+    width: 100%;
+        /* border: none !important; */
+    outline: none !important;
+    padding: 12px;
+    border: 1px solid #707070;
+    border-radius: 8px;
+}
+}

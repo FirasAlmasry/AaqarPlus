@@ -38,8 +38,8 @@ export default function DevelopersTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { image, name, bio_title, bio_description, top_project_title, top_project_description, area_id, } = row;
-    const url = `https://aqarbackend.revampbrands.com/storage/${image}`
+    const { images, name, bio_title, bio_description, top_project_title, top_project_description, area_id, } = row;
+    const url = `https://aqarbackend.revampbrands.com/storage/${images?.[0]?.file}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);

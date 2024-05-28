@@ -7,6 +7,15 @@
     color:#f00000;
     text-decoration: underline;
 }
+.link_auth {
+    color:#f00000;
+    text-decoration: none;
+    transition: 0.5s;
+}
+.link_auth:hover {
+    color:#10446F;
+    text-decoration: underline;
+}
 .nav-logo {height: 45px;}
 
 .bgC::before {

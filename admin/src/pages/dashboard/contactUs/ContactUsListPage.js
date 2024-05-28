@@ -320,7 +320,7 @@ export default function ContactUsListPage() {
                         </Scrollbar>
                     </TableContainer>
 
-                    <TablePaginationCustom
+                    {/* <TablePaginationCustom
                         count={6}
                         page={page}
                         rowsPerPage={rowsPerPage}
@@ -329,7 +329,7 @@ export default function ContactUsListPage() {
                         //
                         dense={dense}
                         onChangeDense={onChangeDense}
-                    />
+                    /> */}
                 </Card>
             </Container>
 

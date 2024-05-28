@@ -3,9 +3,10 @@ import Drawer from "@mui/material/Drawer";
 import i18next from 'i18next';
 import { Box, CardMedia } from '@mui/material';
 // import Slider from '../global/Slider';
-import ImageGallery from "react-image-gallery";
+// import ImageGallery from "react-image-gallery";
 
 import CloseIcon from '@mui/icons-material/Close';
+import Slider from '../global/Slider';
 const BoxDrawer = ({ setDrawer, drawer, tableData, selectedBox }) => {
     const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
@@ -18,7 +19,31 @@ const BoxDrawer = ({ setDrawer, drawer, tableData, selectedBox }) => {
             return null; // في حالة عدم العثور على src أو في حالة الخطأ
         }
     };
-
+    const renderMedia = (link, type) => {
+        if (type === 'IMAGE') {
+            return (
+                <CardMedia
+                    src={url + link}
+                    component="img"
+                    alt="image"
+                    sx={{
+                        height: '400px',
+                        borderRadius: '18px',
+                        backgroundSize: '100% 100%',
+                        objectFit: 'contain',
+                        width: { md: '100%', xs: '100%' }
+                    }}
+                />
+            );
+        } else if (type === 'VIDEO') {
+            return (
+                <video controls style={{ height: '400px', borderRadius: '18px', width: '100%', position: 'relative', zIndex: 99 }} autoPlay >
+                    <source src={url + link} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+            );
+        }
+    };
     // استخدم extractSrcFromIframe لاستخراج الـ src من tableData?.url_location
     const src = extractSrcFromIframe(tableData?.url_location);
 
@@ -28,11 +53,11 @@ files
 master_plan
 url_location
     */
-    const images = tableData?.files?.map(image => ({
-        original: `${url}${image?.file}`, // رابط الصورة الأصلي
-        thumbnail: `${url}${image?.file}`, // صورة مصغرة (يمكنك استبدالها بالحجم الصغير المطلوب)
-        description: image.id.toString(), // وصف اختياري
-    }));
+    // const images = tableData?.files?.map(image => ({
+    //     original: `${url}${image?.file}`, // رابط الصورة الأصلي
+    //     thumbnail: `${url}${image?.file}`, // صورة مصغرة (يمكنك استبدالها بالحجم الصغير المطلوب)
+    //     description: image.id.toString(), // وصف اختياري
+    // }));
     return (
         <>
             <Drawer
@@ -65,29 +90,21 @@ url_location
                         />
                     }
                     {selectedBox === 'files' &&
-                    <ImageGallery items={images} 
-                            thumbnailPosition='left'
-                            autoPlay={true}
-                            disableKeyDown={true}
-                            disableSwipe={true}
-                            disableThumbnailScroll={true}
-                            lazyLoad={true}
-                            showFullscreenButton={false}
-                        />
-                        // <Slider nav='true'>
-                        //     {tableData?.files?.map(img =>
-                        //         <CardMedia key={img?.id} src={url + img?.file}
-                        //             component="img"
-                        //             height="auto"
-                        //             alt="green iguana"
-                        //             sx={{
-                        //                 height: '600px',
-                        //                 borderRadius: '18px',
-                        //                 objectFit: 'contain',
-                        //                 width: { md: '100%', xs: '100%' }
-                        //             }} />
-                        //     )}
-                        // </Slider>
+                        <Slider nav='true'>
+                            {tableData?.files?.map(img => renderMedia(img?.file, img?.type))}
+                            {/* {tableData?.files?.map(img =>
+                                <CardMedia key={img?.id} src={url + img?.file}
+                                    component="img"
+                                    height="auto"
+                                    alt="green iguana"
+                                    sx={{
+                                        height: '600px',
+                                        borderRadius: '18px',
+                                        objectFit: 'contain',
+                                        width: { md: '100%', xs: '100%' }
+                                    }} />
+                            )} */}
+                        </Slider>
                     }
                     {selectedBox === 'url_location' &&
                         <iframe src={src} width="100%" height="100%" title={'test'} style={{ border: 0, marginTop: '16px' }}

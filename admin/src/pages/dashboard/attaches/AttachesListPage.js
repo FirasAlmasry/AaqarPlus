@@ -51,8 +51,8 @@ const STATUS_OPTIONS = [];
 const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
-    { id: "name", label: "nameAr", align: "left" },
-    { id: "nameEn", label: "nameEn", align: "left" },
+    { id: "name", label: "name-en", align: "left" },
+    { id: "nameEn", label: "name-ar", align: "left" },
     { id: "" },
 ];
 
@@ -339,7 +339,7 @@ export default function AttachesListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.data?.per_page}
+                        count={data?.data?.total}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}

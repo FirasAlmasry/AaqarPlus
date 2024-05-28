@@ -5,7 +5,7 @@ import CardNews from './CardNews'
 import { useGetFoundersQuery } from '../../../state/founders'
 import i18next from 'i18next'
 const ListNews = () => {
-    
+
     let lng = i18next.language
 
     const { data, isBrandsLoading } = useGetFoundersQuery({ type: 'NEWS', lng });
@@ -21,11 +21,11 @@ const ListNews = () => {
     return (
         <>
             <GlobalList>
-                {tableData?.map((res, i) => 
+                {tableData?.map((res, i) =>
                     <Grid item md={4} xs={12} key={i}>
-                        <CardNews img={url + res?.image} title={res?.name} data={`${res?.description?.slice(0,25)}...`} />
-                </Grid>
-            )}
+                        <CardNews img={url + res?.image} title={res?.name} data={`${res?.description?.slice(0, 25)}...`} />
+                    </Grid>
+                )}
             </GlobalList>
         </>
     )

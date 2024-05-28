@@ -15,6 +15,10 @@ import {
     Container,
     IconButton,
     TableContainer,
+    Typography,
+    Pagination,
+    Select,
+    MenuItem,
 } from "@mui/material";
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
@@ -42,6 +46,7 @@ import {
     BlogsTableRow,
 } from "../../../sections/@dashboard/blogs/list";
 import { useDeleteBlogsMutation, useGetBlogsQuery } from "../../../state/blog";
+import { Box } from "@mui/system";
 
 // ----------------------------------------------------------------------
 
@@ -68,7 +73,7 @@ export default function BlogsListPage() {
         page,
         order,
         orderBy,
-        rowsPerPage,
+        // rowsPerPage,
         setPage,
         //
         selected,
@@ -85,8 +90,17 @@ export default function BlogsListPage() {
     const { themeStretch } = useSettingsContext();
 
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
 
-    const { data, isBlogsLoading, refetch } = useGetBlogsQuery();
+    const onPageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const onRowsPerPageChange = (event) => {
+        setRowsPerPage(event.target.value);
+        setCurrentPage(1); // عندما يتم تغيير عدد العناصر في كل صفحة، يجب عليك إعادة تعيين الصفحة الحالية إلى الصفحة الأولى
+    };
+    const { data, isBlogsLoading, refetch } = useGetBlogsQuery({ currentPage, limit: rowsPerPage });
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
@@ -185,10 +199,10 @@ export default function BlogsListPage() {
     };
 
     const handleEditRow = (id) => {
-        console.log(id)
         if (typeof id !== 'string') {
             id = String(id);
         }
+        refetch()
         navigate(PATH_DASHBOARD.blogs.edit(paramCase(id)));
     };
 
@@ -338,7 +352,25 @@ export default function BlogsListPage() {
                         </Scrollbar>
                     </TableContainer>
 
-                    <TablePaginationCustom
+                    <Box sx={{ display: 'flex', justifyContent: 'space-around', py: 2, alignItems: 'center' }}>
+                        <Typography fontSize={'small'} >{rowsPerPage} item in each page</Typography>
+                        <Select value={rowsPerPage} onChange={onRowsPerPageChange} style={{ width: '75px', height: '35px' }}>
+                            <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={20}>20</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                        </Select>
+                        <Pagination
+                            count={data?.data?.last_page}
+                            shape="rounded"
+                            page={currentPage}
+                            showFirstButton
+                            showLastButton
+                            onChange={(event, value) => onPageChange(value)}
+                        />
+                        <Typography fontSize={'small'} >item available {data?.data?.total}</Typography>
+                    </Box>
+                    {/* <TablePaginationCustom
                         count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
@@ -347,7 +379,7 @@ export default function BlogsListPage() {
                         //
                         dense={dense}
                         onChangeDense={onChangeDense}
-                    />
+                    /> */}
                 </Card>
             </Container>
 

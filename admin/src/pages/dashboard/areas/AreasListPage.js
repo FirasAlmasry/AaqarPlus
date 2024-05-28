@@ -15,6 +15,10 @@ import {
     Container,
     IconButton,
     TableContainer,
+    Typography,
+    Pagination,
+    Select,
+    MenuItem,
 } from "@mui/material";
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
@@ -43,6 +47,7 @@ import {
 } from "../../../sections/@dashboard/areas/list";
 import { useDeleteAreasMutation, useGetAreasQuery } from "../../../state/areas";
 import { useSnackbar } from "notistack";
+import { Box } from "@mui/system";
 
 // ----------------------------------------------------------------------
 
@@ -65,7 +70,7 @@ export default function AreasListPage() {
         page,
         order,
         orderBy,
-        rowsPerPage,
+        // rowsPerPage,
         setPage,
         //
         selected,
@@ -82,9 +87,18 @@ export default function AreasListPage() {
     const { themeStretch } = useSettingsContext();
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
-    const { data, isLoading, refetch } = useGetAreasQuery()
+    const [currentPage, setCurrentPage] = useState(1);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const onRowsPerPageChange = (event) => {
+        setRowsPerPage(event.target.value);
+        setCurrentPage(1); // عندما يتم تغيير عدد العناصر في كل صفحة، يجب عليك إعادة تعيين الصفحة الحالية إلى الصفحة الأولى
+    };
+    const onPageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+    const { data, isLoading, refetch } = useGetAreasQuery({currentPage, limit:rowsPerPage})
     const [tableData, setTableData] = useState([]);
-    console.log(data?.data?.per_page)
     useEffect(() => {
         if (data && !isLoading) {
             setTableData(data?.data?.data)
@@ -344,8 +358,26 @@ export default function AreasListPage() {
                             </Table>
                         </Scrollbar>
                     </TableContainer>
+<Box sx={{ display: 'flex', justifyContent: 'space-around', py: 2, alignItems: 'center' }}>
 
-                    <TablePaginationCustom
+                        <Typography fontSize={'small'} >{rowsPerPage} item in each page</Typography>
+                        <Select value={rowsPerPage} onChange={onRowsPerPageChange} style={{ width: '75px', height: '35px' }} >
+                            <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={20}>20</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                        </Select>
+                        <Pagination
+                            count={data?.data?.last_page}
+                            shape="rounded"
+                            page={currentPage}
+                            showFirstButton
+                            showLastButton
+                            onChange={(event, value) => onPageChange(value)}
+                        />
+                        <Typography fontSize={'small'} >item available {data?.data?.total}</Typography>
+                    </Box>
+                    {/* <TablePaginationCustom
                         count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
@@ -354,7 +386,7 @@ export default function AreasListPage() {
                         //
                         dense={dense}
                         onChangeDense={onChangeDense}
-                    />
+                    /> */}
                 </Card>
             </Container>
 

@@ -15,6 +15,10 @@ import {
     Container,
     IconButton,
     TableContainer,
+    Typography,
+    Pagination,
+    Select,
+    MenuItem,
 } from "@mui/material";
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
@@ -34,7 +38,7 @@ import {
     TableEmptyRows,
     TableHeadCustom,
     TableSelectedAction,
-    TablePaginationCustom,
+    // TablePaginationCustom,
 } from "../../../components/table";
 // sections
 import {
@@ -42,19 +46,22 @@ import {
     MessagesTableRow,
 } from "../../../sections/@dashboard/messages/list";
 import { useDeleteMessagesMutation, useGetMessagesQuery } from "../../../state/message";
+import { Box } from "@mui/system";
+import { parse, isToday, isYesterday, startOfWeek, isThisMonth, isSameMonth, subMonths, startOfMonth, endOfMonth } from 'date-fns';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = [];
+const STATUS_OPTIONS = ["today", "yesterday", "last week", "this month","last month",];
 
 const ROLE_OPTIONS = ["all", "activ", "unActiv"];
 
 const TABLE_HEAD = [
     { id: "name", label: "Name", align: "left" },
-    { id: "preferred_location", label: "Preferred Location", align: "left" },
+    { id: "preferred_location", label: "Unit Type", align: "left" },
     { id: "location", label: "Location", align: "left" },
     { id: "phone_number", label: "Phone Number", align: "left" },
     { id: "description", label: "Description", align: "left" },
+    { id: "Date", label: "Date", align: "left" },
     { id: "", label: "", align: "left" },
 ];
 
@@ -66,7 +73,7 @@ export default function MessagesListPage() {
         page,
         order,
         orderBy,
-        rowsPerPage,
+        // rowsPerPage,
         setPage,
         //
         selected,
@@ -75,16 +82,25 @@ export default function MessagesListPage() {
         onSelectAllRows,
         //
         onSort,
-        onChangeDense,
-        onChangePage,
-        onChangeRowsPerPage,
+        // onChangeDense,
+        // onChangePage,
+        // onChangeRowsPerPage,
     } = useTable();
 
     const { themeStretch } = useSettingsContext();
 
     // const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
 
-    const { data, isServiseLoading, refetch } = useGetMessagesQuery();
+    const onPageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const onRowsPerPageChange = (event) => {
+        setRowsPerPage(event.target.value);
+        setCurrentPage(1); // عندما يتم تغيير عدد العناصر في كل صفحة، يجب عليك إعادة تعيين الصفحة الحالية إلى الصفحة الأولى
+    };
+    const { data, isServiseLoading, refetch } = useGetMessagesQuery({currentPage, limit: rowsPerPage});
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
@@ -99,7 +115,7 @@ export default function MessagesListPage() {
 
     const [filterRole, setFilterRole] = useState("all");
 
-    const [filterStatus, setFilterStatus] = useState("all");
+    const [filterStatus, setFilterStatus] = useState("today");
 
     const dataFiltered = applyFilter({
         inputData: tableData,
@@ -117,7 +133,7 @@ export default function MessagesListPage() {
     const denseHeight = dense ? 52 : 72;
 
     const isFiltered =
-        filterName !== "" || filterRole !== "all" || filterStatus !== "all";
+        filterName !== "" || filterRole !== "all" || filterStatus !== "today";
 
     const isNotFound =
         (!dataFiltered.length && !!filterName) ||
@@ -165,7 +181,25 @@ export default function MessagesListPage() {
     const handleResetFilter = () => {
         setFilterName("");
         setFilterRole("all");
-        setFilterStatus("all");
+        setFilterStatus("today");
+    }; 
+    const handleExport = () => {
+        const dataToExport = applyFilter({
+            inputData: tableData,
+            comparator: getComparator(order, orderBy),
+            filterName,
+            filterRole,
+            filterStatus,
+        });
+    const today = new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).replace(/\//g, '-');
+    const filename = `messages_${filterStatus}_${today}.csv`;
+
+    exportToCsv(dataToExport, filename);
+    //     exportToCsv(dataToExport, 'messages.csv');
     };
 
     return (
@@ -187,19 +221,26 @@ export default function MessagesListPage() {
                     ]}/>
 
                 <Card>
-                    <Tabs
-                        value={filterStatus}
-                        onChange={handleFilterStatus}
-                        sx={{
-                            px: 2,
-                            bgcolor: "background.neutral",
-                        }}
-                    >
-                        {STATUS_OPTIONS.map((tab) => (
-                            <Tab key={tab} label={tab} value={tab} />
-                        ))}
-                    </Tabs>
-
+                    <Box sx={{
+                        px: 2,
+                        py:1,
+                        bgcolor: "background.neutral",
+                        display: "flex",
+                        justifyContent: "space-between"
+                    }}>
+                        <Tabs
+                            value={filterStatus}
+                            onChange={handleFilterStatus}
+                            
+                        >
+                            {STATUS_OPTIONS.map((tab) => (
+                                <Tab key={tab} label={tab} value={tab} />
+                            ))}
+                        </Tabs>
+                        <Button onClick={handleExport} variant="contained" color="primary">
+                            Export to CSV
+                        </Button>
+                    </Box>
                     <Divider />
 
                     <MessagesTableToolbar
@@ -292,7 +333,25 @@ export default function MessagesListPage() {
                         </Scrollbar>
                     </TableContainer>
 
-                    <TablePaginationCustom
+                    <Box sx={{ display: 'flex', justifyContent: 'space-around', py: 2, alignItems: 'center' }}>
+                        <Typography fontSize={'small'} >{rowsPerPage} item in each page</Typography>
+                        <Select value={rowsPerPage} onChange={onRowsPerPageChange} style={{ width: '75px', height: '35px' }}>
+                            <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={20}>20</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                        </Select>
+                        <Pagination
+                            count={data?.data?.last_page}
+                            shape="rounded"
+                            page={currentPage}
+                            showFirstButton
+                            showLastButton
+                            onChange={(event, value) => onPageChange(value)}
+                        />
+                        <Typography fontSize={'small'} >item available {data?.data?.total}</Typography>
+                    </Box>
+                    {/* <TablePaginationCustom
                         count={data?.data?.per_page}
                         page={page}
                         rowsPerPage={rowsPerPage}
@@ -301,7 +360,7 @@ export default function MessagesListPage() {
                         //
                         dense={dense}
                         onChangeDense={onChangeDense}
-                    />
+                    /> */}
                 </Card>
             </Container>
 
@@ -333,13 +392,43 @@ export default function MessagesListPage() {
 
 // ----------------------------------------------------------------------
 
-function applyFilter({
-    inputData,
-    comparator,
-    filterName,
-    filterStatus,
-    filterRole,
-}) {
+// function applyFilter({
+//     inputData,
+//     comparator,
+//     filterName,
+//     filterStatus,
+//     filterRole,
+// }) {
+//     const stabilizedThis = inputData.map((el, index) => [el, index]);
+
+//     stabilizedThis.sort((a, b) => {
+//         const order = comparator(a[0], b[0]);
+//         if (order !== 0) return order;
+//         return a[1] - b[1];
+//     });
+
+//     inputData = stabilizedThis.map((el) => el[0]);
+
+//     if (filterName) {
+//         inputData = inputData.filter(
+//             (user) =>
+//                 user.name.ar
+//                     .toLowerCase()
+//                     .indexOf(filterName.toLowerCase()) !== -1
+//         );
+//     }
+
+//     if (filterStatus !== "today") {
+//         inputData = inputData.filter((user) => user.active === filterStatus);
+//     }
+
+//     if (filterRole !== "all") {
+//         inputData = inputData.filter((user) => user.role === filterRole);
+//     }
+
+//     return inputData;
+// }
+function applyFilter({ inputData, comparator, filterName, filterStatus, filterRole }) {
     const stabilizedThis = inputData.map((el, index) => [el, index]);
 
     stabilizedThis.sort((a, b) => {
@@ -352,15 +441,32 @@ function applyFilter({
 
     if (filterName) {
         inputData = inputData.filter(
-            (user) =>
-                user.name.ar
-                    .toLowerCase()
-                    .indexOf(filterName.toLowerCase()) !== -1
+            (user) => user.name.ar.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
         );
     }
 
-    if (filterStatus !== "all") {
-        inputData = inputData.filter((user) => user.active === filterStatus);
+    if (filterStatus) {
+        inputData = inputData.filter((user) => {
+            const createdAt = parse(user.created_at, 'yyyy-MM-dd hh:mm a', new Date());
+            switch (filterStatus) {
+                case "today":
+                    return isToday(createdAt);
+                case "yesterday":
+                    return isYesterday(createdAt);
+                case "last week":
+                    const startOfLastWeek = startOfWeek(new Date(), { weekStartsOn: 0 });
+                    return createdAt >= startOfLastWeek && createdAt < new Date();
+                case "this month":
+                    return isThisMonth(createdAt);
+                case "last month":
+                    const startOfCurrentMonth = startOfMonth(new Date());
+                    const startOfPrevMonth = startOfMonth(subMonths(new Date(), 1));
+                    const endOfPrevMonth = endOfMonth(subMonths(new Date(), 1));
+                    return createdAt >= startOfPrevMonth && createdAt <= endOfPrevMonth;
+                default:
+                    return true;
+            }
+        });
     }
 
     if (filterRole !== "all") {
@@ -368,4 +474,54 @@ function applyFilter({
     }
 
     return inputData;
+}
+
+// function getComparator(order, orderBy) {
+//     return order === 'desc'
+//         ? (a, b) => descendingComparator(a, b, orderBy)
+//         : (a, b) => -descendingComparator(a, b, orderBy);
+// }
+
+function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+        return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+        return 1;
+    }
+    return 0;
+}
+function exportToCsv(data, filename) {
+    const csvData = [];
+    const headers = Object.keys(data[0]);
+    csvData.push(headers.join(','));
+
+    data.forEach(row => {
+        const values = headers.map(header => JSON.stringify(row[header], replacer));
+        csvData.push(values.join(','));
+    });
+
+    const csvContent = csvData.join('\n');
+    const csvBlob = new Blob(["\uFEFF", csvContent], { type: 'text/csv;charset=utf-8;' });
+
+    if (navigator.msSaveBlob) { // IE 10+
+        navigator.msSaveBlob(csvBlob, filename);
+    } else {
+        const downloadLink = document.createElement('a');
+        const url = URL.createObjectURL(csvBlob);
+
+        downloadLink.href = url;
+        downloadLink.setAttribute('download', filename);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+}
+
+
+function replacer(key, value) {
+    if (value === null) {
+        return '';
+    }
+    return value;
 }

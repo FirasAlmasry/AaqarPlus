@@ -13,6 +13,7 @@ import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import PropertiesNewEditForm from "../../../sections/@dashboard/properties/PropertiesNewEditForm";
 import { useGetPropertiesIdQuery } from "../../../state/properties";
+import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +21,19 @@ export default function PropertiesEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isPropertiesLoading } = useGetPropertiesIdQuery(name);
+    const { data, isPropertiesLoading, refetch } = useGetPropertiesIdQuery(name);
+    const [propertyData, setPropertyData] = useState(null);
+
+    useEffect(() => {
+        if (data) {
+            setPropertyData(data.data);
+        }
+    }, [data]);
+
+    useEffect(() => {
+        refetch();
+    }, [name, refetch]);
+    
     return (
         <>
             <Helmet>
@@ -43,7 +56,7 @@ export default function PropertiesEditPage() {
                     ]}
                 />
                 {isPropertiesLoading ? "loading" :
-                    <PropertiesNewEditForm isEdit currentService={data?.data} />
+                    <PropertiesNewEditForm isEdit currentService={propertyData} />
                 }
             </Container>
         </>

@@ -22,7 +22,6 @@ export default function FinishingEditPage() {
     const { name } = useParams();
 
     const { data } = useGetFinishingIdQuery(name)
-    console.log("🚀 ~ FinishingEditPage ~ data:", data?.data)
     return (
         <>
             <Helmet>

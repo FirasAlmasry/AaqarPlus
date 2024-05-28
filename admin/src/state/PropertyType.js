@@ -5,7 +5,7 @@ export const ApiAuth = api.injectEndpoints({
     reducerPath: "apiUser",
     endpoints: (build) => ({
         getPropertyType: build.query({
-            query: () => `/property-type`,
+            query: () => `/property-type?per_page=50`,
             invalidatesTags: ["property-type"],
         }),
         getPropertyTypeId: build.query({

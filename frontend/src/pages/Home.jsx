@@ -8,6 +8,8 @@ import ContactUs from '../components/ContactUs'
 import Search from '../components/global/Search'
 import { Box } from '@mui/material'
 import WrapperSection from '../components/global/WrapperSection'
+import BanarButtom from '../components/global/BanarButtom'
+import BanarTop from '../components/global/BanarTop'
 // import Search from '../components/global/Search'
 
 const Home = () => {
@@ -22,7 +24,9 @@ const Home = () => {
       <LaunchingSoon />
       <ExploreNewProjects />
       <Trending />
+      <BanarTop />
       <AvailableUnits />
+      <BanarButtom />
       <ContactUs />
     </>
   )

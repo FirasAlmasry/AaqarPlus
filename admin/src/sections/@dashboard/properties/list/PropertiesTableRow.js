@@ -34,9 +34,12 @@ export default function PropertiesTableRow({
     onEditRow,
     onSelectRow,
     onDeleteRow,
+    txt = 'Edit',
+    is_available = false,
 }) {
     const {
         name,
+        agent_code,
         address,
         whatsapp,
         phone_number,
@@ -47,7 +50,8 @@ export default function PropertiesTableRow({
         bedrooms,
         bathrooms,
         description,
-        payment_plans_title, } = row;
+        payment_plans_title,
+        id } = row;
     // const url = `https://aqarbackend.revampbrands.com/storage/${image_floor_plan}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -67,12 +71,17 @@ export default function PropertiesTableRow({
     const handleClosePopover = () => {
         setOpenPopover(null);
     };
-
+    const handleClick = () => {
+        window.open(`https://aqarpluseg.com/property/${id}`, '_blank');
+    };
     return (
         <>
             <TableRow hover selected={selected}>
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${ref_number.slice(0, 30)}`}
+                    {`${ref_number}`}
+                </TableCell>
+                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
+                    {`${agent_code}`}
                 </TableCell>
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
@@ -84,7 +93,7 @@ export default function PropertiesTableRow({
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {`${name.ar.slice(0, 10)}...`}
                 </TableCell> */}
-                
+
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {`${address.ar.slice(0, 10)}...`}
                 </TableCell> */}
@@ -98,23 +107,23 @@ export default function PropertiesTableRow({
                     {`${phone_number.slice(0, 10)}...`}
                 </TableCell> */}
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${start_price.slice(0, 10)}...`}
+                    {`${start_price}`}
                 </TableCell>
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${end_price.slice(0, 10)}...`}
+                    {`${end_price}`}
                 </TableCell>
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${house_area.slice(0, 10)}...`}
+                    {`${house_area}`}
                 </TableCell>
-                
+
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${bedrooms.slice(0, 10)}`}
+                    {`${bedrooms}`}
                 </TableCell>
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${bathrooms.slice(0, 10)}`}
+                    {`${bathrooms}`}
                 </TableCell>
                 {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${description.en.slice(0, 10)}...`}
+                    {`${description.en}...`}
                 </TableCell>
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {`${description.ar.slice(0, 10)}...`}
@@ -158,8 +167,15 @@ export default function PropertiesTableRow({
                     }}
                 >
                     <Iconify icon="eva:edit-fill" />
-                    Edit
+                    {txt}
                 </MenuItem>
+                {
+                    is_available &&
+                    <MenuItem onClick={handleClick} >
+                            <Iconify icon="eva:eye-fill" />
+                        view
+                    </MenuItem>
+                }
             </MenuPopover>
 
             <ConfirmDialog

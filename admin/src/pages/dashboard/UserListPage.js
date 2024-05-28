@@ -15,6 +15,10 @@ import {
   Container,
   IconButton,
   TableContainer,
+  Typography,
+  Pagination,
+  Select,
+  MenuItem,
 } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
@@ -39,6 +43,7 @@ import {
 // sections
 import { UserTableToolbar, UserTableRow } from '../../sections/@dashboard/user/list';
 import { useDeleteUserMutation, useGetUserQuery } from '../../state/apiUser';
+import { Box } from '@mui/system';
 
 // ----------------------------------------------------------------------
 
@@ -64,7 +69,7 @@ export default function UserListPage() {
     page,
     order,
     orderBy,
-    rowsPerPage,
+    // rowsPerPage,
     setPage,
     //
     selected,
@@ -73,17 +78,26 @@ export default function UserListPage() {
     onSelectAllRows,
     //
     onSort,
-    onChangeDense,
-    onChangePage,
-    onChangeRowsPerPage,
+    // onChangeDense,
+    // onChangePage,
+    // onChangeRowsPerPage,
   } = useTable();
 
   const { themeStretch } = useSettingsContext();
 
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const onPageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+  const onRowsPerPageChange = (event) => {
+    setRowsPerPage(event.target.value);
+    setCurrentPage(1); // عندما يتم تغيير عدد العناصر في كل صفحة، يجب عليك إعادة تعيين الصفحة الحالية إلى الصفحة الأولى
+  };
 
-  const { data, isUserLoading } = useGetUserQuery();
+  const { data, isUserLoading } = useGetUserQuery({ currentPage, limit: rowsPerPage });
 
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
@@ -175,7 +189,7 @@ export default function UserListPage() {
 
   const handleEditRow = (id) => {
     if (typeof id !== 'string') {
-      id = String(id); 
+      id = String(id);
     }
     navigate(PATH_DASHBOARD.user.edit(paramCase(id)));
   };
@@ -299,8 +313,8 @@ export default function UserListPage() {
               </Table>
             </Scrollbar>
           </TableContainer>
-          <TablePaginationCustom
-            count={data?.data?.per_page}
+          {/* <TablePaginationCustom
+            count={data?.data?.total}
             page={page}
             rowsPerPage={rowsPerPage}
             onPageChange={onChangePage}
@@ -308,7 +322,27 @@ export default function UserListPage() {
             //
             dense={dense}
             onChangeDense={onChangeDense}
-          />
+          /> */}
+          <Box sx={{ display: 'flex', justifyContent: 'space-around', py: 2, alignItems: 'center' }}>
+            {/* <Typography fontSize={'small'} >5 item in each page</Typography> */}
+
+            <Typography fontSize={'small'} >{rowsPerPage} item in each page</Typography>
+            <Select value={rowsPerPage} onChange={onRowsPerPageChange} style={{ width: '75px', height: '35px' }}>
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={20}>20</MenuItem>
+              <MenuItem value={50}>50</MenuItem>
+            </Select>
+            <Pagination
+              count={data?.data?.last_page}
+              shape="rounded"
+              page={currentPage}
+              showFirstButton
+              showLastButton
+              onChange={(event, value) => onPageChange(value)}
+            />
+            <Typography fontSize={'small'} >item available {data?.data?.total}</Typography>
+          </Box>
           {/* <TablePaginationCustom
             count={data?.totalDocs}
             page={page}

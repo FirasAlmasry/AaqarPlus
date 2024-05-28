@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import WrapperSection from '../global/WrapperSection'
 import HeaderSection from '../global/HeaderSection'
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 // import CardArea from '../global/CardArea'
 // import { useGetAreasQuery } from '../../state/areas'
 import i18next from 'i18next'
 import MultiItemSlider from '../global/MultiItemSlider'
 import { useTranslation } from 'react-i18next'
-import { useGetPropertiesQuery } from '../../state/properties'
-import CardProperty from '../global/CardProperty'
+// import { useGetPropertiesQuery } from '../../state/properties'
+// import CardProperty from '../global/CardProperty'
+import CardCompound from '../global/CardCompound'
+import { useGetCompoundsQuery } from '../../state/compounds'
 
+import theme from '../../util/theme';
+import { useNavigate } from 'react-router-dom';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const LaunchingSoon = () => {
     const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
 
-    const { data, isBrandsLoading } = useGetPropertiesQuery({ lng });
+    const { data, isBrandsLoading } = useGetCompoundsQuery({ lng, coming_soon: 1 });
 
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
@@ -22,8 +28,8 @@ const LaunchingSoon = () => {
             setTableData(data?.data?.data)
         }
     }, [data, tableData, isBrandsLoading])
-    const un_available = tableData?.filter(res => res?.is_available === 0)
     const { t } = useTranslation()
+    const navigate = useNavigate()
 
 
     return (
@@ -31,18 +37,14 @@ const LaunchingSoon = () => {
             <div style={{ backgroundColor: '#f5f5f5' }} >
                 <WrapperSection>
                     <Box sx={{ width: '100%' }}>
-                        <HeaderSection nameSection={t("LaunchingSoon")} length={un_available?.length} />
+                        <HeaderSection nameSection={t("LaunchingSoon")} path={'launching-soon'} pointer={'pointer'} length={tableData?.length === 0 ? t("NoResults") : tableData?.length} />
                         <MultiItemSlider>
-                            {un_available?.map(res =>
+                            {tableData?.map(res =>
                                 <Box key={res?.id} sx={{ my: 2 }}>
-                                    <CardProperty img={url + res?.master_plan}
+                                    <CardCompound
+                                        img={url + res?.main_image?.file}
                                         name={res?.name}
                                         address={res?.address}
-                                        num1={res?.bedrooms}
-                                        num2={res?.bathrooms}
-                                        num3={res?.house_area}
-                                        month={res?.monthly_installment}
-                                        years={res?.installment_years}
                                         price={res?.end_price}
                                         whatsapp={res?.whatsapp}
                                         phone_number={res?.phone_number}
@@ -51,6 +53,17 @@ const LaunchingSoon = () => {
                                 </Box>
                             )}
                         </MultiItemSlider>
+                        <Box sx={{ width: '100%', textAlign: 'center' }} >
+                            <Button
+                                endIcon={lng === 'en' ? <ArrowForwardIcon /> : <ArrowBackIcon />}
+                                onClick={() => navigate('launching-soon')}
+                                sx={{
+                                    background: theme.palette.primary.text,
+                                    color: theme.palette.secondary.main, fontWeight: '600', textTransform: 'capitalize', padding: '5px 16px', border: `0.8px solid ${theme.palette.secondary.main}`, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)", ':hover': { background: theme.palette.primary.main, color: theme.palette.primary.text, border: `0.8px solid ${theme.palette.primary.main}` }, width: '175px', gap: 1
+                                }} >
+                                {t("Explore.btn")}
+                            </Button>
+                        </Box>
                     </Box>
                 </WrapperSection>
             </div >

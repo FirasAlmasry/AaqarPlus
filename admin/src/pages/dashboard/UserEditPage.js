@@ -21,7 +21,6 @@ export default function UserEditPage() {
   
   const { name } = useParams();
   const { data } = useGetUserIdQuery(name)
-  console.log("🚀 ~ file: UserEditPage.js:24 ~ UserEditPage ~ data:", data?.data)
   const [editUser, { isLoading }] = useEditUserMutation()
 
   // const currentUser = _userList.find((user) => paramCase(user.name) === name);

@@ -76,9 +76,9 @@ export default function PropertyTypeListPage() {
         onSelectAllRows,
         //
         onSort,
-        onChangeDense,
-        onChangePage,
-        onChangeRowsPerPage,
+        // onChangeDense,
+        // onChangePage,
+        // onChangeRowsPerPage,
     } = useTable();
 
     const { themeStretch } = useSettingsContext();
@@ -331,7 +331,7 @@ export default function PropertyTypeListPage() {
                                     }
                                 />
                                 <TableBody>
-                                    {renderTableRows(dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage))}
+                                    {renderTableRows(dataFiltered)}
 
                                     <TableEmptyRows
                                         height={denseHeight}
@@ -347,7 +347,7 @@ export default function PropertyTypeListPage() {
                         </Scrollbar>
                     </TableContainer>
 
-                    <TablePaginationCustom
+                    {/* <TablePaginationCustom
                         count={data?.data?.data?.length}
                         page={page}
                         rowsPerPage={rowsPerPage}
@@ -356,7 +356,7 @@ export default function PropertyTypeListPage() {
                         //
                         dense={dense}
                         onChangeDense={onChangeDense}
-                    />
+                    /> */}
                 </Card>
             </Container>
 

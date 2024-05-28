@@ -116,6 +116,10 @@ import {
     CountryListPage,
     CountryCreatePage,
     CountryEditPage,
+    PropertiesListArchefPage,
+    BannersListPage,
+    BannersCreatePage,
+    BannersEditPage,
     // DescriptionBuyerListPage,
     // DescriptionBuyerCreatePage,
     // DescriptionBuyerEditPage,
@@ -300,6 +304,7 @@ export default function Router() {
                             index: true,
                         },
                         { path: "list", element: <PropertiesListPage /> },
+                        { path: "list/archef", element: <PropertiesListArchefPage /> },
                         { path: "new", element: <PropertiesCreatePage /> },
                         { path: ":name/edit", element: <PropertiesEditPage /> },
                     ],
@@ -316,6 +321,20 @@ export default function Router() {
                         { path: "list", element: <FoundersListPage /> },
                         { path: "new", element: <FoundersCreatePage /> },
                         { path: ":name/edit", element: <FoundersEditPage /> },
+                    ],
+                },
+                {
+                    path: "banners",
+                    children: [
+                        {
+                            element: (
+                                <Navigate to="/dashboard/banners/list" replace />
+                            ),
+                            index: true,
+                        },
+                        { path: "list", element: <BannersListPage /> },
+                        { path: "new", element: <BannersCreatePage /> },
+                        { path: ":name/edit", element: <BannersEditPage /> },
                     ],
                 },
                 {

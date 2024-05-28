@@ -333,7 +333,7 @@ export default function FoundersListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.data?.per_page}
+                        count={data?.data?.total}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}

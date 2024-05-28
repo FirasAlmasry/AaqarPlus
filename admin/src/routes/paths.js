@@ -97,6 +97,7 @@ export const PATH_DASHBOARD = {
         root: path(ROOTS_DASHBOARD, "/properties"),
         new: path(ROOTS_DASHBOARD, "/properties/new"),
         list: path(ROOTS_DASHBOARD, "/properties/list"),
+        archef: path(ROOTS_DASHBOARD, "/properties/list/archef"),
         edit: (name) => path(ROOTS_DASHBOARD, `/properties/${name}/edit`),
     },
     founders: {
@@ -104,6 +105,12 @@ export const PATH_DASHBOARD = {
         new: path(ROOTS_DASHBOARD, "/founders/new"),
         list: path(ROOTS_DASHBOARD, "/founders/list"),
         edit: (name) => path(ROOTS_DASHBOARD, `/founders/${name}/edit`),
+    },
+    banners: {
+        root: path(ROOTS_DASHBOARD, "/banners"),
+        new: path(ROOTS_DASHBOARD, "/banners/new"),
+        list: path(ROOTS_DASHBOARD, "/banners/list"),
+        edit: (name) => path(ROOTS_DASHBOARD, `/banners/${name}/edit`),
     },
     blogs: {
         root: path(ROOTS_DASHBOARD, "/blogs"),

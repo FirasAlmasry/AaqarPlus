@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -16,7 +16,15 @@ import Auth from "./Auth";
 import MenuItems from "./MenuItems";
 import MenuItem from '@mui/material/MenuItem';
 import theme from "../../util/theme";
+import { useGetAreasQuery } from "../../state/areas";
+import { useGetCountryQuery } from "../../state/Country";
+import { useGetPropertyTypeQuery } from "../../state/PropertyType";
 // import Share from "../Share/Share";
+
+
+
+
+
 
 function NavBar() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -26,11 +34,75 @@ function NavBar() {
     };
     const handleClose = () => {
         setAnchorEl(null);
+        setUnits(null); // إضافة إغلاق القائمة هنا
+        setArea(null); // إضافة إغلاق القائمة هنا
+    };
+
+    const [Units, setUnits] = useState(null);
+    const openUnits = Boolean(Units);
+    const handleClickUnits = (event) => {
+        setUnits(event.currentTarget);
+    };
+
+    const handleCloseUnits = () => {
+        setUnits(null);
+    };
+    const [Area, setArea] = useState(null);
+    const openArea = Boolean(Area);
+    const handleClickArea = (event) => {
+        setArea(event.currentTarget);
+    };
+
+    const handleCloseArea = () => {
+        setArea(null);
     };
     let lng = i18next.language
     const [drawer, setDrawer] = useState(false);
     const location = useLocation();
     let path = location.pathname.split('/')[1]
+    const { data, isBrandsLoading } = useGetPropertyTypeQuery(lng);
+
+    const [tableData, setTableData] = useState([]);
+    useEffect(() => {
+        if (data && !isBrandsLoading) {
+            const filteredData = data.data.filter(item => {
+                if (lng === 'en') {
+                    return item?.name === 'Residential' || item?.name === 'Commercials' || item?.name === 'Administrative' || item?.name === 'medical' || item?.name === 'Vacation Homes';
+                } else if (lng === 'ar') {
+                    return item?.name === 'سكني' || item?.name === 'تجاري' || item?.name === 'إداري' || item?.name === 'طبي' || item?.name === 'عقارات مصايف';
+                }
+                return false;
+            });
+            setTableData(filteredData);
+        }
+    }, [data, isBrandsLoading, lng])
+    // const available = tableData?.filter(res => res?.properties?.length > 0)
+
+    const { data: area, isAryaLoading } = useGetAreasQuery({lng});
+    const [AreaData, setAreaData] = useState([]);
+    useEffect(() => {
+        if (area && !isAryaLoading) {
+            setAreaData(area?.data?.data)
+        }
+    }, [area, AreaData, isAryaLoading])
+    const { data: country, isCountryLoading } = useGetCountryQuery(lng);
+
+    const [countryData, setCountryData] = useState([]);
+    useEffect(() => {
+        if (country && !isCountryLoading) {
+            setCountryData(country?.data?.data)
+        }
+    }, [country, countryData, isCountryLoading])
+    // const location = useLocation();
+
+    // تحقق مما إذا كنت في الصفحة الرئيسية
+    const isHomePage = location.pathname === '/';
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
     return (
         <>
             <AppBar position="static" elevation={0}
@@ -70,112 +142,90 @@ function NavBar() {
                                     width: '90%'
                                 }}>
                                 <Link
+                                    onClick={() => scrollToTop()}
                                     to={'/'}
                                     style={{ textTransform: 'capitalize', }}
                                     className="link">
-                                    {lng === 'en' ? 'Home': 'الرئيسية'}
+                                    {lng === 'en' ? 'Home' : 'الرئيسية'}
                                 </Link>
+                                <MenuItems name={lng === 'en' ? 'Available Units' : "الوحدات المتاحة"} handleClick={handleClickUnits} anchorEl={Units} open={openUnits} handleClose={handleCloseUnits} >
+                                    {
+                                        tableData?.map((res) => <Link
+                                            to={`/property-type/${res?.id}`}
+                                            key={res?.id}
+                                            style={{ textTransform: 'capitalize', }}
+                                            className="link"> 
+                                            <MenuItem onClick={handleClose} disableRipple>
+                                                {res?.name}
+                                            </MenuItem>
+                                        </Link>
+                                        )
+                                    }
+                                </MenuItems>
+                                <Link
+                                    to={'/areas'}
+                                    style={{ textTransform: 'capitalize', }}
+                                    className="link">
+                                    {lng === 'en' ? 'Areas' : "المناطق"}
+                                </Link>
+                                {/* <Link
+                                    to={'/compounds'}
+                                    style={{ textTransform: 'capitalize', }}
+                                    className="link">
+                                    {lng === 'en' ? 'Top Projects' : "اهم المجمعات السكنية"}
+                                </Link> */}
+                                {/* <MenuItems name={lng === 'en' ? 'Top Compounds' : "اهم المجمعات السكنية"} handleClick={handleClickArea} anchorEl={Area} open={openArea} handleClose={handleCloseArea} >
+                                    {
+                                        AreaData?.map((res) => <Link
+                                            to={`/area/${res?.id}`}
+                                            key={res?.id}
+                                            style={{ textTransform: 'capitalize', }}
+                                            className="link">
+                                            <MenuItem onClick={handleClose} disableRipple>
+                                                {res?.name}
+                                            </MenuItem>
+                                        </Link>
+                                        )
+                                    }
+                                </MenuItems> */}
+                                <MenuItems name={lng === 'en' ? 'Countries To Invest In' : "أستثمر بالخارج"} handleClick={handleClick} anchorEl={anchorEl} open={open} handleClose={handleClose} >
+                                    
+                                    {
+                                        countryData?.map((res) => <Link
+                                            to={`/country/${res?.id}`}
+                                            key={res?.id}
+                                            style={{ textTransform: 'capitalize', }}
+                                            className="link">
+                                            <MenuItem onClick={handleClose} disableRipple>
+                                                {res?.name}
+                                            </MenuItem>
+                                        </Link>
+                                        )
+                                    }
+                                </MenuItems>
                                 <Link
                                     to={'/developers'}
                                     style={{ textTransform: 'capitalize', }}
                                     className="link">
-                                    {lng === 'en' ? 'developers': 'المطورون'}
+                                    {lng === 'en' ? 'developers' : 'المطورون'}
                                 </Link>
-                                <MenuItems name={lng === 'en' ? 'Available Units': "الوحدات المتاحة"} handleClick={handleClick} anchorEl={anchorEl} open={open} handleClose={handleClose} >
-                                    <Link
-                                        to={'/'}
-                                        style={{ textTransform: 'capitalize', }}
-                                        className="link">
-                                        <MenuItem onClick={handleClose} disableRipple>
-                                            Unit1
-                                        </MenuItem>
-                                    </Link>
-                                    <Link
-                                        to={'/'}
-                                        style={{ textTransform: 'capitalize', }}
-                                        className="link">
-                                        <MenuItem onClick={handleClose} disableRipple>
-                                            Unit2
-                                        </MenuItem>
-                                    </Link>
-                                    <Link
-                                        to={'/'}
-                                        style={{ textTransform: 'capitalize', }}
-                                        className="link">
-                                        <MenuItem onClick={handleClose} disableRipple>
-                                            Unit3
-                                        </MenuItem>
-                                    </Link>
-                                </MenuItems>
-                                <MenuItems name={lng === 'en' ? 'Top Compounds': "اهم المجمعات السكنية"} handleClick={handleClick} anchorEl={anchorEl} open={open} handleClose={handleClose} >
-                                    <Link
-                                        to={'/'}
-                                        style={{ textTransform: 'capitalize', }}
-                                        className="link">
-                                        <MenuItem onClick={handleClose} disableRipple>
-                                            Unit1
-                                        </MenuItem>
-                                    </Link>
-                                    <Link
-                                        to={'/'}
-                                        style={{ textTransform: 'capitalize', }}
-                                        className="link">
-                                        <MenuItem onClick={handleClose} disableRipple>
-                                            Unit2
-                                        </MenuItem>
-                                    </Link>
-                                    <Link
-                                        to={'/'}
-                                        style={{ textTransform: 'capitalize', }}
-                                        className="link">
-                                        <MenuItem onClick={handleClose} disableRipple>
-                                            Unit3
-                                        </MenuItem>
-                                    </Link>
-                                </MenuItems>
-                                <MenuItems name={lng === 'en' ? 'Countries To Invot In': "أستثمر بالخارج"} handleClick={handleClick} anchorEl={anchorEl} open={open} handleClose={handleClose} >
-                                    <Link
-                                        to={'/'}
-                                        style={{ textTransform: 'capitalize', }}
-                                        className="link">
-                                        <MenuItem onClick={handleClose} disableRipple>
-                                            Unit1
-                                        </MenuItem>
-                                    </Link>
-                                    <Link
-                                        to={'/'}
-                                        style={{ textTransform: 'capitalize', }}
-                                        className="link">
-                                        <MenuItem onClick={handleClose} disableRipple>
-                                            Unit2
-                                        </MenuItem>
-                                    </Link>
-                                    <Link
-                                        to={'/'}
-                                        style={{ textTransform: 'capitalize', }}
-                                        className="link">
-                                        <MenuItem onClick={handleClose} disableRipple>
-                                            Unit3
-                                        </MenuItem>
-                                    </Link>
-                                </MenuItems>
                                 <Link
                                     to={'/design'}
                                     style={{ textTransform: 'capitalize', }}
                                     className="link">
-                                    {lng === 'en' ? 'Internal Designs' : "التصميم الداخلي والديكورات"}
+                                    {lng === 'en' ? 'Interior Designs' : "التصميم الداخلي والديكورات"}
                                 </Link>
                                 <Link
                                     to={'/blogs'}
                                     style={{ textTransform: 'capitalize', }}
                                     className="link">
-                                    {lng === 'en' ? 'Blogs' :"المقالات"}
+                                    {lng === 'en' ? 'Blogs' : "المقالات"}
                                 </Link>
                                 <Link
                                     to={'/contact-us'}
                                     style={{ textTransform: 'capitalize', }}
                                     className="link">
-                                    {lng === 'en' ? 'Contact Us':"اتصل بنا"}
+                                    {lng === 'en' ? 'Contact Us' : "اتصل بنا"}
                                 </Link>
                                 {/* { 
                                     Pages?.map((page, i) => <Link
@@ -197,7 +247,7 @@ function NavBar() {
                                     display: { md: "none", xs: "flex" },
                                     justifyContent: "space-between",
                                     width: "100%",
-                                    alignItems: 'center' 
+                                    alignItems: 'center'
                                 }}>
                                 <Link
                                     to="/"

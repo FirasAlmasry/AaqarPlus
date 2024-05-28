@@ -13,6 +13,7 @@ import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import BlogsNewEditForm from "../../../sections/@dashboard/blogs/BlogsNewEditForm";
 import { useGetBlogsIdQuery } from "../../../state/blog";
+import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +21,20 @@ export default function BlogsEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isBlogLoading } = useGetBlogsIdQuery(name);
+    const { data, isBlogLoading, refetch } = useGetBlogsIdQuery(name);
+
+    const [blogData, setBlogData] = useState(null);
+
+    useEffect(() => {
+        if (data) {
+            setBlogData(data.data);
+        }
+    }, [data]);
+
+    useEffect(() => {
+        refetch(); // سيؤدي إلى إعادة جلب البيانات عندما يتغير `name` في useParams
+    }, [name, refetch]);
+
     return (
         <>
             <Helmet>
@@ -43,7 +57,7 @@ export default function BlogsEditPage() {
                     ]}
                 />
                 {isBlogLoading ? "loading" :
-                    <BlogsNewEditForm isEdit currentBlogs={data?.data} />
+                    <BlogsNewEditForm isEdit currentBlogs={blogData} />
                 }
             </Container>
         </>

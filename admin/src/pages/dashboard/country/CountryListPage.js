@@ -15,6 +15,10 @@ import {
     Container,
     IconButton,
     TableContainer,
+    Typography,
+    Pagination,
+    Select,
+    MenuItem,
 } from "@mui/material";
 // routes
 import { PATH_DASHBOARD } from "../../../routes/paths";
@@ -43,6 +47,7 @@ import {
 } from "../../../sections/@dashboard/country/list";
 import { useDeleteCountryMutation, useGetCountryQuery } from "../../../state/Country";
 import { useSnackbar } from "notistack";
+import { Box } from "@mui/system";
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +58,7 @@ const ROLE_OPTIONS = ["all", "true", "false"];
 const TABLE_HEAD = [
     { id: "English", label: "English", align: "left" },
     { id: "Arabic", label: "Arabic", align: "left" },
-    { id: "trending", label: "Trending", align: "left" },
+    // { id: "trending", label: "Trending", align: "left" },
     { id: "" },
 ];
 
@@ -65,7 +70,7 @@ export default function CountryListPage() {
         page,
         order,
         orderBy,
-        rowsPerPage,
+        // rowsPerPage,
         setPage,
         //
         selected,
@@ -82,9 +87,19 @@ export default function CountryListPage() {
     const { themeStretch } = useSettingsContext();
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
-    const { data, isLoading, refetch } = useGetCountryQuery()
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const onPageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const onRowsPerPageChange = (event) => {
+        setRowsPerPage(event.target.value);
+        setCurrentPage(1); // عندما يتم تغيير عدد العناصر في كل صفحة، يجب عليك إعادة تعيين الصفحة الحالية إلى الصفحة الأولى
+    };
+    const { data, isLoading, refetch } = useGetCountryQuery({currentPage, limit: rowsPerPage})
     const [tableData, setTableData] = useState([]);
-    console.log(data?.data?.per_page)
     useEffect(() => {
         if (data && !isLoading) {
             setTableData(data?.data?.data)
@@ -128,7 +143,6 @@ export default function CountryListPage() {
 
     const handleCloseConfirm = () => {
         setOpenConfirm(false);
-        console.log('test')
     };
 
     const handleFilterStatus = (event, newValue) => {
@@ -157,7 +171,6 @@ export default function CountryListPage() {
             handleCloseConfirm(); // تنفيذ الدالة لإغلاق الـ "بوب آب"
             setOpenConfirm(false);
         } else {
-            console.log("Country deleted successfully");
             const deleteRow = tableData?.filter((row) => row?.id !== id);
             setSelected([]);
             setTableData(deleteRow);
@@ -344,9 +357,27 @@ export default function CountryListPage() {
                             </Table>
                         </Scrollbar>
                     </TableContainer>
+<Box sx={{ display: 'flex', justifyContent: 'space-around', py: 2, alignItems: 'center' }}>
 
-                    <TablePaginationCustom
-                        count={data?.data?.per_page}
+                        <Typography fontSize={'small'} >{rowsPerPage} item in each page</Typography>
+                        <Select value={rowsPerPage} onChange={onRowsPerPageChange} style={{ width: '75px', height: '35px' }} >
+                            <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={20}>20</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                        </Select>
+                        <Pagination
+                            count={data?.data?.last_page}
+                            shape="rounded"
+                            page={currentPage}
+                            showFirstButton
+                            showLastButton
+                            onChange={(event, value) => onPageChange(value)}
+                        />
+                        <Typography fontSize={'small'} >item available {data?.data?.total}</Typography>
+                    </Box>
+                    {/* <TablePaginationCustom
+                        count={data?.data?.total}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}
@@ -354,7 +385,7 @@ export default function CountryListPage() {
                         //
                         dense={dense}
                         onChangeDense={onChangeDense}
-                    />
+                    /> */}
                 </Card>
             </Container>
 

@@ -78,8 +78,7 @@ export default function CountryTableRow({
                 <TableCell align="right">
                     <IconButton
                         color={openPopover ? "inherit" : "default"}
-                        onClick={handleOpenPopover}
-                    >
+                        onClick={handleOpenPopover}>
                         <Iconify icon="eva:more-vertical-fill" />
                     </IconButton>
                 </TableCell>

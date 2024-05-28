@@ -9,6 +9,7 @@ const Slider = ({ nav= false ,children }) => {
                 indicators={false}
                 navButtonsAlwaysVisible={nav}
                 fullHeightHover={true}
+                autoPlay={false}
                 sx={{
                     marginTop: "25px",
                     width: { md: "100%", xs: "100%" },

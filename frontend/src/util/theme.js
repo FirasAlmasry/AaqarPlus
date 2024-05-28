@@ -1,4 +1,7 @@
 import { createTheme } from "@mui/material";
+import i18next from "i18next";
+
+let lng = i18next.language;
 
 const theme = createTheme({
     palette: {
@@ -16,32 +19,32 @@ const theme = createTheme({
         },
     },
     typography: {
+        // fontFamily: (lng === 'en' ? "Lato, sans-serif" : "Tajawal, sans-serif"),
+        fontWeight: '600',
         h1: {
-            fontFamily: "Ubuntu, sans-serif",
-            fontWeight:'bold'
+            // fontFamily: (lng === 'en' ? "Ubuntu, sans-serif" : "Tajawal, sans-serif"),
+            fontWeight: 'bold'
         },
         h2: {
-            fontFamily: "Ubuntu, sans-serif",
-            fontWeight:'bold'
+            // fontFamily: (lng === 'en' ? "Ubuntu, sans-serif" : "Tajawal, sans-serif"),
+            fontWeight: 'bold'
         },
         h3: {
-            fontFamily: "Ubuntu, sans-serif",
-            fontWeight:'bold'
+            // fontFamily: (lng === 'en' ? "Ubuntu, sans-serif" : "Tajawal, sans-serif"),
+            fontWeight: 'bold'
         },
         h4: {
-            fontFamily: "Ubuntu, sans-serif",
-            fontWeight:'bold'
+            // fontFamily: (lng === 'en' ? "Ubuntu, sans-serif" : "Tajawal, sans-serif"),
+            fontWeight: 'bold'
         },
         h5: {
-            fontFamily: "Ubuntu, sans-serif",
-            fontWeight:'bold'
+            // fontFamily: (lng === 'en' ? "Ubuntu, sans-serif" : "Tajawal, sans-serif"),
+            fontWeight: 'bold'
         },
         h6: {
-            fontFamily: "Ubuntu, sans-serif",
-            fontWeight:'bold'
+            // fontFamily: (lng === 'en' ? "Ubuntu, sans-serif" : "Tajawal, sans-serif"),
+            fontWeight: 'bold'
         },
-        fontFamily: "Lato, sans-serif",
-        fontWeight:'600'
     },
 });
 

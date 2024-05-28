@@ -21,19 +21,19 @@ const MultiItemSlider = ({ children }) => {
 
     return (
         <>
-            <Box sx={{ mb: 2, pb: 2 }} >
+            <Box sx={{ p: 1 }} >
                 <Carousel
                     autoPlay={true}
-                    swipeable={false}
-                    draggable={false}
+                    swipeable={true}
+                    draggable={true}
                     showDots={false}
                     responsive={responsive}
-                    pauseOnHover={false}
+                    pauseOnHover={true}
                     infinite={true}
-                    autoPlaySpeed={1000}
+                    autoPlaySpeed={3500}
                     keyBoardControl={true}
                     customTransition="transform 300ms ease-in-out"
-                    transitionDuration={1000}
+                    transitionDuration={3500}
                     containerclassName="carousel-container"
                     dotListclassName="custom-dot-list-style"
                     itemclassName="carousel-item-padding-40-px"

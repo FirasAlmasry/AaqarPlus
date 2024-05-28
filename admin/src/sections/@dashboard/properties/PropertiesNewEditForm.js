@@ -10,12 +10,10 @@ import { LoadingButton } from "@mui/lab";
 import {
     Box,
     Card,
-    Checkbox,
     Chip,
     FormControlLabel,
     Grid,
     InputLabel,
-    ListItemText,
     MenuItem,
     OutlinedInput,
     Select,
@@ -23,9 +21,6 @@ import {
     Switch,
     // Switch,
     Typography,
-    Button
-    // FormControlLabel,
-    // InputAdornment,
 } from "@mui/material";
 // utils
 import { fData } from "../../../utils/formatNumber";
@@ -35,7 +30,6 @@ import { PATH_DASHBOARD } from "../../../routes/paths";
 // import { countries } from "../../../assets/data";
 // components
 import Label from "../../../components/label";
-import Iconify from '../../../components/iconify';
 
 import { useSnackbar } from "../../../components/snackbar";
 import FormProvider, {
@@ -44,7 +38,6 @@ import FormProvider, {
     RHFTextField,
     RHFEditor,
     RHFUploadAvatar,
-    RHFUpload,
 } from "../../../components/hook-form";
 import { useAddPropertiesMutation, useEditPropertiesMutation, useGetPropertiesQuery } from "../../../state/properties";
 // import { useGetDevelopersQuery } from "../../../state/developers";
@@ -53,24 +46,13 @@ import { useGetAttachedsQuery } from "../../../state/facilities";
 import { useGetPropertyTypeQuery } from "../../../state/PropertyType";
 import { useGetCompoundsQuery } from "../../../state/compounds";
 import { useGetFinishingQuery } from "../../../state/finishing";
-import { useTheme } from "@emotion/react";
-import { FileNewFolderDialog } from "../file";
+import { useTheme } from "@emotion/react"; 
+import { useGetCountryQuery } from "../../../state/Country";
+import { Upload } from "../../../components/upload";
+import { useGetAreasQuery } from "../../../state/areas";
 
 // ----------------------------------------------------------------------
-// const FILE_TYPE_OPTIONS = [
-//     'folder',
-//     'txt',
-//     'zip',
-//     'audio',
-//     'image',
-//     'video',
-//     'word',
-//     'excel',
-//     'powerpoint',
-//     'pdf',
-//     'photoshop',
-//     'illustrator',
-// ];
+
 PropertiesNewEditForm.propTypes = {
     isEdit: PropTypes.bool,
     currentService: PropTypes.object,
@@ -97,15 +79,24 @@ const MenuProps = {
 };
 
 export default function PropertiesNewEditForm({ isEdit = false, currentService }) {
+    console.log("🚀 ~ PropertiesNewEditForm ~ currentService:", currentService?.property?.monthly_installment)
+    const [files, setFiles] = useState([]);
+    useEffect(() => {
+        // يتم استدعاء هذا الكود بمجرد تحميل البيانات
+        if (currentService && currentService?.property && currentService?.property?.images) {
+            setFiles(currentService?.property?.images);
+        }
+    }, [currentService]); // يتم تحديث الحالة عندما يتغير currentService
+
     const { enqueueSnackbar } = useSnackbar();
     const theme = useTheme();
     const [selectedIds, setSelectedIds] = useState([]);
     const navigate = useNavigate();
 
     // Compounds Id
-    const { data: Compounds, isCompoundsLoading } = useGetCompoundsQuery();
+    const { data: Compounds, isCompoundsLoading } = useGetCompoundsQuery({limit:999});
     const CompoundsDataId = Compounds?.data?.data
-    let compound_id = currentService?.property?.compound_id
+    let compound_id = currentService?.property?.compound_id || ''
     compound_id = String(compound_id)
     const [CompoundsId, setCompoundsId] = useState(compound_id);
     useEffect(() => {
@@ -113,6 +104,22 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
     }, [compound_id]);
     const handleChangeCompound = (event) => {
         setCompoundsId(event.target.value);
+    };
+
+    // Areas Id
+    const { data: Areas, isAreasLoading } = useGetAreasQuery({limit:999});
+    console.log("🚀 ~ PropertiesNewEditForm ~ data:", Areas)
+    const AreasDataId = Areas?.data?.data
+    console.log("🚀 ~ PropertiesNewEditForm ~ AreasDataId:", AreasDataId)
+    let area_id = currentService?.property?.area_id || ''
+    area_id = String(area_id)
+    const [AreasId, setAreasId] = useState(area_id);
+    console.log("🚀 ~ PropertiesNewEditForm ~ AreasId:", AreasId)
+    useEffect(() => {
+        setAreasId(area_id);
+    }, [area_id]);
+    const handleChangeArea = (event) => {
+        setAreasId(event.target.value);
     };
 
     // FinishingId
@@ -129,8 +136,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
     };
 
     // CountryDataId
-    const { data: Country, isCountryLoading } = useGetFinishingQuery()
-    //  useGetCountryQuery();
+    const { data: Country, isCountryLoading } = useGetCountryQuery({ currentPage:1, limit:99999 })
     const CountryDataId = Country?.data?.data
     let country_id = currentService?.property?.country_id
     country_id = String(country_id)
@@ -175,8 +181,8 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
 
         items?.forEach((item) => {
             const currentPath = parentPath
-                ? `${item.name.ar}`
-                : item.name.ar;
+                ? `${item.name.en}`
+                : item.name.en;
 
             const indentation = level * 10; // Adjust the factor (10 pixels) here
 
@@ -214,35 +220,49 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
         setAttached(value);
     };
 
-    
-    let payment_method = currentService?.property?.payment_method
-    const [TargetMethod, setTargetMethod] = useState(payment_method)
+
+    let payment_method = currentService?.property?.payment_method || '';
+    const [TargetMethod, setTargetMethod] = useState(payment_method);
     useEffect(() => {
         setTargetMethod(payment_method);
     }, [payment_method]);
     const handleChangeMethod = (event) => {
-        setTargetMethod(event.target.value);
+        const selectedMethod = event.target.value;
+        setTargetMethod(selectedMethod);
     };
 
     const method = [
         'cash',
         'installment',
-        'cash or installment']
-
-
-    let sale_type = currentService?.property?.sale_type
-    const [saleType, setSaleType] = useState(sale_type)
+        'mixed']
+    
+    let sale_type = currentService?.property?.sale_type || '';
+    const [saleType, setSaleType] = useState(sale_type);
     useEffect(() => {
         setSaleType(sale_type);
     }, [sale_type]);
-
     const handleChangeSaleType = (event) => {
         setSaleType(event.target.value);
     };
 
     const SaleTypeOption = [
-        'primary',
-        'resale',]
+        {
+            name: 'Primary',
+            value: 'primary'
+        },
+        {
+            name: 'Resale',
+            value: 'resale'
+        },
+        {
+            name: 'Rent',
+            value: 'rent'
+        },
+        {
+            name: 'Invest',
+            value: 'invest'
+        },
+    ]
 
 
     const NewPropertiesSchema = Yup.object().shape({
@@ -258,43 +278,47 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             en: Yup.string().required("description en is required"),
             ar: Yup.string().required("description ar is required"),
         }),
-        payment_method_title: Yup.object({
-            en: Yup.string().required("payment_method_title en is required"),
-            ar: Yup.string().required("payment_method_title ar is required"),
-        }),
+        // payment_method_title: Yup.object({
+        //     en: Yup.string(),
+        //     ar: Yup.string(),
+        // }),
         payment_plans_title: Yup.object({
-            en: Yup.string().required("payment_method_title en is required"),
-            ar: Yup.string().required("payment_method_title ar is required"),
+            en: Yup.string(),
+            ar: Yup.string(),
         }),
-        phone_number: Yup.string().required("phone_number is required"),
-        whatsapp: Yup.string().required("whatsapp is required"),
         property_type_id: Yup.string(),
-        house_area: Yup.string().required("house_area is required"),
-        bedrooms: Yup.string().required("bedrooms is required"),
-        bathrooms: Yup.string().required("bathrooms is required"),
-        delivery_in: Yup.string().required("delivery_in is required"),
-        trending: Yup.string().required("trending en is required"),
-        is_available: Yup.string().required("is_available en is required"),
-        // developer_id: Yup.string(),
-        monthly_installment: Yup.number(),
+        finish_id: Yup.string(),
+        country_id: Yup.string(),
+        coin_id: Yup.string(),
+        sale_type: Yup.string(),
+        phone_number: Yup.string(),
+        whatsapp: Yup.string(),
+        house_area: Yup.string(),
+        bedrooms: Yup.string(),
+        bathrooms: Yup.string(),
+        delivery_in: Yup.string(),
+        trending: Yup.string(),
+        is_available: Yup.string(),
+        monthly_installment: Yup.string(),
         down_payment: Yup.string(),
         installment_years: Yup.string(),
         compound_id: Yup.string(),
-        finish_id: Yup.string(),
-        country_id: Yup.string(),
+        area_id: Yup.string(),
         url_location: Yup.string(),
-        coin_id: Yup.string(),
         agent_code: Yup.string(),
         payment_method: Yup.string(),
-        sale_type: Yup.string(),
         initial_payment: Yup.string(),
         image_floor_plan: Yup.mixed(),
-        master_plan: Yup.mixed(),
-        start_price: Yup.string().required("start_price en is required"),
-        end_price: Yup.string().required("end_price en is required"),
+        master_plan: Yup.mixed().required("required"),
+        start_price: Yup.string(),
+        end_price: Yup.string(),
         attached: Yup.array(),
-        files: Yup.array().required('required'),
+        files: Yup.array().required(),
     });
+    const defaultMonthlyInstallment = (currentService?.property?.monthly_installment === '0.00')
+        ? '0'
+        : currentService?.property?.monthly_installment?.split('.')[0] || '0';
+    console.log("🚀 ~ PropertiesNewEditForm ~ defaultMonthlyInstallment:", defaultMonthlyInstallment)
 
     const defaultValues = useMemo(
         () => ({
@@ -311,45 +335,46 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                 en: currentService?.property?.description?.en || "",
                 ar: currentService?.property?.description?.ar || "",
             },
-            payment_method_title: {
-                en: currentService?.property?.payment_method_title?.en || "",
-                ar: currentService?.property?.payment_method_title?.ar || "",
-            },
+            // payment_method_title: {
+            //     en: currentService?.property?.payment_method_title?.en || "",
+            //     ar: currentService?.property?.payment_method_title?.ar || "",
+            // },
             payment_plans_title: {
-                en: currentService?.property?.payment_method_title?.en || "",
-                ar: currentService?.property?.payment_method_title?.ar || "",
+                en: currentService?.property?.payment_plans_title?.en || "",
+                ar: currentService?.property?.payment_plans_title?.ar || "",
             },
-            phone_number: currentService?.property?.phone_number || '',
-            whatsapp: currentService?.property?.whatsapp || '',
+            phone_number: currentService?.property?.phone_number || '0',
+            whatsapp: currentService?.property?.whatsapp || '0',
             property_type_id: TypeId || '',
-            house_area: currentService?.property?.house_area || '',
+            house_area: currentService?.property?.house_area || '0',
             start_price: currentService?.property?.start_price || '0',
             end_price: currentService?.property?.end_price || '0',
+            area_id: AreasId || '',
             trending: currentService?.property?.trending || '0',
             is_available: currentService?.property?.is_available || '0',
-            bedrooms: currentService?.property?.bedrooms || '',
-            bathrooms: currentService?.property?.bathrooms || '',
-            monthly_installment: currentService?.property?.monthly_installment || '',
-            installment_years: currentService?.property?.installment_years || '',
-            down_payment: currentService?.property?.down_payment || '',
+            bedrooms: currentService?.property?.bedrooms || '0',
+            bathrooms: currentService?.property?.bathrooms || '0',
+            // monthly_installment: defaultMonthlyInstallment || '0',
+            monthly_installment: currentService?.property?.monthly_installment || '0',
+            installment_years: currentService?.property?.installment_years || '0',
+            down_payment: currentService?.property?.down_payment || '0', 
             delivery_in: currentService?.property?.delivery_in || '',
             url_location: currentService?.property?.url_location || '',
             image_floor_plan: currentService?.property?.image_floor_plan || [],
-            master_plan: currentService?.property?.master_plan || [],
+            master_plan: currentService?.property?.master_plan ,
             initial_payment: currentService?.property?.initial_payment || '0',
             payment_method: TargetMethod || '',
             compound_id: CompoundsId || '',
             finish_id: FinishingId || '',
-            country_id: CountryDataId || '',
+            country_id: CountryId || '',
             coin_id: coin || "",
             agent_code: currentService?.property?.agent_code || "",
             attached: Attached || [],
-            files: currentService?.property?.images || [],
+            files: files,
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [currentService?.property]
     );
-
     const methods = useForm({
         resolver: yupResolver(NewPropertiesSchema),
         defaultValues,
@@ -379,21 +404,23 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
     const [addProperties] = useAddPropertiesMutation()
     const [EditProperties] = useEditPropertiesMutation()
 
+    // const formatNumber = (number) => {
+    //     // تحويل الرقم إلى سلسلة نصية وتنسيقه بواسطة RegExp
+    //     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    // };
     const formatNumber = (number) => {
-        // تحويل الرقم إلى سلسلة نصية وتنسيقه بواسطة RegExp
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    };
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
 
     const onSubmit = async (data) => {
-        console.log(data);
         try {
             // تحويل القيمة من نص إلى رقم
             const startPrice = parseFloat(data.start_price.replace(/,/g, ''));
             const endPrice = parseFloat(data.end_price.replace(/,/g, ''));
-            // const installmentYears = parseFloat(data.installment_years.replace(/,/g, ''));
             const initialPayment = parseFloat(data.initial_payment.replace(/,/g, ''));
             const downPayment = parseFloat(data.down_payment.replace(/,/g, ''));
-            // const data = new FormData();
+            const monthlyInstallment = parseFloat(data.monthly_installment.replace(/,/g, ''));
+
             const formData = new FormData();
             formData.append("ar_name", data.name.ar);
             formData.append("en_name", data.name.en);
@@ -401,18 +428,19 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             formData.append("en_address", data.address.en);
             formData.append("ar_description", data.description.ar);
             formData.append("en_description", data.description.en);
-            formData.append("ar_payment_method_title", data.payment_method_title.ar);
-            formData.append("en_payment_method_title", data.payment_method_title.en);
+            // formData.append("ar_payment_method_title", data.payment_method_title.ar);
+            // formData.append("en_payment_method_title", data.payment_method_title.en);
             formData.append("ar_payment_plans_title", data.payment_plans_title.ar);
             formData.append("en_payment_plans_title", data.payment_plans_title.en);
             formData.append("phone_number", data.phone_number);
             formData.append("whatsapp", data.whatsapp);
             formData.append("start_price", startPrice);
             formData.append("end_price", endPrice);
+            formData.append("area_id", AreasId);
             formData.append("house_area", data.house_area);
             formData.append("bedrooms", data.bedrooms);
             formData.append("bathrooms", data.bathrooms);
-            formData.append("monthly_installment", data.monthly_installment);
+            formData.append("monthly_installment", monthlyInstallment.toString());
             formData.append("installment_years", data.installment_years);
             formData.append("delivery_in", data.delivery_in);
             formData.append("trending", data.trending);
@@ -421,11 +449,10 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             formData.append("payment_method", TargetMethod);
             formData.append("sale_type", saleType);
             formData.append("initial_payment", initialPayment);
-            // formData.append("initial_payment", data.initial_payment);
             formData.append("property_type_id", TypeId);
             formData.append("compound_id", CompoundsId);
             formData.append("finish_id", FinishingId);
-            formData.append("country_id", CountryDataId);
+            formData.append("country_id", CountryId);
             formData.append("down_payment", downPayment);
             formData.append("coin_id", coin);
             formData.append("agent_code", data.agent_code);
@@ -459,12 +486,11 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
             enqueueSnackbar(!isEdit ? "Create success!" : "Update success!");
             navigate(PATH_DASHBOARD.properties.list);
         } catch (error) {
-            console.error(error);
             const errorMessage = error.data.message || 'An error occurred';
             enqueueSnackbar(errorMessage, { variant: 'error' });
         }
     };
-    
+
     const handleDrop = useCallback(
         (acceptedFiles) => {
             const file = acceptedFiles[0];
@@ -494,46 +520,26 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
         },
         [setValue]
     );
+    
 
-    // const handleMulteDrop = useCallback(
-    //     (acceptedFiles) => {
-    //         const files = values.files || [];
+    const handleMultyDrop = useCallback(
+        (acceptedFiles) => {
+            const newFiles = acceptedFiles.map((file) =>
+                Object.assign(file, {
+                    preview: URL.createObjectURL(file),
+                })
+            );
 
-    //         const newFiles = acceptedFiles.map((file) =>
-    //             Object.assign(file, {
-    //                 preview: URL.createObjectURL(file),
-    //             })
-    //         );
+            setFiles([...files, ...newFiles]);
+        },
+        [files, setFiles]
+    );
+    
 
-    //         setValue('files', [...files, ...newFiles], { shouldValidate: true });
-    //     },
-    //     [setValue, values.files]
-    // );
-
-    // const handleRemoveFile = (inputFile) => {
-    //     const filtered = values.files && values.files?.filter((file) => {
-    //         if (typeof file === 'object' && file instanceof File) {
-    //             return file !== inputFile
-    //         }
-    //         return file?.id !== inputFile?.id
-    //     })
-    //     setSelectedIds(prevIds => [...prevIds, inputFile.id]);
-    //     setValue('files', filtered);
-    // };
-
-    // const handleRemoveAllFiles = () => {
-    //     setValue('files', []);
-    // };
-    const [files, setFiles] = useState([]);
-    console.log("🚀 ~ PropertiesNewEditForm ~ files:", files)
-    const [openUploadFile, setOpenUploadFile] = useState(false);
-    console.log("🚀 ~ PropertiesNewEditForm ~ openUploadFile:", openUploadFile)
-    const handleOpenUploadFile = () => {
-        setOpenUploadFile(true);
-    };
-
-    const handleCloseUploadFile = () => {
-        setOpenUploadFile(false);
+    const handleRemoveFile = (inputFile) => {
+        const filtered = files.filter((file) => file !== inputFile);
+        setFiles(filtered);
+        setSelectedIds(prevIds => [...prevIds, inputFile?.id]);
     };
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -554,28 +560,6 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                             <RHFTextField name="name.en" label="Name en *" />
                             <RHFTextField name="address.ar" label="Address ar *" />
                             <RHFTextField name="address.en" label="Address en *" />
-                            <RHFTextField name="phone_number" label="Phone Number *" />
-                            <RHFTextField name="whatsapp" label="Whatsapp *" />
-                            <RHFTextField
-                                name="start_price"
-                                label="Start price *"
-                                onChange={(e) => {
-                                    const { value } = e.target;
-                                    // تنسيق القيمة عند التغيير وتحديثها في الحالة
-                                    const formattedValue = formatNumber(value.replace(/,/g, ''));
-                                    setValue('start_price', formattedValue, { shouldValidate: true });
-                                }}
-                            />
-                            <RHFTextField
-                                name="end_price"
-                                label="End price *"
-                                onChange={(e) => {
-                                    const { value } = e.target;
-                                    // تنسيق القيمة عند التغيير وتحديثها في الحالة
-                                    const formattedValue = formatNumber(value.replace(/,/g, ''));
-                                    setValue('end_price', formattedValue, { shouldValidate: true });
-                                }}
-                            /> 
                             {/* coins */}
                             <Box >
                                 <InputLabel id="coin">Currency *</InputLabel>
@@ -599,28 +583,10 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     {renderOptions(PropertyTypeId)}
                                 </Select>
                             </Box>
-                            <RHFTextField name="house_area" label="Floor M" />
-                            <RHFTextField name="bedrooms" label="Bedrooms *" />
-                            <RHFTextField name="bathrooms" label="Bathrooms *" />
-                            <RHFTextField name="delivery_in" label="Delivery In *" />
-                            {/* {compound_id } */}
-                            <Box >
-                                <InputLabel id="compound_id">compound *</InputLabel>
-                                <Select
-                                    sx={{ width: '100%' }}
-                                    labelId="compound_id"
-                                    value={CompoundsId}
-                                    onChange={handleChangeCompound}
-                                    name="compound_id"
-                                >
-                                    {CompoundsDataId?.map((res) => <MenuItem value={res?.id}>{res?.name.ar}</MenuItem>)}
-                                </Select>
-                            </Box>
-                            {/* <RHFTextField name="sale_type.ar" label="Sale Type ar *" />
-                            <RHFTextField name="sale_type.en" label="Sale Type en *" /> */}
+
                             {/* {sale_type} */}
                             <Box>
-                                <InputLabel id="sale_type">Sale Type</InputLabel>
+                                <InputLabel id="sale_type">Sale Type *</InputLabel>
                                 <Select
                                     sx={{ width: '100%' }}
                                     labelId="sale_type"
@@ -628,13 +594,13 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     onChange={handleChangeSaleType}
                                     name="sale_type"
                                 >
-                                    {SaleTypeOption?.map((res) => <MenuItem value={res}>{res}</MenuItem>)}
+                                    {SaleTypeOption?.map((res) => <MenuItem value={res?.value}>{res?.name}</MenuItem>)}
                                 </Select>
                             </Box>
 
                             {/* {finish_id} */}
                             <Box>
-                                <InputLabel id="finish_id">finish *</InputLabel>
+                                <InputLabel id="finish_id">Finishing *</InputLabel>
                                 <Select
                                     sx={{ width: '100%' }}
                                     labelId="finish_id"
@@ -642,12 +608,12 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     onChange={handleChangeFinishing}
                                     name="finish_id"
                                 >
-                                    {FinishingDataId?.map((res) => <MenuItem value={res?.id}>{res?.name.ar}</MenuItem>)}
+                                    {FinishingDataId?.map((res) => <MenuItem value={res?.id}>{res?.name.en}</MenuItem>)}
                                 </Select>
                             </Box>
                             {/* {country} */}
                             <Box>
-                                <InputLabel id="country">country *</InputLabel>
+                                <InputLabel id="country">Country *</InputLabel>
                                 <Select
                                     sx={{ width: '100%' }}
                                     labelId="country"
@@ -655,7 +621,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     onChange={handleChangeCountry}
                                     name="country"
                                 >
-                                    {FinishingDataId?.map((res) => <MenuItem value={res?.id}>{res?.name.ar}</MenuItem>)}
+                                    {CountryDataId?.map((res) => <MenuItem value={res?.id}>{res?.name.en}</MenuItem>)}
                                 </Select>
                             </Box>
                             {/* Facilities */}
@@ -672,7 +638,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     renderValue={(selected) => (
                                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                             {selected?.map((value) => (
-                                                <Chip key={value} label={fullData?.find(item => item?.id === value)?.name.ar} />
+                                                <Chip key={value} label={fullData?.find(item => item?.id === value)?.name.en} />
                                             ))}
                                         </Box>
                                     )}
@@ -684,17 +650,14 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                             value={name?.id}
                                             style={getStyles(name, Attached, theme)}
                                         >
-                                            {name?.name.ar}
+                                            {name?.name.en}
                                         </MenuItem>
                                     ))}
                                 </Select>
                             </Box>
-                            
-                            <RHFTextField name="payment_method_title.ar" label="Payment Method Title ar *" />
-                            <RHFTextField name="payment_method_title.en" label="Payment Method Title en *" />
                             {/* Methods */}
                             <Box>
-                                <InputLabel id="payment_method">payment method *</InputLabel>
+                                <InputLabel id="payment_method">Payment Method *</InputLabel>
                                 <Select
                                     sx={{ width: '100%' }}
                                     labelId="payment_method"
@@ -702,9 +665,80 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     onChange={handleChangeMethod}
                                     name="payment_method"
                                 >
-                                    {method?.map((res) => <MenuItem value={res}>{res}</MenuItem>)}
+                                    {method?.map((res) => <MenuItem value={res}>{res === 'mixed' ? 'cash or installment' : res }</MenuItem>)}
                                 </Select>
                             </Box>
+                            <RHFTextField name="phone_number" label="Phone Number *" />
+                            <RHFTextField name="whatsapp" label="Whatsapp *" />
+                            <RHFTextField
+                                name="start_price"
+                                label="Start Price"
+                                // rules={{
+                                //     validate: value => /^\d*$/.test(value) || 'الرجاء إدخال أرقام فقط'
+                                // }}
+                                // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                                onChange={(e) => {
+                                    const { value } = e.target;
+                                    // تنسيق القيمة عند التغيير وتحديثها في الحالة
+                                    const formattedValue = formatNumber(value.replace(/,/g, ''));
+                                    setValue('start_price', formattedValue, { shouldValidate: true });
+                                }}
+                            />
+                            <RHFTextField
+                                name="end_price"
+                                label="End Price"
+                                // rules={{
+                                //     validate: value => /^\d*$/.test(value) || 'الرجاء إدخال أرقام فقط'
+                                // }}
+                                // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                                onChange={(e) => {
+                                    const { value } = e.target;
+                                    // تنسيق القيمة عند التغيير وتحديثها في الحالة
+                                    const formattedValue = formatNumber(value.replace(/,/g, ''));
+                                    setValue('end_price', formattedValue, { shouldValidate: true });
+                                }}
+                            />
+                            <RHFTextField
+                                name="house_area"
+                                label="House Area m²"
+                                rules={{
+                                    validate: value => /^\d*$/.test(value) || 'الرجاء إدخال أرقام فقط'
+                                }}
+                                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                            />
+
+                            <RHFTextField name="bedrooms" label="Bedrooms" />
+                            <RHFTextField name="bathrooms" label="Bathrooms" />
+                            <RHFTextField name="delivery_in" label="Delivery In" />
+                            {/* {compound_id } */}
+                            <Box >
+                                <InputLabel id="compound_id">Compound</InputLabel>
+                                <Select
+                                    sx={{ width: '100%' }}
+                                    labelId="compound_id"
+                                    value={CompoundsId}
+                                    onChange={handleChangeCompound}
+                                    name="compound_id"
+                                >
+                                    {CompoundsDataId?.map((res) => <MenuItem value={res?.id}>{res?.name.en}</MenuItem>)}
+                                </Select>
+                            </Box>
+                            {/* {area_id } */}
+                            <Box >
+                                <InputLabel id="area_id">Areas</InputLabel>
+                                <Select
+                                    sx={{ width: '100%' }}
+                                    labelId="area_id"
+                                    value={AreasId}
+                                    onChange={handleChangeArea}
+                                    name="area_id"
+                                >
+                                    {AreasDataId?.map((res) => <MenuItem value={res?.id}>{res?.name.en}</MenuItem>)}
+                                </Select>
+                            </Box>
+                            {/* <RHFTextField name="payment_method_title.ar" label="Payment Method Title ar" />
+                            <RHFTextField name="payment_method_title.en" label="Payment Method Title en" /> */}
+                            
                             {/* {TargetMethod === 'installment' && <RHFTextField name="initial_payment" label="Initial Payment" />} */}
                             {TargetMethod === 'installment' && <RHFTextField name="initial_payment" label="Initial Payment" onChange={(e) => {
                                 const { value } = e.target;
@@ -712,9 +746,23 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                 const formattedValue = formatNumber(value.replace(/,/g, ''));
                                 setValue('initial_payment', formattedValue, { shouldValidate: true });
                             }} />}
-                            <RHFTextField name="payment_plans_title.ar" label="Payment Plans Title ar *" />
-                            <RHFTextField name="payment_plans_title.en" label="Payment Plans Title en *" />
-                            <RHFTextField name="monthly_installment" label="Monthly Installment" />
+                            <RHFTextField name="payment_plans_title.ar" label="Payment Plans Title ar" />
+                            <RHFTextField name="payment_plans_title.en" label="Payment Plans Title en" />
+                            <RHFTextField name="monthly_installment" label="Monthly Installment"
+                                // rules={{
+                                //     validate: value => /^\d*$/.test(value) || 'الرجاء إدخال أرقام فقط'
+                                // }}
+                                // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                                // inputMode="numeric"
+                                pattern="[0-9]*"
+                                onChange={(e) => {
+                                    const { value } = e.target;
+                                    const rawValue = value.replace(/,/g, '');
+                                    const formattedValue = formatNumber(rawValue);
+                                    setValue('monthly_installment', formattedValue, { shouldValidate: true });
+                                    // onChange(e); // تحديث قيمة الحقل
+                                }}
+                             />
                             <RHFTextField name="down_payment" label="Down Payment" onChange={(e) => {
                                 const { value } = e.target;
                                 // تنسيق القيمة عند التغيير وتحديثها في الحالة
@@ -723,9 +771,9 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                             }} />
                             <RHFTextField name="installment_years" label="Installment Years" />
                             <RHFTextField name="agent_code" label="Agent Code" />
-                        </Box> 
+                        </Box>
                         {/* Desc Arabic*/}
-                        <Grid item xs={12} md={12} sx={{mt: 2, minHeight: 50,}}>
+                        <Grid item xs={12} md={12} sx={{ mt: 2, minHeight: 50, }}>
                             <Stack>
                                 <Typography
                                     variant="subtitle2"
@@ -753,14 +801,14 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     variant="subtitle2"
                                     sx={{ color: "text.secondary" }}
                                 >
-                                    I Fram {`<Embed Location >`} 
+                                    I Frame {`<Embed Location in google map>`}
                                 </Typography>
 
                                 <RHFEditor simple name="url_location" />
                             </Stack>
                         </Grid>
-                    </Card> 
-                </Grid> 
+                    </Card>
+                </Grid>
                 <Grid item xs={12} md={12}>
                     <Card sx={{ pt: 10, pb: 5, px: 3 }}>
                         {isEdit && (
@@ -781,40 +829,15 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                             </Label>
                         )}
                         {/* files */}
-                        <Button
-                            variant="contained"
-                            startIcon={<Iconify icon="eva:cloud-upload-fill" />}
-                            onClick={handleOpenUploadFile}
-                        >
-                            Upload Files
-                        </Button>
-                        <FileNewFolderDialog open={openUploadFile} onClose={handleCloseUploadFile} files={files}
-                            setFiles={setFiles} />
-                        {/* <Box sx={{ mb: 5 }}>
-                            <Stack spacing={1}>
-                                <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
-                                    Files *
-                                </Typography>
-                                <RHFUpload
-                                    multiple
-                                    thumbnail
-                                    name="files"
-                                    maxSize={3145728}
-                                    onDrop={handleMulteDrop}
-                                    onRemove={handleRemoveFile}
-                                    onRemoveAll={handleRemoveAllFiles}
-                                    onUpload={() => console.log('ON UPLOAD')}
-                                />
-                            </Stack>
-                        </Box> */}
-                        <Box sx={{ display:'flex', justifyContent:'space-around', alignItems:'center' }} >
+                        <Upload multiple files={files} onDrop={handleMultyDrop} onRemove={handleRemoveFile} />
+                        <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', mt:2 }} >
                             {/* image_floor_plan */}
                             <Box sx={{ mb: 5 }}>
                                 <RHFUploadAvatar
                                     name="image_floor_plan"
                                     maxSize={3145728}
                                     onDrop={handleDrop}
-                                    label="image_floor_plan"
+                                    label="Image Floor Plan"
                                     helperText={
                                         <Typography
                                             variant="caption"
@@ -826,7 +849,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                                 color: "text.secondary",
                                             }}
                                         >
-                                            image_floor_plan<br />
+                                            Image Floor Plan<br />
                                             Allowed *.jpeg, *.jpg, *.png, *.gif
                                             <br /> max size of {fData(3145728)}
                                         </Typography>
@@ -839,7 +862,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     name="master_plan"
                                     maxSize={3145728}
                                     onDrop={handleDropMaster}
-                                    label="master_plan"
+                                    label="Master Plan"
                                     helperText={
                                         <Typography
                                             variant="caption"
@@ -851,7 +874,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                                 color: "text.secondary",
                                             }}
                                         >
-                                            master_plan<br />
+                                            Master Plan<br />
                                             Allowed *.jpeg, *.jpg, *.png, *.gif
                                             <br /> max size of {fData(3145728)}
                                         </Typography>
@@ -859,7 +882,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                 />
                             </Box>
                         </Box>
-                        <Box sx={{ display:'flex', justifyContent:'center', alignItems:'center' }} >
+                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
                             {/* trending */}
                             <FormControlLabel
                                 labelPlacement="start"
@@ -896,7 +919,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                             variant="body2"
                                             sx={{ color: "text.secondary" }}
                                         >
-                                            Apply Trending 
+                                            Apply Trending
                                         </Typography>
                                     </>
                                 }
@@ -905,7 +928,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     mb: 3,
                                     width: 1,
                                     justifyContent: "center",
-                                }}/>
+                                }} />
                             {/* is_available */}
                             <FormControlLabel
                                 labelPlacement="start"
@@ -951,7 +974,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                                     mb: 3,
                                     width: 1,
                                     justifyContent: "center",
-                                }}/>
+                                }} />
                         </Box>
                         <Stack alignItems="flex-end" sx={{ mt: 3 }}>
                             <LoadingButton
@@ -964,7 +987,7 @@ export default function PropertiesNewEditForm({ isEdit = false, currentService }
                         </Stack>
                     </Card>
                 </Grid>
-                
+
             </Grid>
         </FormProvider>
     );

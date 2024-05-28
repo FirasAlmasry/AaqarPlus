@@ -1,0 +1,45 @@
+
+body, *{
+      font-family: 'Tajawal', sans-serif !important; /* الافتراضي للعربية */
+    }
+
+    /* اللغة الإنجليزية */
+    body:lang(en)
+    , *:lang(en) {
+      font-family: 'Ubuntu', sans-serif !important;
+    }
+
+.overlayBenner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 2;
+}
+.overlayBennerar{
+  position: absolute;
+  top: 0;
+  right: 20%;
+  width: 50%;
+  height: 100%;
+  z-index: 2;
+}
+@media only screen and (max-width: 767px) {
+.overlayBenner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.overlayBennerar{
+  position: absolute;
+  top: 0;
+  right: 20%;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+}

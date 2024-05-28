@@ -10,16 +10,17 @@ import {
     EmailIcon,
     LinkedinShareButton,
     LinkedinIcon,
-    PinterestShareButton,
-    PinterestIcon,
+    // PinterestShareButton,
+    // PinterestIcon,
     TelegramShareButton,
     TelegramIcon,
     WhatsappShareButton,
     WhatsappIcon
 } from 'react-share'
 
-const Share = ({ show, isHome }) => {
-    let url = window.location.href
+const Share = ({ show, isHome, name, id }) => {
+    let url = `${window.location.href}property/${id}`
+    const message = `Check out this: ${name}`;
     return (
         <>
             {
@@ -37,13 +38,13 @@ const Share = ({ show, isHome }) => {
                 <LinkedinShareButton url={url}>
                     <LinkedinIcon className='icon_share' />
                 </LinkedinShareButton>
-                <PinterestShareButton url={url}>
+                {/* <PinterestShareButton url={url}>
                     <PinterestIcon className='icon_share' />
-                </PinterestShareButton>
+                </PinterestShareButton> */}
                 <TelegramShareButton url={url}>
                     <TelegramIcon className='icon_share' />
                 </TelegramShareButton>
-                <WhatsappShareButton url={url}>
+                <WhatsappShareButton url={url} title={message}>
                     <WhatsappIcon className='icon_share' />
                 </WhatsappShareButton>
             </Box>

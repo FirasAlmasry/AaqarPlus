@@ -19,7 +19,7 @@ import ModeOptions from './ModeOptions';
 import LayoutOptions from './LayoutOptions';
 import StretchOptions from './StretchOptions';
 import ContrastOptions from './ContrastOptions';
-import DirectionOptions from './DirectionOptions';
+// import DirectionOptions from './DirectionOptions';
 import FullScreenOptions from './FullScreenOptions';
 import ColorPresetsOptions from './ColorPresetsOptions';
 
@@ -113,9 +113,9 @@ export default function SettingsDrawer() {
             <ContrastOptions />
           </Block>
 
-          <Block title="Direction">
+          {/* <Block title="Direction">
             <DirectionOptions />
-          </Block>
+          </Block> */}
 
           <Block title="Layout">
             <LayoutOptions />

@@ -330,7 +330,7 @@ export default function FinishingListPage() {
                     </TableContainer>
 
                     <TablePaginationCustom
-                        count={data?.data?.per_page}
+                        count={data?.data?.total}
                         page={page}
                         rowsPerPage={rowsPerPage}
                         onPageChange={onChangePage}

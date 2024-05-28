@@ -13,6 +13,7 @@ import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import FoundersNewEditForm from "../../../sections/@dashboard/founders/FoundersNewEditForm";
 import { useGetFoundersIdQuery } from "../../../state/founders";
+import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +21,20 @@ export default function FoundersEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isFoundersLoading } = useGetFoundersIdQuery(name);
+    const { data, isFoundersLoading, refetch } = useGetFoundersIdQuery(name);
+
+    const [founderData, setFounderData] = useState(null);
+
+    useEffect(() => {
+        if (data) {
+            setFounderData(data.data);
+        }
+    }, [data]);
+
+    useEffect(() => {
+        refetch(); // سيؤدي إلى إعادة جلب البيانات عندما يتغير `name` في useParams
+    }, [name, refetch]);
+
     return (
         <>
             <Helmet>
@@ -43,7 +57,7 @@ export default function FoundersEditPage() {
                     ]}
                 />
                 {isFoundersLoading ? "loading" :
-                    <FoundersNewEditForm isEdit currentService={data?.data} />
+                    <FoundersNewEditForm isEdit currentService={founderData} />
                 }
             </Container>
         </>

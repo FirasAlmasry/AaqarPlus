@@ -143,6 +143,15 @@ const navConfig = [
                 ],
             },
             {
+                title: "banners",
+                path: PATH_DASHBOARD.banners.root,
+                icon: ICONS.blank,
+                children: [
+                    { title: "list", path: PATH_DASHBOARD.banners.list },
+                    { title: "create", path: PATH_DASHBOARD.banners.new },
+                ],
+            },
+            {
                 title: "news",
                 path: PATH_DASHBOARD.news.root,
                 icon: ICONS.label,

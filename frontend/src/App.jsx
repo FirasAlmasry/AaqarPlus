@@ -29,6 +29,14 @@ import Property from './pages/Property';
 import Developer from './pages/Developer';
 import Area from './pages/Area';
 import Blog from './pages/Blog';
+import Country from './pages/Country';
+import PropeType from './pages/PropeType';
+import SearchPage from './pages/SearchPage';
+import PropertyInArea from './pages/PropertyInArea';
+import AllLaunchingSoon from './pages/AllLaunchingSoon';
+import Trending from './pages/Trending';
+// import PropertiesType from './pages/PropertiesType';
+
 const languages = [
   {
     code: 'ar',
@@ -44,7 +52,10 @@ const languages = [
   }
 ]
 function App() {
-
+  function onCopyHandler(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   const currentLanguageCode = Cookies.get('i18next') || 'ar';
   const currentLanguage = useMemo(() => languages.find(l => l.code === currentLanguageCode), [currentLanguageCode])
   const { t } = useTranslation();
@@ -63,8 +74,9 @@ function App() {
 
     return null;
   };
+
   return (
-    <div className="App">
+    <div className="App" onCopy={onCopyHandler}>
       <CssBaseline />
       <NavBar />
       <ScrollToTop />
@@ -76,11 +88,16 @@ function App() {
         <Route path="/developer/:id" element={<Developer />} />
         <Route path="/compounds" element={<Compounds />} />
         <Route path="/compound/:id" element={<Compound />} />
+        <Route path="/country/:id" element={<Country />} />
         <Route path="/buy" element={<Buy />} />
         <Route path="/rent" element={<Rent />} />
         <Route path="/Properties" element={<NewProjects />} />
+        <Route path="/launching-soon" element={<AllLaunchingSoon />} />
+        <Route path="/trending" element={<Trending />} />
+        <Route path="/property-type/:id" element={<PropeType />} />
         <Route path="/income-property" element={<IncomeProperty />} />
         <Route path="/property/:id" element={<Property />} />
+        <Route path="/property-in-area/:id" element={<PropertyInArea />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blog/:id" element={<Blog />} />
         <Route path="/design" element={<Design />} />
@@ -88,6 +105,7 @@ function App() {
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/auth/login" element={<LogInPage />} />
         <Route path="/auth/sign-up" element={<SignUpPage />} />

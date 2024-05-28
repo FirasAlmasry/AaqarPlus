@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 
 const Areas = () => {
   let lng = i18next.language
-  const { data, isBrandsLoading } = useGetAreasQuery({ lng });
+  const { data, isBrandsLoading } = useGetAreasQuery({ lng, currentPage:1 });
   const { t } = useTranslation()
   const [tableData, setTableData] = useState([]);
   useEffect(() => {

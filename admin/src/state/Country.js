@@ -5,36 +5,36 @@ export const ApiAuth = api.injectEndpoints({
     reducerPath: "apiUser",
     endpoints: (build) => ({
         getCountry: build.query({
-            query: () => `/country`,
-            providesTags: ["country"],
+            query: ({ currentPage, limit }) => `/countries?page=${currentPage}&per_page=${limit}`,
+            providesTags: ["countries"],
         }),
         getCountryId: build.query({
-            query: (id) => `/country/${id}?local=none`,
-            providesTags: ["country"],
+            query: (id) => `/countries/${id}?local=none`,
+            providesTags: ["countries"],
         }),
         addCountry: build.mutation({
             query: (formData) => ({
-                url: '/country',
+                url: '/countries',
                 method: 'POST',
                 body: formData,
             }),
-            invalidatesTags: ['country'],
+            invalidatesTags: ['countries'],
         }),
         editCountry: build.mutation({
             query: ({ formData, id }) => ({
-                url: `/country/${id}`,
+                url: `/countries/${id}`,
                 method: 'POST',
                 body: formData,
             }),
-            invalidatesTags: ['country'],
+            invalidatesTags: ['countries'],
         }),
         deleteCountry: build.mutation({
             query: (id) => ({
-                url: `/country/${id}`,
+                url: `/countries/${id}`,
                 method: 'Delete',
                 body: build,
             }),
-            invalidatesTags: ['country'],
+            invalidatesTags: ['countries'],
         }),
     }),
 });

@@ -51,7 +51,7 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
-    const { data: areas, isCoinsLoading } = useGetAreasQuery();
+    const { data: areas, isCoinsLoading } = useGetAreasQuery({ currentPage: 1, limit: 1000 });
     const type = areas?.data?.data
     let area_id = currentDevelopers?.area_id
     area_id = String(area_id)
@@ -71,22 +71,26 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
             en: Yup.string().required("name en is required"),
         }),
         bio_title: Yup.object({
-            ar: Yup.string().required("bio_title ar is required"),
-            en: Yup.string().required("bio_title en is required"),
+            ar: Yup.string().required("bio title ar is required"),
+            en: Yup.string().required("bio title en is required"),
         }),
         bio_description: Yup.object({
-            ar: Yup.string().required("bio_description ar is required"),
-            en: Yup.string().required("bio_description en is required"),
+            ar: Yup.string().required("bio description ar is required"),
+            en: Yup.string().required("bio description en is required"),
         }),
         top_project_title: Yup.object({
-            ar: Yup.string().required("top_project_title ar is required"),
-            en: Yup.string().required("top_project_title en is required"),
+            ar: Yup.string().required("top project title ar is required"),
+            en: Yup.string().required("top project title en is required"),
         }),
         top_project_description: Yup.object({
-            ar: Yup.string().required("top_project_description ar is required"),
-            en: Yup.string().required("top_project_description en is required"),
+            ar: Yup.string().required("top project description ar is required"),
+            en: Yup.string().required("top project description en is required"),
         }),
-        area_id: Yup.string(),
+        location: Yup.object({
+            ar: Yup.string().required("location ar is required"),
+            en: Yup.string().required("location en is required"),
+        }),
+        area_id: Yup.string().required('required'),
         // image: Yup.mixed().required("Avatar is required"),
         files: Yup.array().required('required'),
     });
@@ -119,7 +123,7 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
             },
             area_id: age || '',
             // image: currentDevelopers?.image || [],
-            files: currentDevelopers?.images || [],
+            files: currentDevelopers?.images,
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [currentDevelopers]
@@ -196,7 +200,7 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
             enqueueSnackbar(!isEdit ? "Create success!" : "Update success!");
             navigate(PATH_DASHBOARD.developers.list);
         } catch (error) {
-            const errorMessage = error.message || 'An error occurred';
+            const errorMessage = error.data.message || 'An error occurred';
             enqueueSnackbar(errorMessage, { variant: 'error' });
             console.error(error);
         }
@@ -416,7 +420,46 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
                                     <RHFEditor simple name="top_project_description.en" />
                                 </Stack>
                             </Grid>
-                            
+                            <Grid
+                                item
+                                xs={12}
+                                md={12}
+                                sx={{
+                                    mt: 2,
+                                    minHeight: 50,
+                                }}
+                            >
+                                <Stack>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{ color: "text.secondary" }}
+                                    >
+                                        top  location Arabic
+                                    </Typography>
+
+                                    <RHFEditor simple name="location.ar" />
+                                </Stack>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                md={12}
+                                sx={{
+                                    mt: 2,
+                                    minHeight: 50,
+                                }}
+                            >
+                                <Stack>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{ color: "text.secondary" }}
+                                    >
+                                        top location English
+                                    </Typography>
+
+                                    <RHFEditor simple name="location.en" />
+                                </Stack>
+                            </Grid>
                         </Box>
                         <Stack alignItems="flex-end" sx={{ mt: 3 }}>
                             <LoadingButton

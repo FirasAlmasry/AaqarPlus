@@ -5,7 +5,7 @@ export const ApiAuth = api.injectEndpoints({
     reducerPath: "apiUser",
     endpoints: (build) => ({
         getCoins: build.query({
-            query: () => `/coins`,
+            query: () => `/coins?per_page=15`,
             providesTags: ["coins"],
         }),
         editCoins: build.mutation({

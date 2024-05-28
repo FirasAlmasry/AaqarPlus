@@ -13,6 +13,7 @@ import CustomBreadcrumbs from "../../../components/custom-breadcrumbs";
 // sections
 import NewsNewEditForm from "../../../sections/@dashboard/news/NewsEditForm";
 import { useGetFoundersIdQuery } from "../../../state/founders";
+import { useEffect, useState } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -20,7 +21,20 @@ export default function NewsEditPage() {
     const { themeStretch } = useSettingsContext();
 
     const { name } = useParams();
-    const { data, isFoundersLoading } = useGetFoundersIdQuery(name);
+    const { data, isFoundersLoading, refetch } = useGetFoundersIdQuery(name);
+
+    const [newsData, setNewsData] = useState(null);
+
+    useEffect(() => {
+        if (data) {
+            setNewsData(data.data);
+        }
+    }, [data]);
+
+    useEffect(() => {
+        refetch(); // سيؤدي إلى إعادة جلب البيانات عندما يتغير `name` في useParams
+    }, [name, refetch]);
+
 
     return (
         <>
@@ -44,7 +58,7 @@ export default function NewsEditPage() {
                     ]}
                 />
                 {isFoundersLoading ? "loading" :
-                    <NewsNewEditForm isEdit currentService={data?.data}/>
+                    <NewsNewEditForm isEdit currentService={newsData}/>
                 }
             </Container>
         </>
