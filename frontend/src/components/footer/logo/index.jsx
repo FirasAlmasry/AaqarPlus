@@ -9,6 +9,7 @@ const Logo = () => {
             <CardMedia 
                 component={'img'}
                 src={img} 
+          alt='image'
                 sx={{ width:'30%' }}
                 />
                 

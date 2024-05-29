@@ -80,12 +80,16 @@ const Search = () => {
         setSelectedItem(res);
         setSelectedChildId(null);
         setIsInvestSelected(false);
+        setSelectedCountry(null)
     };
 
     const handleInvestClick = () => {
         setIsInvestSelected(prevState => !prevState);
         setSelectedItem([])
         setSelectedChildId(null)
+        setAreaValue(null)
+        setTagsValue(null)
+        setMaxPriceValue(null)
     };
 
     const handleChildItemClick = (childId) => {
@@ -97,10 +101,19 @@ const Search = () => {
         setSelectedCountry(country);
         handleCloseCountry();
     };
+    const resetSearchInputs = () => {
+        setAreaValue('');
+        setTagsValue('');
+        setMaxPriceValue('');
+        setIsInvestSelected(false);
+        setSelectedItem([]);
+        setSelectedChildId(null);
+        setSelectedCountry(null);
+    };
 
     const handleLinkClick = () => {
         const queryParams = {};
-        console.log("🚀 ~ handleLinkClick ~ queryParams:", queryParams)
+        // console.log("🚀 ~ handleLinkClick ~ queryParams:", queryParams)
 
         if (isInvestSelected) {
             queryParams.type = 'invest';
@@ -128,7 +141,8 @@ const Search = () => {
 
         const queryString = new URLSearchParams(queryParams).toString();
         const searchUrl = `/search?${queryString}`;
-
+        // Reset input fields after generating the search URL
+        // resetSearchInputs();
         return searchUrl;
     };
 
@@ -148,13 +162,14 @@ const Search = () => {
 
                             }} onClick={() => handleButtonClick(res)} >{res?.name}</Button>
                     )}
-                    <Button
+                    {tableData?.length > 0 && <Button
                         sx={{
                             borderRadius: '8px 8px 0 0', backgroundColor: isInvestSelected ? '#fff' : 'rgba(255,255,255, 85%)',
                             '&:hover': { backgroundColor: '#FFF' },
                             width: '150px', py: 1.5, px: 4, fontWeight: 'bold'
                         }} onClick={handleInvestClick}
-                    >{lng === 'en' ? 'Invest' : 'استثمار'}</Button>
+                    >{lng === 'en' ? 'Invest' : 'استثمار'}</Button>}
+                    
                 </Box>
                 <Box sx={{ py: 4, px: 2, boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", background: '#FFF', borderRadius: { md: '8px', xs: 0 }, width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: { md: 'row', xs: 'column' }, gap: 1 }} >
                     <Box sx={{ mx: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1, flexDirection: { md: 'row', xs: 'column' }, width: '100%' }} >
@@ -253,7 +268,7 @@ const Search = () => {
                     <Box sx={{
                         width: { md: 'auto', xs: '100%' }, 
                     }} >
-                        <Link to={handleLinkClick()}>
+                        <Link to={handleLinkClick()} onClick={ ()=> resetSearchInputs()}>
                             <Btn text={t('btn')} wid={'100%'} widLa={'150px'} />
                         </Link>
                     </Box>

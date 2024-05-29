@@ -30,6 +30,7 @@ const GalleryProperty = ({ tableData }) => {
                         <Box sx={{ py: 2, px: 4, borderRadius: '8px', backgroundColor: '#F0EFEE', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
                             <CardMedia
                                 component={'img'}
+                                alt="green iguana"
                                 src={Floor}
                                 sx={{ objectFit: 'fill', width: '50px' }}
                             />
@@ -43,6 +44,7 @@ const GalleryProperty = ({ tableData }) => {
                         <Box sx={{ py: 2, px: 4, borderRadius: '8px', backgroundColor: '#F0EFEE', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
                             <CardMedia
                                 component={'img'}
+                                alt="green iguana"
                                 src={Gallery}
                                 sx={{ objectFit: 'fill', width: '50px' }}
                             />
@@ -56,6 +58,7 @@ const GalleryProperty = ({ tableData }) => {
                         <Box sx={{ py: 2, px: 4, borderRadius: '8px', backgroundColor: '#F0EFEE', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
                             <CardMedia
                                 component={'img'}
+                                alt="green iguana"
                                 src={Master}
                                 sx={{ objectFit: 'fill', width: '50px' }}
                             />

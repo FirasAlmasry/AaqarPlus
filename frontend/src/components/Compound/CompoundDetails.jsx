@@ -24,12 +24,23 @@ const CompoundDetails = () => {
     const { data, isBrandsLoading } = useGetCompoundsIdQuery({ id, lng });
     const { t } = useTranslation()
     const [tableData, setTableData] = useState([]);
+    // console.log("🚀 ~ CompoundDetails ~ tableData:", tableData)
     useEffect(() => {
         if (data && !isBrandsLoading) {
             setTableData(data?.data)
         }
     }, [data, tableData, isBrandsLoading])
-
+    const extractSrcFromIframe = (iframeText) => {
+        const regex = /src="([^"]+)"/;
+        const match = regex.exec(iframeText);
+        if (match && match.length > 1) {
+            return match[1]; // يحتوي match[1] على قيمة src
+        } else {
+            return null; // في حالة عدم العثور على src أو في حالة الخطأ
+        }
+    };
+    const src = extractSrcFromIframe(tableData?.url_location);
+    // console.log("🚀 ~ CompoundDetails ~ src:", src)
     return (
         <>
             <WrapperSection>
@@ -60,7 +71,7 @@ const CompoundDetails = () => {
                             phone_number={tableData?.phone_number} >
                             {tableData?.attacheds?.map((res) =>
                                 <Box key={res?.name} sx={{ display: 'flex', alignItems: 'center', gap: 1, }}  >
-                                    <CardMedia component={'img'} src={res?.icon ? `${url}${res?.icon}` : icon} sx={{ width: '18px', height: '18px' }} />
+                                    <CardMedia component={'img'} alt='image' src={res?.icon ? `${url}${res?.icon}` : icon} sx={{ width: '18px', height: '18px' }} />
                                     {res?.name}
                                 </Box>
                             )}
@@ -77,6 +88,15 @@ const CompoundDetails = () => {
                         <PaymentPlans data={tableData?.payment_plans} />
                     </Box>
                 </Box>
+                {tableData?.url_location && <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }} >
+                    <HeaderSection nameSection={t("Contacts.Location")} />
+                    {
+                        src === null ?  <Description data={tableData?.url_location} /> :
+                    <iframe src={src} width="100%" height="100%" title={'test'} style={{ border: 0, marginTop: '16px' }}
+                        allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                    }
+                    
+                </Box>}
                 <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
                     <HeaderSection nameSection={`${t("ExplorePropertiesIn")} ${tableData?.name}`} length={tableData?.properties?.length === 0 ? t("NoResults") : tableData?.properties?.length} />
                     <Box sx={{ width: '100%' }}>

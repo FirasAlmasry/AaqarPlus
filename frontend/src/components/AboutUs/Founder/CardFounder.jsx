@@ -4,7 +4,7 @@ const CardFounder = ({ img, dirCol, name, title_job }) => {
     return (
         <>
             <Box sx={{ display: 'flex', flexDirection: { md: dirCol ,xs:'column'}, alignItems: 'center', justifyContent: 'center', gap:1 }} >
-                <CardMedia component={'img'} src={img} sx={{ borderRadius: '8px', objectFit:'contain', width:'80%' }} />
+                <CardMedia component={'img'} alt='image' src={img} sx={{ borderRadius: '8px', objectFit:'contain', width:'80%' }} />
                 <Typography color={'secondary.main'} variant={'h6'} >
                     {name}
                 </Typography>

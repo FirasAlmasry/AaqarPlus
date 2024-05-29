@@ -17,10 +17,10 @@ const BanarButtom = () => {
 
     const url = 'https://aqarbackend.revampbrands.com/storage/';
     const { data, isBrandsLoading } = useGetBannersQuery(lng);
-    console.log("🚀 ~ BanarTop ~ data:", data);
+    // console.log("🚀 ~ BanarTop ~ data:", data);
 
     const [tableData, setTableData] = useState([]);
-    console.log("🚀 ~ BanarTop ~ tableData:", tableData);
+    // console.log("🚀 ~ BanarTop ~ tableData:", tableData);
 
     useEffect(() => {
         if (data && !isBrandsLoading) {
@@ -29,7 +29,7 @@ const BanarButtom = () => {
     }, [data, isBrandsLoading]);
 
     const mainItems = tableData?.filter(item => item.is_main === 0);
-    console.log("🚀 ~ BanarTop ~ mainItems:", mainItems);
+    // console.log("🚀 ~ BanarTop ~ mainItems:", mainItems);
     return (
         <>
             <WrapperSection>
@@ -44,8 +44,8 @@ const BanarButtom = () => {
                         </Box>
                     </Box> */}
                     {mainItems && mainItems.length > 0 && mainItems.map((item, index) => (
-                        <Box sx={{ flexGrow: 1 }}>
-                            <Box key={index} position={'relative'} sx={{ backgroundImage: `url(${img})`, justifyContent: 'center', height: '15rem', display: 'flex', alignItems: 'center', backgroundSize: '100% 100%', mb: 2, position: 'relative' }}>
+                        <Box sx={{ flexGrow: 1 }} key={index} >
+                            <Box position={'relative'} sx={{ backgroundImage: `url(${img})`, justifyContent: 'center', height: '15rem', display: 'flex', alignItems: 'center', backgroundSize: '100% 100%', mb: 2, position: 'relative' }}>
                                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', height: '100%', gap: { md: 3, xs: 1 }, ml: 4 }}>
                                         <Typography variant={isMobile ? 'body1' : 'h5'} color={'secondary.main'}>{item.title}</Typography>
                                         <Typography variant={isMobile ? 'body1' : 'body1'} color={'secondary.supMain'} textAlign={'center'}>

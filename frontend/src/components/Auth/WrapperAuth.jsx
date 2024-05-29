@@ -8,7 +8,7 @@ const WrapperAuth = ({ img, name, children }) => {
             <Grid container sx={{ height: { md: '100vh' ,xs:'auto'} }} >
                 <Grid item md={6} xs={12}>
                     <Box sx={{ position: 'relative', height: '100%' }}>
-                        <CardMedia component={'img'} src={img} sx={{ width:'100%', height:'100%' }} />
+                        <CardMedia component={'img'} alt='image' src={img} sx={{ width:'100%', height:'100%' }} />
                         <div className="overlay"></div>
                     </Box>
                 </Grid>

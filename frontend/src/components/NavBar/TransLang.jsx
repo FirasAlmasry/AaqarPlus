@@ -23,6 +23,7 @@ export default function BasicSelect() {
                         <CardMedia
                             component={'img'}
                             src={arIcon}
+                            alt="green iguana"
                             sx={{ width: '20px' }}
                         />
                             <Typography color={'primary.main'} >{lng === 'en' ? 'En' : 'Ar'}</Typography>

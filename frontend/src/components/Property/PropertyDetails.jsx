@@ -97,7 +97,7 @@ const PropertyDetails = () => {
                             phone_number={tableData?.phone_number} >
                             {tableData?.amenities?.map((res) =>
                                 <Box key={res?.name} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}  >
-                                    <CardMedia component={'img'} src={res?.icon ? `${url}${res?.icon}` : icon} sx={{ width: '18px', height: '18px' }} />
+                                    <CardMedia alt="green iguana" component={'img'} src={res?.icon ? `${url}${res?.icon}` : icon} sx={{ width: '18px', height: '18px' }} />
                                     {res?.name}
                                 </Box>
                             )}

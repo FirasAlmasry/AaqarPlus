@@ -72,21 +72,21 @@ const CardProperty = ({ img, Align, name, address, num1, num2, num3, num4, month
                             {
                                 num1 && !num1?.startsWith('0') &&
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#CACACA' }}>
-                                    <CardMedia component={'img'} src={ic1} sx={{ width: '24px', height: '24px', objectFit:'fill' }} />
+                                    <CardMedia alt="image" component={'img'} src={ic1} sx={{ width: '24px', height: '24px', objectFit:'fill' }} />
                                     {num1}
                                 </Box>
                             }
                             {
                                 num2 && !num2?.startsWith('0') &&
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#CACACA' }}>
-                                    <CardMedia component={'img'} src={ic2} sx={{ width: '24px', height: '24px', objectFit:'fill' }} />
+                                    <CardMedia alt="image" component={'img'} src={ic2} sx={{ width: '24px', height: '24px', objectFit:'fill' }} />
                                     {num2}
                                 </Box>
                             }
                             {
                                 num3 && !num3?.startsWith('0') &&
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#CACACA' }}>
-                                    <CardMedia component={'img'} src={ic3} sx={{ width: '24px', height: '24px', objectFit:'fill' }} />
+                                    <CardMedia alt="image" component={'img'} src={ic3} sx={{ width: '24px', height: '24px', objectFit:'fill' }} />
                                     {num3}
                                 </Box>
                             }
@@ -111,20 +111,20 @@ const CardProperty = ({ img, Align, name, address, num1, num2, num3, num4, month
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', gap: 2 }} >
                         <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
-                            <CardMedia component={'img'} src={mark} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
+                            <CardMedia alt="image" component={'img'} src={mark} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                         </Box>
                         <Box sx={{ borderRadius: '50%', background: '#E6E3DE', cursor: 'pointer' }} >
-                            <CardMedia component={'img'} src={fiv} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} onClick={() => setShow(true)} />
+                            <CardMedia alt="image" component={'img'} src={fiv} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} onClick={() => setShow(true)} />
                             <Share show={show} isHome={isHome} name={name} id={id} />
                         </Box>
                         <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
                             <a href={`whatsapp://send?phone=${whatsapp}`} target="_blank" rel="noopener noreferrer">
-                                <CardMedia component={'img'} src={whats} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
+                                <CardMedia alt="image" component={'img'} src={whats} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                             </a>
                         </Box>
                         <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
                             <a href={`tel:${phone_number}`} target="_blank" rel="noopener noreferrer">
-                                <CardMedia component={'img'} src={phone} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
+                                <CardMedia alt="image" component={'img'} src={phone} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                             </a>
                         </Box>
                     </Box>

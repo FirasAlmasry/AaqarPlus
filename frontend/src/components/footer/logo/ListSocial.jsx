@@ -24,6 +24,7 @@ const ListSocial = () => {
           <CardMedia
             component={'img'}
             src={insta}
+            alt='image'
             sx={{ width: {md:'2.5rem', xs:'1.75rem'}, height: {md:'2.5rem', xs:'1.75rem'}, objectFit:'contain' }}
           />
         </a>
@@ -33,6 +34,7 @@ const ListSocial = () => {
           <CardMedia
             component={'img'}
             src={face}
+            alt='image'
             sx={{ width: {md:'2.5rem', xs:'1.75rem'}, height: {md:'2.5rem', xs:'1.75rem'}, objectFit:'contain' }}
           />
         </a>
@@ -42,6 +44,7 @@ const ListSocial = () => {
           <CardMedia
             component={'img'}
             src={whats}
+            alt='image'
             sx={{ width: {md:'2.5rem', xs:'1.75rem'}, height: {md:'2.5rem', xs:'1.75rem'}, objectFit:'contain' }}
           />
         </a>

@@ -17,9 +17,9 @@ const Details = ({ data }) => {
                     <Grid item md={6} xs={12} >
                         <Box position={'relative'} sx={{ height: '100%' }} >
                             <Slider>
-                                <CardMedia component={'img'} src={img} sx={{ height: '350px' , borderRadius:'0 16px'}} />
-                                <CardMedia component={'img'} src={img1} sx={{ height: '350px', borderRadius:'0 16px' }} />
-                                <CardMedia component={'img'} src={img2} sx={{ height: '350px', borderRadius:'0 16px' }} />
+                                <CardMedia component={'img'} alt='image' src={img} sx={{ height: '350px' , borderRadius:'0 16px'}} />
+                                <CardMedia component={'img'} alt='image' src={img1} sx={{ height: '350px', borderRadius:'0 16px' }} />
+                                <CardMedia component={'img'} alt='image' src={img2} sx={{ height: '350px', borderRadius:'0 16px' }} />
                             </Slider>
                         </Box>
                     </Grid>

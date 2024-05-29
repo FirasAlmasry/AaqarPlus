@@ -32,12 +32,12 @@ const CardCompound = ({ img, Align, name, address, month, years, price, whatsapp
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
                                     <a href={`whatsapp://send?phone=${whatsapp}`} target="_blank" rel="noopener noreferrer">
-                                        <CardMedia component={'img'} src={whats} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
+                                        <CardMedia alt='image' component={'img'} src={whats} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                                     </a>
                                 </Box>
                                 <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
                                     <a href={`tel:${phone_number}`} target="_blank" rel="noopener noreferrer">
-                                        <CardMedia component={'img'} src={phone} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
+                                        <CardMedia alt='image' component={'img'} src={phone} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                                     </a>
                                 </Box>
                             </Box>

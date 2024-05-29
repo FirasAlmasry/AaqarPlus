@@ -16,7 +16,7 @@ const BanarTop = () => {
     const url = 'https://aqarbackend.revampbrands.com/storage/';
     const isMobile = useMediaQuery(themeM.breakpoints.down('sm'));
     const { data, isBrandsLoading } = useGetBannersQuery(lng);
-    console.log("🚀 ~ BanarTop ~ data:", data);
+    // console.log("🚀 ~ BanarTop ~ data:", data);
 
     const [tableData, setTableData] = useState([]);
 

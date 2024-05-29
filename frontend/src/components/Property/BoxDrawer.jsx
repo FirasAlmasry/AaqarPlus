@@ -78,13 +78,13 @@ url_location
                 <CloseIcon onClick={() => setDrawer(false)} sx={{ position: 'absolute', right: '2rem', top: '2rem', zIndex:99,  backgroundColor:'#fff', color:'#000'  }} />
                 <Box sx={{ width: '100%', height: '100%', margin:'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {selectedBox === 'image_floor_plan' &&
-                        <CardMedia component={'img'}
+                        <CardMedia alt="green iguana" component={'img'}
                             src={url + tableData?.image_floor_plan}
                             sx={{ objectFit: 'contain', }}
                         />
                     }
                     {selectedBox === 'master_plan' &&
-                        <CardMedia component={'img'}
+                        <CardMedia alt="green iguana" component={'img'}
                             src={url + tableData?.master_plan}
                         sx={{objectFit: 'contain', }}
                         />
