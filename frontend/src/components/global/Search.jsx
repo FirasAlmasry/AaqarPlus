@@ -118,21 +118,21 @@ const Search = () => {
         if (isInvestSelected) {
             queryParams.type = 'invest';
         }
-            if (selectedCountry) {
-                queryParams.country = selectedCountry;
-            }
-            if (selectedChildId || selectedItem?.id) {
-                queryParams.property_type = selectedChildId || selectedItem?.id;
-            }
-            if (areaValue) {
-                queryParams.area = areaValue;
-            }
-            if (tagsValue) {
-                queryParams.tags = tagsValue;
-            }
-            if (maxPriceValue) {
-                queryParams.max_price = maxPriceValue;
-            }
+        if (selectedCountry) {
+            queryParams.country = selectedCountry;
+        }
+        if (selectedChildId || selectedItem?.id) {
+            queryParams.property_type = selectedChildId || selectedItem?.id;
+        }
+        if (areaValue) {
+            queryParams.area = areaValue;
+        }
+        if (tagsValue) {
+            queryParams.tags = tagsValue;
+        }
+        if (maxPriceValue) {
+            queryParams.max_price = maxPriceValue;
+        }
         if (lng) {
             queryParams.lng = lng;
         }
@@ -165,7 +165,7 @@ const Search = () => {
                             width: '150px', py: 1.5, px: 4, fontWeight: 'bold'
                         }} onClick={handleInvestClick}
                     >{lng === 'en' ? 'Invest' : 'استثمار'}</Button>}
-                    
+
                 </Box>
                 <Box sx={{ py: 4, px: 2, boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", background: '#FFF', borderRadius: { md: '8px', xs: 0 }, width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: { md: 'row', xs: 'column' }, gap: 1 }} >
                     <Box sx={{ mx: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1, flexDirection: { md: 'row', xs: 'column' }, width: '100%' }} >
@@ -262,9 +262,9 @@ const Search = () => {
                         />
                     </Box>
                     <Box sx={{
-                        width: { md: 'auto', xs: '100%' }, 
+                        width: { md: 'auto', xs: '100%' },
                     }} >
-                        <Link to={handleLinkClick()} onClick={ ()=> resetSearchInputs()}>
+                        <Link to={handleLinkClick()} onClick={() => resetSearchInputs()}>
                             <Btn text={t('btn')} wid={'100%'} widLa={'150px'} />
                         </Link>
                     </Box>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import WrapperSection from '../global/WrapperSection'
 import HeaderSection from '../global/HeaderSection'
 import GlobalList from '../global/GlobalList'
-import { Grid } from '@mui/material'
+import { Box, CircularProgress, Grid } from '@mui/material'
 import CardProperty from '../global/CardProperty'
 import i18next from 'i18next'
 import { useGetPropertiesQuery } from '../../state/properties'
@@ -17,14 +17,19 @@ const ListNewProjects = () => {
     const { t } = useTranslation()
 
     const [currentPage, setCurrentPage] = useState(1);
-    const { data, isBrandsLoading } = useGetPropertiesQuery({ lng, currentPage, coming_soon: 0 });
+    const { data, isLoading } = useGetPropertiesQuery({ lng, currentPage, coming_soon: 0 });
     const [tableData, setTableData] = useState([]);
 
     useEffect(() => {
-        if (data && !isBrandsLoading) {
+        if (data && !isLoading) {
             setTableData(data?.data?.data)
         }
-    }, [data, tableData, isBrandsLoading])
+    }, [data, tableData, isLoading])
+
+    if (isLoading) return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <CircularProgress />
+        </Box>)
 
     return (
         <>

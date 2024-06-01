@@ -15,7 +15,6 @@ import Compounds from './pages/Compounds';
 import Developers from './pages/Developers';
 import Blogs from './pages/Blogs';
 import NewProjects from './pages/NewProjects';
-import Rent from './pages/Rent';
 import IncomeProperty from './pages/IncomeProperty';
 import Favorites from './pages/Favorites';
 import Terms from './pages/Terms';
@@ -34,7 +33,6 @@ import SearchPage from './pages/SearchPage';
 import PropertyInArea from './pages/PropertyInArea';
 import AllLaunchingSoon from './pages/AllLaunchingSoon';
 import Trending from './pages/Trending';
-// import PropertiesType from './pages/PropertiesType';
 
 const languages = [
   {
@@ -51,19 +49,22 @@ const languages = [
   }
 ]
 function App() {
+  
   function onCopyHandler(e) {
     e.preventDefault();
     e.stopPropagation();
   }
+
   const currentLanguageCode = Cookies.get('i18next') || 'ar';
   const currentLanguage = useMemo(() => languages.find(l => l.code === currentLanguageCode), [currentLanguageCode])
   const { t } = useTranslation();
-  useEffect(() => {
 
+  useEffect(() => {
     document.dir = currentLanguage.dir || 'rtl';
     document.getElementsByTagName('html')[0].setAttribute('lang', currentLanguage.code || 'ar');
 
-  }, [currentLanguage, t,]);
+  }, [currentLanguage, t]);
+
   const ScrollToTop = () => {
     const { pathname } = useLocation();
 
@@ -88,7 +89,6 @@ function App() {
         <Route path="/compounds" element={<Compounds />} />
         <Route path="/compound/:id" element={<Compound />} />
         <Route path="/country/:id" element={<Country />} />
-        <Route path="/rent" element={<Rent />} />
         <Route path="/Properties" element={<NewProjects />} />
         <Route path="/launching-soon" element={<AllLaunchingSoon />} />
         <Route path="/trending" element={<Trending />} />
