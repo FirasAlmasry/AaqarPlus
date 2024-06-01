@@ -5,7 +5,7 @@ import CardProperty from '../global/CardProperty'
 import i18next from 'i18next'
 import { useGetPropertiesQuery } from '../../state/properties'
 import MultiItemSlider from '../global/MultiItemSlider'
-import { Box, Button } from '@mui/material'
+import { Box, Button, CircularProgress } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import theme from '../../util/theme'
 
@@ -21,11 +21,14 @@ const AvailableUnits = () => {
     const { data, isBrandsLoading } = useGetPropertiesQuery({ lng, coming_soon: 0 });
     // console.log("🚀 ~ AvailableUnits ~ data:", data)
 
+    const [isTableDataLoading, setIsTableDataLoading] = useState(true);
     const [tableData, setTableData] = useState([]);
     // console.log("🚀 ~ AvailableUnits ~ tableData:", tableData)
     useEffect(() => {
+        setIsTableDataLoading(true);
         if (data && !isBrandsLoading) {
             setTableData(data?.data?.data)
+             setIsTableDataLoading(false);
         }
     }, [data, tableData, isBrandsLoading])
     // const available = tableData?.filter(res => res?.is_available === 1)
@@ -38,7 +41,12 @@ const AvailableUnits = () => {
             <WrapperSection>
                 <Box sx={{ width: '100%' }}>
                     <HeaderSection nameSection={t("AvailableUnits")} length={tableData?.length === 0 ? t("NoResults") : tableData?.length } />
-                    <MultiItemSlider>
+                    {isTableDataLoading ? (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
+                            <CircularProgress />
+                        </Box>
+                    ) : (
+                        <><MultiItemSlider>
                         {tableData?.map(res =>
                             <Box key={res?.id} sx={{ my: 2 }}>
                                 <CardProperty img={url + res?.master_plan}
@@ -57,7 +65,8 @@ const AvailableUnits = () => {
                                 />
                             </Box>
                         )}
-                    </MultiItemSlider>
+                        </MultiItemSlider></>
+                    )}
                     <Box sx={{ width: '100%', textAlign: 'center' }} >
                         <Button
                             endIcon={lng === 'en' ? <ArrowForwardIcon /> : <ArrowBackIcon />}

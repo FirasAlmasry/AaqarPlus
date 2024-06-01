@@ -3,7 +3,7 @@ import Header from '../components/global/Header'
 import WrapperSection from '../components/global/WrapperSection'
 import HeaderSection from '../components/global/HeaderSection'
 import GlobalList from '../components/global/GlobalList'
-import { Grid, Pagination, Stack } from '@mui/material'
+import { Box, CircularProgress, Grid } from '@mui/material'
 import i18next from 'i18next'
 import { useGetAreasIdQuery } from '../state/areas'
 import { useParams } from 'react-router-dom'
@@ -11,27 +11,33 @@ import { useParams } from 'react-router-dom'
 import EmptyContent from '../components/global/EmptyContent'
 import { useTranslation } from 'react-i18next'
 import CardProperty from '../components/global/CardProperty'
+import CostPagination from '../components/global/CostPagination'
+
+const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const Area = () => {
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
+
     let lng = i18next.language
+    const { t } = useTranslation()
+    
     let { id } = useParams()
-
     const [currentPage, setCurrentPage] = useState(1);
-
-    const onPageChange = (newPage) => {
-        setCurrentPage(newPage);
-    };
-    const { data, isBrandsLoading } = useGetAreasIdQuery({ id, lng, currentPage });
-
+    const { data, isLoading } = useGetAreasIdQuery({ id, lng, currentPage });
     const [tableData, setTableData] = useState([]);
-    console.log("🚀 ~ Area ~ tableData:", tableData)
+
+
+
     useEffect(() => {
-        if (data && !isBrandsLoading) {
+        if (data && !isLoading) {
             setTableData(data?.data)
         }
-    }, [data, tableData, isBrandsLoading])
-    const { t } = useTranslation()
+    }, [data, tableData, isLoading])
+    
+    if (isLoading) return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <CircularProgress />
+        </Box>)
+
     return (
         <>
             <Header title={tableData?.name} />
@@ -59,21 +65,12 @@ const Area = () => {
                         </Grid>
                     )}
                 </GlobalList>
-                        <Stack spacing={2}>
-                            <Pagination
-                                count={data?.data?.pagination?.last_page}
-                                shape="rounded"
-                                page={currentPage}
-                                onChange={(event, value) => onPageChange(value)}
-                                sx={{
-                                    '.MuiPaginationItem-icon': {
-                                        transform: lng === 'ar' ? 'rotate(180deg)' : 'rotate(0deg)'
-                                    }
-                                }}
-                            />
-                        </Stack>
+                        <CostPagination
+                            setCurrentPage={setCurrentPage}
+                            count={data?.data?.pagination?.last_page}
+                            currentPage={currentPage} />
+                        
                     </>) : (
-                    // إذا لم تكن هناك بيانات، استدعاء المكون الآخر هنا
                     <EmptyContent title={t("EmptyContent")} />
                 )}
             </WrapperSection>

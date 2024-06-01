@@ -1,88 +1,71 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Header from '../components/global/Header'
 import { useTranslation } from 'react-i18next'
 import WrapperSection from '../components/global/WrapperSection'
 import HeaderSection from '../components/global/HeaderSection'
 import GlobalList from '../components/global/GlobalList'
-import { Box, CircularProgress, Grid, Pagination, Stack, useMediaQuery } from '@mui/material'
+import { Box, CircularProgress, Grid } from '@mui/material'
 import CardProperty from '../components/global/CardProperty'
 import { useGetSearchTextQuery } from '../state/apiSearch'
 import i18next from 'i18next'
-import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import EmptyContent from '../components/global/EmptyContent'
 import Search from '../components/global/Search'
-import { useTheme } from '@emotion/react'
+import CostPagination from '../components/global/CostPagination'
+
+const url = 'https://aqarbackend.revampbrands.com/storage/'
+
 const SearchPage = () => {
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
-    let lng = i18next.language
+    
     const [currentPage, setCurrentPage] = useState(1);
-    const themeM = useTheme();
-    const isMobile = useMediaQuery(themeM.breakpoints.down('sm')); 
-    const onPageChange = (newPage) => {
-        setCurrentPage(newPage);
-    };
-    // داخل الوظيفة
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    // console.log("🚀 ~ SearchPage ~ queryParams:", queryParams)
+    const [searchParams] = useSearchParams();
+    const [tableData, setTableData] = useState([]);
+    const [isTableDataLoading, setIsTableDataLoading] = useState(true);
+    const { t } = useTranslation()
+    let lng = i18next.language
+    const property_type = searchParams.get('property_type');
+    const type = searchParams.get('type');
+    const country = searchParams.get('country');
+    const area = searchParams.get('area');
+    const tags = searchParams.get('tags');
+    const maxPrice = searchParams.get('max_price');
 
-    // قراءة الكويريز من العنوان URL
-    const property_type = queryParams.get('property_type');
-    const type = queryParams.get('type');
-    const country = queryParams.get('country');
-    const area = queryParams.get('area');
-    const tags = queryParams.get('tags');
-    const maxPrice = queryParams.get('max_price');
-    // const page = queryParams.get('page') || 1;
+    const queryParameters = useMemo(() => {
+        const params = {};
+        if (type) params.type = type;
+        if (country) params.country = country;
+        if (property_type) params.property_type = property_type;
+        if (area) params.area = area;
+        if (tags) params.tags = tags;
+        if (maxPrice) params.max_price = maxPrice;
+        return params;
+    }, [type, country, property_type, area, tags, maxPrice]);
 
-    // إنشاء كائن لتخزين الكويريز الغير فارغة
-    const queryParameters = {};
-
-    // تخزين الكويريز الغير فارغة في الكائن
-    if (type) {
-        queryParameters.type = type;
-    }
-    if (country) {
-        queryParameters.country = country;
-    }
-    if (property_type) {
-        queryParameters.property_type = property_type;
-    }
-    if (area) {
-        queryParameters.area = area;
-    }
-    if (tags) {
-        queryParameters.tags = tags;
-    }
-    if (maxPrice) {
-        queryParameters.max_price = maxPrice;
-    }
-
-    // استخدام الكويريز في استدعاء استعلام API إذا كانت لها قيم غير فارغة
     const { data, isLoading } = useGetSearchTextQuery({
         ...queryParameters,
-        per_page: 6, // تحديد عدد النتائج لكل صفحة
-        lng: i18next.language,
+        per_page: 6,
+        lng,
         currentPage
     });
 
-    const [tableData, setTableData] = useState([]);
-    const [isTableDataLoading, setIsTableDataLoading] = useState(true);
-    console.log("🚀 ~ SearchPage ~ tableData:", tableData?.length)
-    // console.log("🚀 ~ SearchPage ~ tableData:", tableData)
-    console.log("🚀 ~ SearchPage ~ isLoading:", isLoading)
+
     useEffect(() => {
         setIsTableDataLoading(true);
     }, [queryParameters, currentPage]);
+
     useEffect(() => {
-        // console.log("🚀 ~ SearchPage ~ data:", data)
         setIsTableDataLoading(true);
         if (data && !isLoading) {
             setTableData(data?.data?.data)
             setIsTableDataLoading(false);
         }
     }, [data, tableData, isLoading])
-    const { t } = useTranslation()
+    
+    if (isTableDataLoading) return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <CircularProgress />
+        </Box>)
+        
     return (
         <>
             <Header />
@@ -92,12 +75,7 @@ const SearchPage = () => {
                 </WrapperSection>
             </Box>
             <WrapperSection>
-                {isTableDataLoading ? (
-                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-                        <CircularProgress />
-                    </Box>
-                ) : (
-                    tableData && tableData.length > 0 ? (
+                    {tableData && tableData.length > 0 ? (
                         <>
                             <HeaderSection nameSection={t("Properties")} length={tableData.length > 0 ? tableData.length : 'no result found'} />
                             <GlobalList>
@@ -121,26 +99,14 @@ const SearchPage = () => {
                                     </Grid>
                                 )}
                             </GlobalList>
-                            <Stack spacing={2}>
-                                <Pagination
+                                <CostPagination
+                                    setCurrentPage={setCurrentPage}
                                     count={data?.data?.last_page}
-                                    shape="rounded"
-                                    page={currentPage}
-                                    size={isMobile ? 'small' : 'large'}
-                                    siblingCount={0}
-                                    onChange={(event, value) => onPageChange(value)}
-                                    sx={{
-                                        '.MuiPaginationItem-icon': {
-                                            transform: lng === 'ar' ? 'rotate(180deg)' : 'rotate(0deg)'
-                                        }
-                                    }}
-                                />
-                            </Stack>
+                                    currentPage={currentPage} />
                         </>
                     ) : (
                         <EmptyContent title={t("EmptyContent")} />
-                    )
-                )}
+                    )}
             </WrapperSection>
         </>
     )

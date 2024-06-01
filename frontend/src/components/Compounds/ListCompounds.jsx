@@ -4,30 +4,28 @@ import HeaderSection from '../global/HeaderSection'
 import GlobalList from '../global/GlobalList'
 import CardCompound from '../global/CardCompound'
 import Grid from '@mui/material/Grid';
-// import img from './../../assets/external-view-contemporary-house-with-pool-dusk_190619-224.png'
 import i18next from 'i18next'
 import { useGetCompoundsQuery } from '../../state/compounds'
-import { Pagination, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import EmptyContent from '../global/EmptyContent'
+import CostPagination from '../global/CostPagination'
 
+const url = 'https://aqarbackend.revampbrands.com/storage/'
 const ListCompounds = () => {
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
+    const { t } = useTranslation()
+
     const [currentPage, setCurrentPage] = useState(1);
-
     const { data, isBrandsLoading } = useGetCompoundsQuery({ lng, currentPage });
-
     const [tableData, setTableData] = useState([]);
+
+
     useEffect(() => {
         if (data && !isBrandsLoading) {
             setTableData(data?.data?.data)
         }
     }, [data, tableData, isBrandsLoading])
-    const onPageChange = (newPage) => {
-        setCurrentPage(newPage);
-    };
-    const { t } = useTranslation()
+
     return (
         <>
             <WrapperSection>
@@ -49,21 +47,11 @@ const ListCompounds = () => {
                                 </Grid>
                             )}
                         </GlobalList>
-                        <Stack spacing={2}>
-                            <Pagination
-                                count={data?.data?.last_page}
-                                shape="rounded"
-                                page={currentPage}
-                                onChange={(event, value) => onPageChange(value)}
-                                sx={{
-                                    '.MuiPaginationItem-icon': {
-                                        transform: lng === 'ar' ? 'rotate(180deg)' : 'rotate(0deg)'
-                                    }
-                                }}
-                            />
-                        </Stack>
+                        <CostPagination
+                            setCurrentPage={setCurrentPage}
+                            count={data?.data?.last_page}
+                            currentPage={currentPage} />
                     </>) : (
-                    // إذا لم تكن هناك بيانات، استدعاء المكون الآخر هنا
                     <EmptyContent title={t("EmptyContent")} />
                 )}
             </WrapperSection>

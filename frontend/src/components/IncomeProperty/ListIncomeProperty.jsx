@@ -2,38 +2,34 @@ import React, { useEffect, useState } from 'react'
 import WrapperSection from '../global/WrapperSection'
 import HeaderSection from '../global/HeaderSection'
 import GlobalList from '../global/GlobalList'
-// import img from './../../assets/external-view-contemporary-house-with-pool-dusk_190619-224.png'
-import { Grid, Pagination, Stack, useMediaQuery } from '@mui/material'
+import { Grid } from '@mui/material'
 import CardProperty from '../global/CardProperty'
 import { useGetPropertiesQuery } from '../../state/properties'
 import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
-import { useTheme } from '@emotion/react'
+import CostPagination from '../global/CostPagination'
+
+const url = 'https://aqarbackend.revampbrands.com/storage/'
+
 const ListIncomeProperty = () => {
 
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
 
     const [currentPage, setCurrentPage] = useState(1);
-const themeM = useTheme();
-    const isMobile = useMediaQuery(themeM.breakpoints.down('sm')); 
-    const onPageChange = (newPage) => {
-        setCurrentPage(newPage);
-    };
-        const { data, isBrandsLoading } = useGetPropertiesQuery({ lng, currentPage, coming_soon: 1 });
-
+    const { data, isBrandsLoading } = useGetPropertiesQuery({ lng, currentPage, coming_soon: 1 });
     const [tableData, setTableData] = useState([]);
+    const { t } = useTranslation()
+
     useEffect(() => {
         if (data && !isBrandsLoading) {
             setTableData(data?.data?.data)
         }
     }, [data, tableData, isBrandsLoading])
     // const un_available = tableData?.filter(res => res?.is_available === 0)
-const { t } = useTranslation()
     return (
         <>
             <WrapperSection>
-                <HeaderSection nameSection={t("IncomeProperty") }  length={tableData?.length} />
+                <HeaderSection nameSection={t("IncomeProperty")} length={tableData?.length} />
                 <GlobalList>
                     {tableData?.map(res =>
                         <Grid item md={4} xs={12} key={res?.id}>
@@ -54,21 +50,10 @@ const { t } = useTranslation()
                         </Grid>
                     )}
                 </GlobalList>
-                <Stack spacing={2}>
-                    <Pagination
-                        count={data?.data?.last_page}
-                        shape="rounded"
-                        page={currentPage}
-                         size={isMobile ? 'small' : 'large'}
-                                siblingCount={0}
-                        onChange={(event, value) => onPageChange(value)}
-                        sx={{
-                            '.MuiPaginationItem-icon': {
-                                transform: lng === 'ar' ? 'rotate(180deg)' : 'rotate(0deg)'
-                            }
-                        }}
-                    />
-                </Stack>
+                <CostPagination
+                    setCurrentPage={setCurrentPage}
+                    count={data?.data?.last_page}
+                    currentPage={currentPage} />
             </WrapperSection>
         </>
     )

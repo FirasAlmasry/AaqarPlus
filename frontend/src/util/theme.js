@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material";
-import i18next from "i18next";
+// import i18next from "i18next";
 
-let lng = i18next.language;
+// let lng = i18next.language;
 
 const theme = createTheme({
     palette: {

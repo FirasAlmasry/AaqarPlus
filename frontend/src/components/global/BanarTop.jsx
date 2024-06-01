@@ -3,20 +3,16 @@ import React, { useEffect, useState } from 'react';
 import Btn from './Btn';
 import theme from '../../util/theme';
 import { useTheme } from '@emotion/react';
-// import { useTranslation } from 'react-i18next';
-// import img from './../../assets/Bennar/5459403.png';
 import WrapperSection from './WrapperSection';
 import i18next from 'i18next';
 import { useGetBannersQuery } from '../../state/banners';
 
 const BanarTop = () => {
     const themeM = useTheme();
-    // const { t } = useTranslation();
     const lng = i18next.language;
     const url = 'https://aqarbackend.revampbrands.com/storage/';
     const isMobile = useMediaQuery(themeM.breakpoints.down('sm'));
     const { data, isBrandsLoading } = useGetBannersQuery(lng);
-    // console.log("🚀 ~ BanarTop ~ data:", data);
 
     const [tableData, setTableData] = useState([]);
 

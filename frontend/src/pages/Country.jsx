@@ -1,4 +1,4 @@
-import { Grid, Pagination, Stack } from '@mui/material'
+import { Box, CircularProgress, Grid } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import WrapperSection from '../components/global/WrapperSection'
 import HeaderSection from '../components/global/HeaderSection'
@@ -10,27 +10,33 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import Header from '../components/global/Header'
 import EmptyContent from '../components/global/EmptyContent'
+import CostPagination from '../components/global/CostPagination'
+
+const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const Country = () => {
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
 
     let { id } = useParams()
     let lng = i18next.language
-    const [currentPage, setCurrentPage] = useState(1);
 
-    const onPageChange = (newPage) => {
-        setCurrentPage(newPage);
-    };
-    const { data, isBrandsLoading } = useGetCountryIdQuery({ id, lng, currentPage });
-    const [tableData, setTableData] = useState([]);
-    useEffect(() => {
-        if (data && !isBrandsLoading) {
-            setTableData(data?.data)
-        }
-    }, [data, tableData, isBrandsLoading])
     
     const { t } = useTranslation()
-    const formattedData = Array.isArray(tableData?.properties) ? tableData?.properties : (tableData?.properties && Object.values(tableData?.properties));
+    const [currentPage, setCurrentPage] = useState(1);
+    const { data, isLoading } = useGetCountryIdQuery({ id, lng, currentPage });
+    const [tableData, setTableData] = useState([]);
+
+    useEffect(() => {
+        if (data && !isLoading) {
+            setTableData(data?.data)
+        }
+    }, [data, tableData, isLoading])
+
+    // const formattedData = Array.isArray(tableData?.properties) ? tableData?.properties : (tableData?.properties && Object.values(tableData?.properties));
+
+    if (isLoading) return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <CircularProgress />
+        </Box>)
 
     return (
         <>
@@ -38,7 +44,7 @@ const Country = () => {
             <WrapperSection>
                 {tableData && tableData.properties && tableData.properties?.length ? (
                     <>
-                        <HeaderSection nameSection={`${t("Properties")} ${lng === 'en' ? 'in' : 'في'} ${tableData?.name}`} length={formattedData?.length} />
+                        <HeaderSection nameSection={`${t("AvailableUnits")} ${tableData?.name}`} length={tableData.properties?.length} />
                         <GlobalList>
                             {tableData?.properties?.map(res =>
                                 <Grid item md={4} xs={12} key={res.id}>
@@ -59,23 +65,13 @@ const Country = () => {
                                 </Grid>
                             )}
                         </GlobalList>
-                        <Stack spacing={2}>
-                            <Pagination
-                                count={data?.data?.pagination?.last_page}
-                                shape="rounded"
-                                page={currentPage}
-                                onChange={(event, value) => onPageChange(value)}
-                                sx={{
-                                    '.MuiPaginationItem-icon': {
-                                        transform: lng === 'ar' ? 'rotate(180deg)' : 'rotate(0deg)'
-                                    }
-                                }}
-                            />
-                        </Stack>
+                        <CostPagination
+                            setCurrentPage={setCurrentPage}
+                            count={data?.data?.pagination?.last_page}
+                            currentPage={currentPage} />
                     </>
                 ) : (
-                    // إذا لم تكن هناك بيانات، استدعاء المكون الآخر هنا
-                        <EmptyContent title={t("EmptyContent")} />
+                    <EmptyContent title={t("EmptyContent")} />
                 )}
             </WrapperSection>
         </>

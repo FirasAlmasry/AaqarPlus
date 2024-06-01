@@ -2,47 +2,48 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/global/Header'
 import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
-import { Grid, Pagination, Stack } from '@mui/material'
+import { Box, CircularProgress, Grid } from '@mui/material'
 import CardProperty from '../components/global/CardProperty'
 import WrapperSection from '../components/global/WrapperSection'
 import GlobalList from '../components/global/GlobalList'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import HeaderSection from '../components/global/HeaderSection'
 import { useGetAreasIdQuery } from '../state/areas'
 import EmptyContent from '../components/global/EmptyContent'
+import CostPagination from '../components/global/CostPagination'
+
+const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const PropertyInArea = () => {
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
     let { id } = useParams()
-    console.log("🚀 ~ PropertyInArea ~ id:", id)
     let lng = i18next.language
+
+    const { t } = useTranslation()
     const [currentPage, setCurrentPage] = useState(1);
-
-    const onPageChange = (newPage) => {
-        setCurrentPage(newPage);
-    };
-    const { data, isBrandsLoading } = useGetAreasIdQuery({ id, lng });
-
+    const { data, isLoading } = useGetAreasIdQuery({ id, lng });
     const [tableData, setTableData] = useState([]);
-    // تحديث tableData عند تغيير البجنيشن
+
+
     useEffect(() => {
-        if (data && !isBrandsLoading) {
-            // حساب الفهرس الأول والأخير للبيانات المناسبة للصفحة الحالية
+        if (data && !isLoading) {
             const startIndex = (currentPage - 1) * 3;
             const endIndex = startIndex + 3;
-            // تحديث tableData باستخدام البيانات المناسبة للصفحة الحالية
             setTableData(data?.data?.properties.slice(startIndex, endIndex));
-        } 
-    }, [data, isBrandsLoading, currentPage]);
-    const { t } = useTranslation()
-    // let tableData = JSON.parse(localStorage.getItem('areaUnits'));
+        }
+    }, [data, isLoading, currentPage]);
+
+    if (isLoading) return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <CircularProgress />
+        </Box>)
+
     return (
         <>
-            <Header title={t("Properties")} />
+            <Header title={data?.data?.name} />
             <WrapperSection>
                 {tableData && tableData?.length > 0 ? (
                     <>
-                        <HeaderSection nameSection={t("Properties")} length={tableData?.length} />
+                        <HeaderSection nameSection={`${t("AvailableUnits")} ${data?.data?.name}`} length={tableData?.length} />
                         <GlobalList>
                             {tableData?.map(res =>
                                 <Grid item md={4} xs={12} key={res?.id}>
@@ -63,22 +64,11 @@ const PropertyInArea = () => {
                                 </Grid>
                             )}
                         </GlobalList>
-                        {/* // بجنيشن */}
-                        <Stack spacing={2}>
-                            <Pagination
-                                count={Math.ceil(data?.data?.properties.length / 3)} // حساب عدد الصفحات
-                                shape="rounded"
-                                page={currentPage}
-                                onChange={(event, value) => onPageChange(value)}
-                                sx={{
-                                    '.MuiPaginationItem-icon': {
-                                        transform: lng === 'ar' ? 'rotate(180deg)' : 'rotate(0deg)'
-                                    }
-                                }}
-                            />
-                        </Stack>
+                        <CostPagination
+                            setCurrentPage={setCurrentPage}
+                            count={Math.ceil(data?.data?.properties.length / 3)}
+                            currentPage={currentPage} />
                     </>) : (
-                    // إذا لم تكن هناك بيانات، استدعاء المكون الآخر هنا
                     <EmptyContent title={t("EmptyContent")} />
                 )}
             </WrapperSection>

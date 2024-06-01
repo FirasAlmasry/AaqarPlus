@@ -101,6 +101,7 @@ const Search = () => {
         setSelectedCountry(country);
         handleCloseCountry();
     };
+
     const resetSearchInputs = () => {
         setAreaValue('');
         setTagsValue('');
@@ -113,7 +114,6 @@ const Search = () => {
 
     const handleLinkClick = () => {
         const queryParams = {};
-        // console.log("🚀 ~ handleLinkClick ~ queryParams:", queryParams)
 
         if (isInvestSelected) {
             queryParams.type = 'invest';
@@ -121,7 +121,6 @@ const Search = () => {
             if (selectedCountry) {
                 queryParams.country = selectedCountry;
             }
-        // } else {
             if (selectedChildId || selectedItem?.id) {
                 queryParams.property_type = selectedChildId || selectedItem?.id;
             }
@@ -134,15 +133,12 @@ const Search = () => {
             if (maxPriceValue) {
                 queryParams.max_price = maxPriceValue;
             }
-        // }
         if (lng) {
             queryParams.lng = lng;
         }
 
         const queryString = new URLSearchParams(queryParams).toString();
         const searchUrl = `/search?${queryString}`;
-        // Reset input fields after generating the search URL
-        // resetSearchInputs();
         return searchUrl;
     };
 

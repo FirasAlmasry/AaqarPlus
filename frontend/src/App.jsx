@@ -15,7 +15,6 @@ import Compounds from './pages/Compounds';
 import Developers from './pages/Developers';
 import Blogs from './pages/Blogs';
 import NewProjects from './pages/NewProjects';
-import Buy from './pages/Buy';
 import Rent from './pages/Rent';
 import IncomeProperty from './pages/IncomeProperty';
 import Favorites from './pages/Favorites';
@@ -89,7 +88,6 @@ function App() {
         <Route path="/compounds" element={<Compounds />} />
         <Route path="/compound/:id" element={<Compound />} />
         <Route path="/country/:id" element={<Country />} />
-        <Route path="/buy" element={<Buy />} />
         <Route path="/rent" element={<Rent />} />
         <Route path="/Properties" element={<NewProjects />} />
         <Route path="/launching-soon" element={<AllLaunchingSoon />} />

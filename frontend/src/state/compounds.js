@@ -7,7 +7,7 @@ export const ApiAuth = api.injectEndpoints({
         getCompounds: build.query({
             query: ({ lng, trending, currentPage, coming_soon }) => {
                 if (trending === 1) {
-                    return `/compounds?local=${lng}&trending=${trending}`;
+                    return `/compounds?local=${lng}&trending=${trending}&page=${currentPage}&per_page=9`;
                 } else {
                     return `/compounds?local=${lng}&page=${currentPage}&coming_soon=${coming_soon}&per_page=9`;
                 }

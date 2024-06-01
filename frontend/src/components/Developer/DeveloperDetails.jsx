@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import WrapperSection from '../global/WrapperSection'
 import GlobalList from '../global/GlobalList'
-import { Box, CardMedia, Grid, Typography } from '@mui/material'
+import { Box, CardMedia, CircularProgress, Grid, Typography } from '@mui/material'
 import Slider from '../global/Slider'
 import SectionTerm from '../Terms/SectionTerm'
 import HeaderSection from '../global/HeaderSection'
 import CardCompound from '../global/CardCompound'
 import i18next from 'i18next'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useGetDevelopersIdQuery } from '../../state/developers'
 import MultiItemSlider from '../global/MultiItemSlider'
 import { useTranslation } from 'react-i18next'
@@ -21,31 +21,26 @@ const DeveloperDetails = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
     const [tableData, setTableData] = useState([]);
+    const [isTableDataLoading, setIsTableDataLoading] = useState(true);
+
     useEffect(() => {
+        setIsTableDataLoading(true);
+
         if (data && !isBrandsLoading) {
             setTableData(data?.data)
+            setIsTableDataLoading(false);
         }
     }, [data, isBrandsLoading])
-    // localStorage.setItem('areaUnits', JSON.stringify(tableData))
-    // const handleLinkClick = () => {
-    //     const queryParams = {};
-
-    //     if (tableData?.properties) {
-    //         queryParams.properties = tableData?.properties;
-    //     }
-
-    //     const queryString = new URLSearchParams(queryParams).toString();
-    //     const searchUrl = `/property-in-area?${queryString}`;
-
-    //     // تمرير الكويريز فقط إذا كانت لها قيمة
-    //     return searchUrl;
-    // };
     return (
-        <>
+        <>{isTableDataLoading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                <CircularProgress />
+            </Box>
+        ) : (
             <WrapperSection>
                 <GlobalList>
                     <Grid item md={6} xs={12} >
-                        <Slider >
+                        <Slider>
                             {
                                 tableData?.files?.map((image) =>
                                     <CardMedia src={url + image?.file} component="img"
@@ -60,21 +55,29 @@ const DeveloperDetails = () => {
                                 )}
                         </Slider>
                     </Grid>
-                    <Grid item md={6} xs={12} >
-                        <Box sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
-                            <Typography color={'primary.main'} display={'inline'} variant='h6'>{t("Dev.name")} : <span style={{ color: '#E00201' }}>{tableData?.name}</span></Typography>
-                            <Typography color={'primary.main'} variant='h6'  >{t("Dev.Brief")} </Typography>
-                            <Typography style={{ color: '#7A7A7A' }}>{tableData?.bio_title}</Typography>
-                            <Typography color={'primary.main'} display={'inline'} variant='h6'>{t("Dev.area")} :
-                                {/* <Link to={`/property-in-area`}>
-                                    <span style={{ color: '#E00201' }}>{lng === 'ar' ? tableData?.area?.name?.ar : tableData?.area?.name?.en}</span>
-                                </Link> */}
-                                <span onClick={() => navigate(`/property-in-area/${tableData?.area?.id}`)} style={{ color: '#E00201', cursor: 'pointer'  }}>{lng === 'ar' ? tableData?.area?.name?.ar : tableData?.area?.name?.en}</span>
-                                {/* <Link to={`/property-in-area?tableData=${encodeURIComponent(JSON.stringify(tableData))}`}>
-                                    <span style={{ color: '#E00201' }}>{lng === 'ar' ? tableData?.area?.name?.ar : tableData?.area?.name?.en}</span>
-                                </Link> */}
-                            </Typography>
-                            <Typography color={'primary.main'} display={'inline'} variant='h6'>{t("Dev.TopProjectsTitle")} : <span style={{ color: '#E00201' }}>{tableData?.top_project_title}</span></Typography>
+                    <Grid item md={6} xs={12} sx={{ margin:'auto' }} >
+                        <Box sx={{ display:'flex', flexWrap:'wrap', gap:2 }}>
+                                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexGrow: 1, width:'45%'  }}>
+                                    <Typography color={'#000'} variant='h6'>{t("Dev.name")} : </Typography>
+                                    <Typography color={'secondary.supMain'}>{tableData?.name}</Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexGrow: 1, width:'35%' }}>
+                                    <Typography color={'#000'} variant='h6'>{t("Dev.Brief")} : </Typography>
+                                    <Typography color={'secondary.supMain'}>{tableData?.bio_title}</Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexGrow: 1, width:'45%'  }}>
+                                    <Typography color={'#000'} variant='h6'>{t("Dev.area")} : </Typography>
+                                    <Typography 
+                                        sx={{ cursor: 'pointer' }}
+                                    color={'secondary.supMain'} 
+                                    onClick={() => navigate(`/property-in-area/${tableData?.area?.id}`)}>
+                                        {lng === 'ar' ? tableData?.area?.name?.ar : tableData?.area?.name?.en}
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexGrow: 1, width:'45%'  }}>
+                                    <Typography color={'#000'} variant='h6'>{t("Dev.TopProjectsTitle")} : </Typography>
+                                    <Typography color={'secondary.supMain'}>{tableData?.top_project_title}</Typography>
+                                </Box>
                         </Box>
                     </Grid>
                 </GlobalList>
@@ -139,6 +142,7 @@ const DeveloperDetails = () => {
                 }
 
             </WrapperSection>
+        )}
         </>
     )
 

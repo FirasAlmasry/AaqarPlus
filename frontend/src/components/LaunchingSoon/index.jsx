@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import WrapperSection from '../global/WrapperSection'
 import HeaderSection from '../global/HeaderSection'
-import { Box, Button } from '@mui/material'
+import { Box, Button, CircularProgress } from '@mui/material'
 // import CardArea from '../global/CardArea'
 // import { useGetAreasQuery } from '../../state/areas'
 import i18next from 'i18next'
@@ -23,9 +23,14 @@ const LaunchingSoon = () => {
     const { data, isBrandsLoading } = useGetCompoundsQuery({ lng, coming_soon: 1 });
 
     const [tableData, setTableData] = useState([]);
+    const [isTableDataLoading, setIsTableDataLoading] = useState(true);
     useEffect(() => {
+        
+        setIsTableDataLoading(true);
         if (data && !isBrandsLoading) {
             setTableData(data?.data?.data)
+            
+            setIsTableDataLoading(false);
         }
     }, [data, tableData, isBrandsLoading])
     const { t } = useTranslation()
@@ -34,25 +39,34 @@ const LaunchingSoon = () => {
 
     return (
         <>
+        
             <div style={{ backgroundColor: '#f5f5f5' }} >
                 <WrapperSection>
                     <Box sx={{ width: '100%' }}>
                         <HeaderSection nameSection={t("LaunchingSoon")} path={'launching-soon'} pointer={'pointer'} length={tableData?.length === 0 ? t("NoResults") : tableData?.length} />
-                        <MultiItemSlider>
-                            {tableData?.map(res =>
-                                <Box key={res?.id} sx={{ my: 2 }}>
-                                    <CardCompound
-                                        img={url + res?.main_image?.file}
-                                        name={res?.name}
-                                        address={res?.address}
-                                        price={res?.end_price}
-                                        whatsapp={res?.whatsapp}
-                                        phone_number={res?.phone_number}
-                                        id={res?.id}
-                                    />
-                                </Box>
-                            )}
-                        </MultiItemSlider>
+                        {isTableDataLoading ? (
+                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
+                                <CircularProgress />
+                            </Box>
+                        ) : (
+                        <>
+                                    <MultiItemSlider>
+                                        {tableData?.map(res =>
+                                            <Box key={res?.id} sx={{ my: 2 }}>
+                                                <CardCompound
+                                                    img={url + res?.main_image?.file}
+                                                    name={res?.name}
+                                                    address={res?.address}
+                                                    price={res?.end_price}
+                                                    whatsapp={res?.whatsapp}
+                                                    phone_number={res?.phone_number}
+                                                    id={res?.id}
+                                                />
+                                            </Box>
+                                        )}
+                                    </MultiItemSlider>
+                        </>
+                        )}
                         <Box sx={{ width: '100%', textAlign: 'center' }} >
                             <Button
                                 endIcon={lng === 'en' ? <ArrowForwardIcon /> : <ArrowBackIcon />}

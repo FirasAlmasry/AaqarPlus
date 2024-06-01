@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import WrapperSection from '../global/WrapperSection'
 import GlobalList from '../global/GlobalList'
-import { Box, CardMedia, Grid, Typography } from '@mui/material'
+import { Box, CardMedia, Grid, Typography, CircularProgress } from '@mui/material'
 import icon from './../../assets/Ellipse 59.png'
 import Slider from '../global/Slider'
 import Details from '../global/Details'
@@ -14,14 +14,12 @@ import i18next from 'i18next'
 import { useParams } from 'react-router-dom'
 import { useGetPropertiesIdQuery } from '../../state/properties'
 import Description from '../global/Description'
-
-// import ImageGallery from "react-image-gallery";
-// import stylesheet if you're not already using CSS @import
-// import "react-image-gallery/styles/css/image-gallery.css";
 import { useTranslation } from 'react-i18next'
 import Btn from '../global/Btn'
 import theme from '../../util/theme'
 import MultiItemSlider from '../global/MultiItemSlider'
+import Amenities from '../global/Amenities'
+import IframeDisplay from '../global/IframeDisplay'
 
 const url = 'https://aqarbackend.revampbrands.com/storage/'
 
@@ -52,30 +50,32 @@ const renderMedia = (link, type) => {
 };
 
 const PropertyDetails = () => {
-    
+
     let lng = i18next.language
     let { id } = useParams()
-    const { data, isBrandsLoading } = useGetPropertiesIdQuery({ id, lng });
+    const { data, isLoading } = useGetPropertiesIdQuery({ id, lng });
 
     const [tableData, setTableData] = useState([]);
-    console.log("🚀 ~ PropertyDetails ~ tableData:", tableData)
+    const [showAll, setShowAll] = useState(false);
     const { t } = useTranslation()
     useEffect(() => {
-        if (data && !isBrandsLoading) {
+        if (data && !isLoading) {
             setTableData(data?.data)
         }
-    }, [data, tableData, isBrandsLoading])
+    }, [data, tableData, isLoading])
 
-    const extractSrcFromIframe = (iframeText) => {
-        const regex = /src="([^"]+)"/;
-        const match = regex.exec(iframeText);
-        if (match && match.length > 1) {
-            return match[1]; // يحتوي match[1] على قيمة src
-        } else {
-            return null; // في حالة عدم العثور على src أو في حالة الخطأ
-        }
+    const handleToggleShow = () => {
+        setShowAll(prevShowAll => !prevShowAll);
     };
-    const src = extractSrcFromIframe(tableData?.url_location);
+
+    const displayedAmenities = tableData?.amenities?.slice(0, 3);
+    const allAmenities = tableData?.amenities?.slice(3);
+
+    if (isLoading) return (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <CircularProgress />
+    </Box>);
+
+
     return (
         <>
             <WrapperSection>
@@ -94,13 +94,18 @@ const PropertyDetails = () => {
                             startPrice={tableData?.start_price}
                             endPrice={tableData?.end_price}
                             whatsapp={tableData?.whatsapp}
-                            phone_number={tableData?.phone_number} >
-                            {tableData?.amenities?.map((res) =>
-                                <Box key={res?.name} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}  >
-                                    <CardMedia alt="green iguana" component={'img'} src={res?.icon ? `${url}${res?.icon}` : icon} sx={{ width: '18px', height: '18px' }} />
-                                    {res?.name}
-                                </Box>
-                            )}
+                            phone_number={tableData?.phone_number}
+                            num1={tableData?.bedrooms}
+                            num2={tableData?.bathrooms}
+                            num3={tableData?.house_area} >
+                            <Amenities
+                                displayedAmenities={displayedAmenities}
+                                allAmenities={allAmenities}
+                                showAll={showAll}
+                                handleToggleShow={handleToggleShow}
+                                url={url}
+                                icon={icon}
+                            />
                         </Details>
                     </Grid>
                 </GlobalList>
@@ -122,12 +127,7 @@ const PropertyDetails = () => {
                                 MonthlyInstallment={tableData?.monthly_installment}
                             />
                         </Box>
-                        {tableData?.url_location && <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }} >
-                            <HeaderSection nameSection={t("Contacts.Location")} />
-                            <iframe src={src} width="100%" height="100%" title={'test'} style={{ border: 0, marginTop: '16px' }}
-                                allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
-                            {/* <Description data={tableData?.url_location} /> */}
-                        </Box>}
+                        {tableData?.url_location && <IframeDisplay iframeText={tableData?.url_location} name={tableData?.name} />}
                         {
                             tableData.delivery_in &&
                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: 1, flexDirection: { md: 'row', xs: 'column' } }} >
@@ -146,8 +146,7 @@ const PropertyDetails = () => {
                                     consultants will contact you.`: `املأ النموذج وسيقوم أحد مستشارينا العقاريين بالاتصال بك.`}</Typography>
                             </Form>
                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: 1, mt: 4 }}>
-                                <Typography color={'#fff'} bgcolor={'#062371'} sx={{ px:2, py:1, borderRadius:'8px', textAlign:'center' }} >{tableData.ref_number}</Typography>
-                                {/* <Btn text={tableData.ref_number} /> */}
+                                <Typography color={'#fff'} bgcolor={'#062371'} sx={{ px: 2, py: 1, borderRadius: '8px', textAlign: 'center' }} >{tableData.ref_number}</Typography>
                                 {
                                     tableData?.agent_code &&
                                     <Btn text={tableData.agent_code || '000'} bg={'transparent'} color={'#062371'} borderColor={theme.palette.primary.main} />
@@ -180,29 +179,7 @@ const PropertyDetails = () => {
                             )}
                         </MultiItemSlider>
                     }
-                   
                 </Box>
-                {/* <HeaderSection nameSection={t("SuggestedProperties")} />
-                <GlobalList>
-                    {tableData?.similar_properties?.slice(0, 5)?.map(res =>
-                        <Grid item md={4} xs={12} key={res?.id}>
-                            <CardProperty img={url + res?.master_plan}
-                                name={lng === 'ar' ? res?.name?.ar : res?.name?.en}
-                                address={lng === 'ar' ? res?.address?.ar : res?.address?.en}
-                                num1={res?.bedrooms}
-                                num2={res?.bathrooms}
-                                num3={res?.house_area}
-                                month={res?.monthly_installment}
-                                years={res?.installment_years}
-                                price={res?.end_price}
-                                whatsapp={res?.whatsapp}
-                                phone_number={res?.phone_number}
-                                id={res?.id}
-                                agent_id={res?.agent_code}
-                            />
-                        </Grid>
-                    )}
-                </GlobalList> */}
             </WrapperSection>
         </>
     )
