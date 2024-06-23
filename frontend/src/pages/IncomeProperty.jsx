@@ -7,7 +7,7 @@ const IncomeProperty = () => {
     const { t } = useTranslation()
     return (
         <>
-            <Header title={t("IncomeProperty") } />
+            <Header title={t("LaunchingSoon") } />
             <ListIncomeProperty />
         </>
     )

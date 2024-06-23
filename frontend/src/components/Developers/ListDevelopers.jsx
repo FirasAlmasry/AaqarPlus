@@ -16,7 +16,6 @@ const ListDevelopers = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const { data, isLoading } = useGetDevelopersQuery({ lng, currentPage });
-    // const { data, isLoading } = useGetDevelopersQuery({ currentPage });
     const [tableData, setTableData] = useState([]);
     console.log("🚀 ~ ListDevelopers ~ tableData:", tableData)
 

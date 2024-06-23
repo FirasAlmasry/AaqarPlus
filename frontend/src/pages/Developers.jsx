@@ -8,7 +8,7 @@ const Developers = () => {
   return (
     <>
       <Header title={t("Developers")} />
-          <ListDevelopers />
+      <ListDevelopers />
     </>
   )
 }
