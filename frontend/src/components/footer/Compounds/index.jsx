@@ -25,7 +25,7 @@ const Compounds = () => {
                     {
                         tableData?.slice(0, 6)?.map((page, i) => <Link
                             key={i}
-                            to={`/compound/${page?.id}`}
+                            to={`/compound/${page?.slug}`}
                             style={{
                                 // fontSize: 14,
                                 textTransform: 'capitalize',

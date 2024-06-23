@@ -40,7 +40,7 @@ const ListBlogs = () => {
                         <HeaderSection nameSection={t("Blogs")} length={tableData?.length} />
                         <GlobalList>
                             {tableData?.map((res, i) =>
-                                <Grid item md={4} xs={12} key={i} onClick={() => navigate(`/blog/${res?.id}`)} >
+                                <Grid item md={4} xs={12} key={i} onClick={() => navigate(`/blog/${res?.slug}`)} >
                                     <CardBlogs img={res?.main_image} title={res?.name} type={res?.date} date={res?.time} />
                                 </Grid>
                             )}

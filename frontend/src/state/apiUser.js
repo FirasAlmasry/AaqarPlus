@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import i18next from 'i18next';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -7,6 +8,8 @@ export const api = createApi({
     prepareHeaders: (headers, { getState }) => { 
       headers.set("Accept", "application/json") 
       headers.set("Cache-Control", "no-cache");
+      let lng = i18next.language;
+      headers.set("local", lng);
       return headers
     } 
   }),

@@ -49,7 +49,7 @@ const ListAreas = () => {
                                         title={res?.name}
                                         lengthCompounds={res?.total_compounds}
                                         lengthDevelopers={res?.total_developers}
-                                        id={res?.id} />
+                                        id={res?.slug} />
                                 </Grid>
                             )}
                         </GlobalList>

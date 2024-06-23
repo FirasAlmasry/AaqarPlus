@@ -76,7 +76,7 @@ const Details = ({ title, refNumber, devName, startPrice, endPrice, address, fin
                         <Typography color={'secondary.supMain'}>{finishing}</Typography>
                     </Box>}
                 </Box>
-                <Typography color={'#000'} variant='h6' textAlign={'left'}>{t("Amenities")}</Typography>
+                <Typography color={'#000'} variant='h6'>{t("Amenities")}</Typography>
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
                     {children}
                 </Box>

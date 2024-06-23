@@ -129,9 +129,9 @@ const PropertyDetails = () => {
                         {
                             tableData.delivery_in &&
                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: 1, flexDirection: { md: 'row', xs: 'column' } }} >
-                                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }} >
+                                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2, my:1 }} >
                                     <HeaderSection nameSection={lng === 'en' ? 'Delivery In' : "الأستلام"} />
-                                    <Typography textAlign={'left'} >{tableData.delivery_in}</Typography>
+                                    <Typography >{tableData.delivery_in}</Typography>
                                 </Box>
                             </Box>
                         }
@@ -170,10 +170,8 @@ const PropertyDetails = () => {
                                         price={res?.end_price}
                                         whatsapp={res?.whatsapp}
                                         phone_number={res?.phone_number}
-                                        id={res?.id}
+                                        id={res?.slug?.en}
                                         agent_id={res?.agent_code}
-                                        // is_favorite={res?.is_favorite}
-                                        // toggleFavorite={toggleFavorite}
                                     />
                                 </Box>
                             )}

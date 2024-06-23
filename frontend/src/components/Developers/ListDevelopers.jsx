@@ -16,7 +16,9 @@ const ListDevelopers = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const { data, isLoading } = useGetDevelopersQuery({ lng, currentPage });
+    // const { data, isLoading } = useGetDevelopersQuery({ currentPage });
     const [tableData, setTableData] = useState([]);
+    console.log("🚀 ~ ListDevelopers ~ tableData:", tableData)
 
     useEffect(() => {
         if (data && !isLoading) {
@@ -42,7 +44,7 @@ const ListDevelopers = () => {
                                         img={res?.main_image?.file}
                                         title={res?.name}
                                         length={res?.compounds?.length}
-                                        id={res?.id}
+                                        id={res?.slug}
                                     />
                                 </Grid>
                             )}

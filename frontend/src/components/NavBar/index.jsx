@@ -14,9 +14,9 @@ import Auth from "./Auth";
 import MenuItems from "./MenuItems";
 import MenuItem from '@mui/material/MenuItem';
 import theme from "../../util/theme";
-import { useGetAreasQuery } from "../../state/areas";
+// import { useGetAreasQuery } from "../../state/areas";
 import { useGetCountryQuery } from "../../state/Country";
-import { useGetPropertyTypeQuery } from "../../state/PropertyType";
+// import { useGetPropertyTypeQuery } from "../../state/PropertyType";
 
 
 
@@ -31,48 +31,50 @@ function NavBar() {
     };
     const handleClose = () => {
         setAnchorEl(null);
-        setUnits(null);
+        // setUnits(null);
     };
 
-    const [Units, setUnits] = useState(null);
-    const openUnits = Boolean(Units);
-    const handleClickUnits = (event) => {
-        setUnits(event.currentTarget);
-    };
+    // const [Units, setUnits] = useState(null);
+    // const openUnits = Boolean(Units);
+    // const handleClickUnits = (event) => {
+    //     setUnits(event.currentTarget);
+    // };
 
-    const handleCloseUnits = () => {
-        setUnits(null);
-    };
+    // const handleCloseUnits = () => {
+    //     setUnits(null);
+    // };
 
     let lng = i18next.language
     const [drawer, setDrawer] = useState(false);
     const location = useLocation();
     let path = location.pathname.split('/')[1]
-    const { data, isBrandsLoading } = useGetPropertyTypeQuery(lng);
 
-    const [tableData, setTableData] = useState([]);
-    useEffect(() => {
-        if (data && !isBrandsLoading) {
-            const filteredData = data.data.filter(item => {
-                if (lng === 'en') {
-                    return item?.name === 'Residential' || item?.name === 'Commercials' || item?.name === 'Administrative' || item?.name === 'medical' || item?.name === 'Vacation Homes';
-                } else if (lng === 'ar') {
-                    return item?.name === 'سكني' || item?.name === 'تجاري' || item?.name === 'إداري' || item?.name === 'طبي' || item?.name === 'عقارات مصايف';
-                }
-                return false;
-            });
-            setTableData(filteredData);
-        }
-    }, [data, isBrandsLoading, lng])
+    // const { data, isBrandsLoading } = useGetPropertyTypeQuery(lng);
+
+    // const [tableData, setTableData] = useState([]);
+    // useEffect(() => {
+    //     if (data && !isBrandsLoading) {
+    //         const filteredData = data.data.filter(item => {
+    //             if (lng === 'en') {
+    //                 return item?.name === 'Residential' || item?.name === 'Commercials' || item?.name === 'Administrative' || item?.name === 'medical' || item?.name === 'Vacation Homes';
+    //             } else if (lng === 'ar') {
+    //                 return item?.name === 'سكني' || item?.name === 'تجاري' || item?.name === 'إداري' || item?.name === 'طبي' || item?.name === 'عقارات مصايف';
+    //             }
+    //             return false;
+    //         });
+    //         setTableData(filteredData);
+    //     }
+    // }, [data, isBrandsLoading, lng])
     // const available = tableData?.filter(res => res?.properties?.length > 0)
 
-    const { data: area, isAryaLoading } = useGetAreasQuery({lng});
-    const [AreaData, setAreaData] = useState([]);
-    useEffect(() => {
-        if (area && !isAryaLoading) {
-            setAreaData(area?.data?.data)
-        }
-    }, [area, AreaData, isAryaLoading])
+    // const { data: area, isAryaLoading } = useGetAreasQuery({lng});
+    // const [AreaData, setAreaData] = useState([]);
+    // useEffect(() => {
+    //     if (area && !isAryaLoading) {
+    //         setAreaData(area?.data?.data)
+    //     }
+    // }, [area, AreaData, isAryaLoading])
+
     const { data: country, isCountryLoading } = useGetCountryQuery(lng);
 
     const [countryData, setCountryData] = useState([]);
@@ -132,20 +134,6 @@ function NavBar() {
                                     className="link">
                                     {lng === 'en' ? 'Home' : 'الرئيسية'}
                                 </Link>
-                                {/* <MenuItems name={lng === 'en' ? 'Available Units' : "الوحدات المتاحة"} handleClick={handleClickUnits} anchorEl={Units} open={openUnits} handleClose={handleCloseUnits} >
-                                    {
-                                        tableData?.map((res) => <Link
-                                            to={`/property-type/${res?.id}`}
-                                            key={res?.id}
-                                            style={{ textTransform: 'capitalize', }}
-                                            className="link"> 
-                                            <MenuItem onClick={handleClose} disableRipple>
-                                                {res?.name}
-                                            </MenuItem>
-                                        </Link>
-                                        )
-                                    }
-                                </MenuItems> */}
                                 <Link
                                     to={'/areas'}
                                     style={{ textTransform: 'capitalize', }}
@@ -156,7 +144,7 @@ function NavBar() {
                                     
                                     {
                                         countryData?.map((res) => <Link
-                                            to={`/country/${res?.id}`}
+                                            to={`/country/${res?.slug}`}
                                             key={res?.id}
                                             style={{ textTransform: 'capitalize', }}
                                             className="link">
@@ -185,12 +173,6 @@ function NavBar() {
                                     className="link">
                                     {lng === 'en' ? 'Blogs' : "المقالات"}
                                 </Link>
-                                {/* <Link
-                                    to={'/favorites'}
-                                    style={{ textTransform: 'capitalize', }}
-                                    className="link">
-                                    {lng === 'ar' ? 'المفضلة' : "Favorites"}
-                                </Link> */}
                                 <Link
                                     to={'/contact-us'}
                                     style={{ textTransform: 'capitalize', }}

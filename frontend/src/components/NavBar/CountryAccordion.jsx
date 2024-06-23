@@ -49,7 +49,7 @@ const CountryAccordion = ({ setDrawer }) => {
                     {countryData?.map((res) => (
                         <Link
                             key={res?.id}
-                            href={`/country/${res?.id}`}
+                            href={`/country/${res?.slug}`}
                             style={{
                                 textDecoration: "none",
                                 fontSize: 13,

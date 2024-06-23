@@ -17,7 +17,7 @@ const Trending = () => {
     const { t } = useTranslation()
     const { data, isBrandsLoading } = useGetCompoundsQuery({ lng, trending: 1 });
 
-    const [tableData, setTableData] = useState([]);    
+    const [tableData, setTableData] = useState([]);
     const [isTableDataLoading, setIsTableDataLoading] = useState(true);
 
     useEffect(() => {
@@ -49,7 +49,7 @@ const Trending = () => {
                                     price={res?.end_price}
                                     whatsapp={res?.whatsapp}
                                     phone_number={res?.phone_number}
-                                    id={res?.id}
+                                    id={res?.slug}
                                 />
                             </Box>
                         )}

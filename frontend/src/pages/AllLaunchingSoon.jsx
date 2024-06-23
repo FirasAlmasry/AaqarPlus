@@ -46,7 +46,7 @@ const AllLaunchingSoon = () => {
                                 price={res?.end_price}
                                 whatsapp={res?.whatsapp}
                                 phone_number={res?.phone_number}
-                                id={res?.id}
+                                id={res?.slug}
                             />
                         </Grid>
                     )}

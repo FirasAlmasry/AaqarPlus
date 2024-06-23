@@ -34,37 +34,7 @@ const PropeType = () => {
 
 
     const filteredProperties = tableData?.properties?.data?.filter(res => saleTypeFilter === '' || res?.sale_type === saleTypeFilter);
-    // const [propertyList, setPropertyList] = useState([])
-
-    // useEffect(() => {
-    //     if (data && !isLoading) {
-    //         const storedFavorites = localStorage.getItem('favoriteProperties');
-    //         const favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
-    //         const updatedList = filteredProperties?.map(property =>
-    //             favorites.includes(property.id) ? { ...property, is_favorite: 1 } : { ...property, is_favorite: 0 }
-    //         );
-    //         setPropertyList(prevList => {
-    //             if (JSON.stringify(prevList) !== JSON.stringify(updatedList)) {
-    //                 return updatedList;
-    //             }
-    //             return prevList;
-    //         });
-    //     }
-    // }, [data, isLoading, filteredProperties]);
-
-
-
-    // const toggleFavorite = (id) => {
-    //     setPropertyList(prevList => {
-    //         const updatedList = prevList.map(property =>
-    //             property.id === id ? { ...property, is_favorite: property.is_favorite === 0 ? 1 : 0 } : property
-    //         )
-    //         const favorites = updatedList.filter(property => property.is_favorite === 1).map(property => property.id)
-    //         localStorage.setItem('favoriteProperties', JSON.stringify(favorites))
-    //         return updatedList
-    //     })
-    // }
-
+    
     if (isLoading) return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <CircularProgress />
@@ -95,7 +65,7 @@ const PropeType = () => {
                                         price={res?.end_price}
                                         whatsapp={res?.whatsapp}
                                         phone_number={res?.phone_number}
-                                        id={res?.id}
+                                        id={res?.slug?.en}
                                         agent_id={res?.agent_code}
                                         // is_favorite={res?.is_favorite}
                                         // toggleFavorite={toggleFavorite}

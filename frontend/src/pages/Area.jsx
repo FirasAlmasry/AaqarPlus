@@ -21,7 +21,7 @@ const Area = () => {
 
     let { id } = useParams()
     const [currentPage, setCurrentPage] = useState(1);
-    const { data, isLoading } = useGetAreasIdQuery({ id, lng, currentPage });
+    const { data, isLoading } = useGetAreasIdQuery({ id, currentPage, lng });
     const [tableData, setTableData] = useState([]);
     console.log("🚀 ~ Area ~ tableData:", tableData)
 
@@ -57,7 +57,7 @@ const Area = () => {
                                         price={res?.end_price}
                                         whatsapp={res?.whatsapp}
                                         phone_number={res?.phone_number}
-                                        id={res?.id}
+                                        id={res?.slug}
                                         agent_id={res?.agent_code}
                                         // is_favorite={res?.is_favorite}
                                         // toggleFavorite={toggleFavorite}

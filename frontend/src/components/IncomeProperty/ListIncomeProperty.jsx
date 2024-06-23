@@ -43,7 +43,7 @@ const ListIncomeProperty = () => {
                                 price={res?.end_price}
                                 whatsapp={res?.whatsapp}
                                 phone_number={res?.phone_number}
-                                id={res?.id}
+                                id={res?.slug}
                                 agent_id={res?.agent_code}
                                 // is_favorite={res?.is_favorite}
                                 // toggleFavorite={toggleFavorite}

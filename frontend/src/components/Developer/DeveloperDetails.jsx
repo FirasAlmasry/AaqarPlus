@@ -20,7 +20,6 @@ const DeveloperDetails = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
     const [tableData, setTableData] = useState([]);
-    console.log("🚀 ~ DeveloperDetails ~ tableData:", tableData)
     useEffect(() => {
         setIsTableDataLoading(true);
 
@@ -72,7 +71,7 @@ const DeveloperDetails = () => {
                                     <Typography 
                                         sx={{ cursor: 'pointer' }}
                                     color={'secondary.supMain'} 
-                                    onClick={() => navigate(`/property-in-area/${tableData?.area?.id}`)}>
+                                        onClick={() => navigate(`/property-in-area/${tableData?.area?.slug?.en}`)}>
                                         {lng === 'ar' ? tableData?.area?.name?.ar : tableData?.area?.name?.en}
                                     </Typography>
                                 </Box>
@@ -102,7 +101,7 @@ const DeveloperDetails = () => {
                                         price={res?.end_price}
                                         whatsapp={res?.whatsapp}
                                         phone_number={res?.phone_number}
-                                        id={res?.id}
+                                        id={res?.slug?.en}
                                     />
                                 </Box>
                             )}
@@ -132,7 +131,7 @@ const DeveloperDetails = () => {
                                                 price={res.end_price}
                                                 whatsapp={res.whatsapp}
                                                 phone_number={res.phone_number}
-                                                id={res.id}
+                                                id={res.slug?.en}
                                                 agent_id={res.agent_code}
                                                 // is_favorite={res?.is_favorite}
                                                 // toggleFavorite={toggleFavorite}

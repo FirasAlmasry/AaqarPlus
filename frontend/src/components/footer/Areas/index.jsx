@@ -25,7 +25,7 @@ const Areas = () => {
           {
             tableData?.slice(0, 6)?.map((page, i) => <Link
               key={i}
-              to={`/area/${page?.id}`}
+              to={`/area/${page?.slug}`}
               style={{
                 // fontSize: 14,
                 textTransform: 'capitalize',

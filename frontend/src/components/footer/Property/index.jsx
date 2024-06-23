@@ -27,7 +27,7 @@ const Property = () => {
                     {
                         available?.slice(0, 6)?.map((page, i) => <Link
                             key={i}
-                            to={`/property/${page?.id}`}
+                            to={`/property/${page?.slug}`}
                             style={{
                                 // fontSize: 14,
                                 textTransform: 'capitalize',

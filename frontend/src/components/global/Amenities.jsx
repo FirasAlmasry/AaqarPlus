@@ -6,10 +6,6 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const Amenities = ({ displayedAmenities, allAmenities, showAll, handleToggleShow, url, icon }) => {
-    console.log("🚀 ~ Amenities ~ displayedAmenities:", displayedAmenities)
-    console.log("🚀 ~ Amenities ~ allAmenities:", allAmenities)
-    console.log("🚀 ~ Amenities ~ icon:", icon)
-    console.log("🚀 ~ Amenities ~ url:", url)
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {displayedAmenities?.map((res) => (
