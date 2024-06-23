@@ -5,7 +5,6 @@ import {
     Stack,
     Avatar,
     Button,
-    Checkbox,
     TableRow,
     MenuItem,
     TableCell,
@@ -35,7 +34,6 @@ export default function BannersTableRow({
     onDeleteRow,
 }) {
     const { title, image, description, is_main } = row;
-    const url = `https://aqarbackend.revampbrands.com/storage/${image}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -65,7 +63,7 @@ export default function BannersTableRow({
 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={title?.ar} src={url} />
+                        <Avatar alt={title?.ar} src={image} />
 
                         <Typography variant="subtitle2" noWrap>
                             {title?.ar}

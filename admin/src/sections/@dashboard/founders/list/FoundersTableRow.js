@@ -35,7 +35,6 @@ export default function FoundersTableRow({
     onDeleteRow,
 }) {
     const { name, image, description } = row;
-    const url = `https://aqarbackend.revampbrands.com/storage/${image}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -65,7 +64,7 @@ export default function FoundersTableRow({
 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={name?.ar} src={url} />
+                        <Avatar alt={name?.ar} src={image} />
 
                         <Typography variant="subtitle2" noWrap>
                             {name?.ar}

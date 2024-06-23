@@ -5,7 +5,6 @@ import {
     // Stack,
     Avatar,
     Button,
-    Checkbox,
     TableRow,
     MenuItem,
     TableCell,
@@ -39,7 +38,7 @@ export default function AreasTableRow({
     onDeleteRow,
 }) {
     const { image, name, trending, } = row;
-    const url = `https://aqarbackend.revampbrands.com/storage/${image}`
+
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -68,7 +67,7 @@ export default function AreasTableRow({
                 </TableCell> */}
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={name.en} src={url} />
+                        <Avatar alt={name.en} src={image} />
 
                         <Typography variant="subtitle2" noWrap>
                             {name.en}

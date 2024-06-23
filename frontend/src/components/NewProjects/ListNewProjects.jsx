@@ -9,7 +9,6 @@ import { useGetPropertiesQuery } from '../../state/properties'
 import { useTranslation } from 'react-i18next'
 import CostPagination from '../global/CostPagination'
 
-const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const ListNewProjects = () => {
 
@@ -26,30 +25,6 @@ const ListNewProjects = () => {
         }
     }, [data, isLoading])
 
-    // const [propertyList, setPropertyList] = useState([])
-
-    // useEffect(() => {
-    //     if (data && !isLoading) {
-    //         const storedFavorites = localStorage.getItem('favoriteProperties')
-    //         const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
-    //         const updatedList = tableData?.map(property =>
-    //             favorites.includes(property.id) ? { ...property, is_favorite: 1 } : { ...property, is_favorite: 0 }
-    //         )
-    //         setPropertyList(updatedList)
-    //     }
-    // }, [data, tableData, isLoading])
-
-    // const toggleFavorite = (id) => {
-    //     setPropertyList(prevList => {
-    //         const updatedList = prevList.map(property =>
-    //             property.id === id ? { ...property, is_favorite: property.is_favorite === 0 ? 1 : 0 } : property
-    //         )
-    //         const favorites = updatedList.filter(property => property.is_favorite === 1).map(property => property.id)
-    //         localStorage.setItem('favoriteProperties', JSON.stringify(favorites))
-    //         return updatedList
-    //     })
-    // }
-
 
     if (isLoading) return (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -63,7 +38,7 @@ const ListNewProjects = () => {
                 <GlobalList>
                     {tableData?.map(res =>
                         <Grid item md={4} xs={12} key={res?.id}>
-                            <CardProperty img={url + res?.master_plan}
+                            <CardProperty img={res?.master_plan}
                                 name={res?.name}
                                 address={res?.area_name}
                                 num1={res?.bedrooms}

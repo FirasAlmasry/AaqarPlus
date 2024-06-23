@@ -188,18 +188,6 @@ export const BlogsEditPage = Loadable(
 export const BlogsCreatePage = Loadable(
     lazy(() => import("../pages/dashboard/blogs/BlogsCreatePage"))
 );
-// DASHBOARD: ComingSoonItems
-export const ComingSoonItemsListPage = Loadable(
-    lazy(() => import("../pages/dashboard/comingSoonItems/ComingSoonItemsListPage"))
-);
-
-export const ComingSoonItemsEditPage = Loadable(
-    lazy(() => import("../pages/dashboard/comingSoonItems/ComingSoonItemsEditPage"))
-);
-
-export const ComingSoonItemsCreatePage = Loadable(
-    lazy(() => import("../pages/dashboard/comingSoonItems/ComingSoonItemsCreatePage"))
-);
 
 // DASHBOARD: Sellers
 export const SellersListPage = Loadable(

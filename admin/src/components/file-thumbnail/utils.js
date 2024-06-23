@@ -120,7 +120,7 @@ export function fileTypeByUrl(fileUrl = '') {
 export function fileNameByUrl(fileUrl) {
   return fileUrl.split('/').pop();
 }
-const url = 'https://aqarbackend.revampbrands.com/storage/'
+
 // ----------------------------------------------------------------------
 export function fileData(imagePath) {
   
@@ -129,16 +129,16 @@ export function fileData(imagePath) {
     let key, preview, name, type;
     if (typeof imagePath?.image === 'string') {
       // If imagePath?.image exists and it's a string, use it
-      key = url + imagePath?.image;
-      preview = url + imagePath?.image;
-      name = fileNameByUrl(url + imagePath?.image);
-      type = fileTypeByUrl(url + imagePath?.image);
+      key = imagePath?.image;
+      preview = imagePath?.image;
+      name = fileNameByUrl(imagePath?.image);
+      type = fileTypeByUrl(imagePath?.image);
     } else if (typeof imagePath?.file === 'string') {
       // If imagePath?.file exists and it's a string, use it
-      key = url + imagePath?.file;
-      preview = url + imagePath?.file;
-      name = fileNameByUrl(url + imagePath?.file);
-      type = fileTypeByUrl(url + imagePath?.file);
+      key = imagePath?.file;
+      preview = imagePath?.file;
+      name = fileNameByUrl(imagePath?.file);
+      type = fileTypeByUrl(imagePath?.file);
     }
 
     return { key, preview, name, type };

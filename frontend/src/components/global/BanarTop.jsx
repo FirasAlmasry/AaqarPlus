@@ -10,7 +10,6 @@ import { useGetBannersQuery } from '../../state/banners';
 const BanarTop = () => {
     const themeM = useTheme();
     const lng = i18next.language;
-    const url = 'https://aqarbackend.revampbrands.com/storage/';
     const isMobile = useMediaQuery(themeM.breakpoints.down('sm'));
     const { data, isBrandsLoading } = useGetBannersQuery(lng);
 
@@ -27,7 +26,7 @@ const BanarTop = () => {
     return (
         <WrapperSection>
             {mainItems && mainItems.length > 0 && mainItems.map((item, index) => (
-                <Box key={index} position={'relative'} sx={{ backgroundImage: `url(${url + item.image_url})`, height: { md: '25rem', xs: '12rem' }, display: 'flex', alignItems: 'center', backgroundSize: '100% 100%', mb: 2, position: 'relative', width: '100%', }}>
+                <Box key={index} position={'relative'} sx={{ backgroundImage: `url(${item.image_url})`, height: { md: '25rem', xs: '12rem' }, display: 'flex', alignItems: 'center', backgroundSize: '100% 100%', mb: 2, position: 'relative', width: '100%', }}>
                     <div className={lng === 'en' ? "overlayBenner" : "overlayBennerar"}>
                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: { md: 3, xs: 1 }, ml: {md:4,xs:2} }}>
                             <Typography variant={isMobile ? 'body1' : 'h5'} color={'secondary.main'} sx={{ fontWeight:'bold' }}>{item.title}</Typography>

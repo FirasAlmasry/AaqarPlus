@@ -13,9 +13,8 @@ export default function AvatarPreview({ file }) {
     return null;
   }
   
-  const imgUrl = typeof file === 'string' ? `https://aqarbackend.revampbrands.com/storage/${file}` : file.preview;
+  const imgUrl = typeof file === 'string' ? `${file}` : file.preview;
   
-  // const url = `https://aqarbackend.revampbrands.com/storage/${imgUrl}`
 
   return (
     <Image

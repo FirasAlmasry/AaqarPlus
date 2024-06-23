@@ -18,7 +18,6 @@ const ListFounders = () => {
             setTableData(data?.data)
         }
     }, [data, tableData, isBrandsLoading])
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
     const { t } = useTranslation()
     return (
         <>
@@ -27,7 +26,7 @@ const ListFounders = () => {
                 <GlobalList>
                     {tableData?.map((res, i) =>
                         <Grid item md={3} xs={12} key={i} >
-                            <CardFounder dirCol={i % 2 === 0 ? 'column' : 'column-reverse'} img={url + res?.image} name={res?.name} title_job={res?.description} />
+                            <CardFounder dirCol={i % 2 === 0 ? 'column' : 'column-reverse'} img={res?.image} name={res?.name} title_job={res?.description} />
                         </Grid>
                     )}
                 </GlobalList>

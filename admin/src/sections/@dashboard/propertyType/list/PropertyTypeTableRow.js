@@ -5,7 +5,6 @@ import {
     Stack,
     Avatar,
     Button,
-    Checkbox,
     TableRow,
     MenuItem,
     TableCell,
@@ -34,10 +33,10 @@ export default function PropertyTypeTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { name, icon, parent, children } = row;
+    const { name, icon, parent } = row;
+    
     // Check if the row has children
-    const hasChildren = children.length > 0;
-    const url = `https://aqarbackend.revampbrands.com/storage/${icon}`
+    // const hasChildren = children.length > 0;
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -63,7 +62,7 @@ export default function PropertyTypeTableRow({
             <TableRow hover selected={selected}> 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={name.ar} src={url} />
+                        <Avatar alt={name.ar} src={icon} />
                         <Typography variant="subtitle2" noWrap>
                             {name.ar}
                         </Typography>

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: 'https://aqarbackend.revampbrands.com/api' });
+const axiosInstance = axios.create({ baseURL: 'https://api.aqarpluseg.com/api' });
 
 axiosInstance.interceptors.response.use(
   (response) => response,

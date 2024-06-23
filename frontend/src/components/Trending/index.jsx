@@ -13,7 +13,6 @@ import { useGetCompoundsQuery } from '../../state/compounds';
 import CardCompound from '../global/CardCompound';
 const Trending = () => {
 
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
     const { t } = useTranslation()
     const { data, isBrandsLoading } = useGetCompoundsQuery({ lng, trending: 1 });
@@ -44,7 +43,7 @@ const Trending = () => {
                         {tableData?.map(res =>
                             <Box key={res?.id} sx={{ my: 2 }}>
                                 <CardCompound
-                                    img={url + res?.main_image?.file}
+                                    img={res?.main_image?.file}
                                     name={res?.name}
                                     address={res?.address}
                                     price={res?.end_price}

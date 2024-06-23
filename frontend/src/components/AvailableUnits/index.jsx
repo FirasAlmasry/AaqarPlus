@@ -15,42 +15,15 @@ import { useNavigate } from 'react-router-dom'
 const AvailableUnits = () => {
     const navigate = useNavigate()
 
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
 
     const { data, isLoading } = useGetPropertiesQuery({ lng, coming_soon: 0 });
-    // console.log("🚀 ~ AvailableUnits ~ data:", data)
-
-    // const [isTableDataLoading, setIsTableDataLoading] = useState(true);
     const [tableData, setTableData] = useState([]);
     useEffect(() => {
         if (data && !isLoading) {
             setTableData(data?.data?.data)
         }
     }, [data, isLoading])
-    // const [propertyList, setPropertyList] = useState([])
-
-    // useEffect(() => {
-    //     if (data && !isLoading) {
-    //         const storedFavorites = localStorage.getItem('favoriteProperties')
-    //         const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
-    //         const updatedList = tableData.map(property =>
-    //             favorites.includes(property.id) ? { ...property, is_favorite: 1 } : { ...property, is_favorite: 0 }
-    //         )
-    //         setPropertyList(updatedList)
-    //     }
-    // }, [data, tableData, isLoading])
-
-    // const toggleFavorite = (id) => {
-    //     setPropertyList(prevList => {
-    //         const updatedList = prevList.map(property =>
-    //             property.id === id ? { ...property, is_favorite: property.is_favorite === 0 ? 1 : 0 } : property
-    //         )
-    //         const favorites = updatedList.filter(property => property.is_favorite === 1).map(property => property.id)
-    //         localStorage.setItem('favoriteProperties', JSON.stringify(favorites))
-    //         return updatedList
-    //     })
-    // }
     const { t } = useTranslation()
 
     if (isLoading) return (
@@ -66,7 +39,7 @@ const AvailableUnits = () => {
                         <MultiItemSlider>
                         {tableData?.map(res =>
                             <Box key={res?.id} sx={{ my: 2 }}>
-                                <CardProperty img={url + res?.master_plan}
+                                <CardProperty img={res?.master_plan}
                                     name={res?.name}
                                     address={res?.address}
                                     num1={res?.bedrooms}

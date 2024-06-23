@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const LaunchingSoon = () => {
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
+    
     let lng = i18next.language
 
     const { data, isBrandsLoading } = useGetCompoundsQuery({ lng, coming_soon: 1 });
@@ -50,7 +50,7 @@ const LaunchingSoon = () => {
                                         {tableData?.map(res =>
                                             <Box key={res?.id} sx={{ my: 2 }}>
                                                 <CardCompound
-                                                    img={url + res?.main_image?.file}
+                                                    img={res?.main_image?.file}
                                                     name={res?.name}
                                                     address={res?.address}
                                                     price={res?.end_price}

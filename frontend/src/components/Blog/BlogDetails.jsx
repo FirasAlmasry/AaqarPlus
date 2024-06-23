@@ -11,8 +11,6 @@ import { useTranslation } from 'react-i18next'
 
 const BlogDetails = () => {
 
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
-
     let lng = i18next.language
     let { id } = useParams()
     const { data, isBrandsLoading } = useGetBlogsIdQuery({ lng, id });
@@ -30,7 +28,7 @@ const BlogDetails = () => {
                     <Grid item md={5} xs={12} >
                         <Box sx={{ position:'sticky', top:'15%' }} >
                             <CardBlogs
-                                img={url + tableData?.main_image}
+                                img={tableData?.main_image}
                                 title={tableData?.name}
                                 type={tableData?.date}
                                 date={tableData?.time}
@@ -43,7 +41,7 @@ const BlogDetails = () => {
                                             component={'img'}
                                                 sx={{ height: 160, width: 160, borderRadius: '16px', }}
                                                 loading='lazy'
-                                                src={url + res?.image}
+                                                src={res?.image}
                                                 title="green iguana" />
                                         </Box>
                                     </Box>)}

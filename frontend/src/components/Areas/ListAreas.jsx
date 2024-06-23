@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next'
 import EmptyContent from '../global/EmptyContent'
 import CostPagination from '../global/CostPagination'
 
-const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const ListAreas = () => {
     let lng = i18next.language
@@ -46,7 +45,7 @@ const ListAreas = () => {
                         <GlobalList>
                             {tableData?.map(res =>
                                 <Grid item md={4} xs={12} key={res?.id}>
-                                    <CardArea img={url + res?.image}
+                                    <CardArea img={res?.image}
                                         title={res?.name}
                                         lengthCompounds={res?.total_compounds}
                                         lengthDevelopers={res?.total_developers}

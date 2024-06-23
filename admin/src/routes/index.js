@@ -59,11 +59,6 @@ import {
     BlogsCreatePage,
     BlogsEditPage,
 
-    // ComingSoonItems
-    ComingSoonItemsListPage,
-    ComingSoonItemsCreatePage,
-    ComingSoonItemsEditPage,
-
     // Sellers
     SellersListPage,
     SellersCreatePage,
@@ -351,20 +346,7 @@ export default function Router() {
                         { path: ":name/edit", element: <BlogsEditPage /> },
                     ],
                 },
-                {
-                    path: "comingSoonItems",
-                    children: [
-                        {
-                            element: (
-                                <Navigate to="/dashboard/comingSoonItems/list" replace />
-                            ),
-                            index: true,
-                        },
-                        { path: "list", element: <ComingSoonItemsListPage /> },
-                        { path: "new", element: <ComingSoonItemsCreatePage /> },
-                        { path: ":name/edit", element: <ComingSoonItemsEditPage /> },
-                    ],
-                },
+
                 {
                     path: "sellers",
                     children: [

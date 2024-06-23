@@ -5,7 +5,6 @@ import {
     // Stack,
     Avatar,
     Button,
-    Checkbox,
     TableRow,
     MenuItem,
     TableCell,
@@ -38,12 +37,12 @@ export default function DevelopersTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { images, name, bio_title, bio_description, top_project_title, top_project_description, area_id, } = row;
-    const url = `https://aqarbackend.revampbrands.com/storage/${images?.[0]?.file}`
+    const { images, name, area_id, } = row;
+
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
-    const { data: areas, isCoinsLoading } = useGetAreasIdQuery(area_id);
+    const { data: areas, isLoading } = useGetAreasIdQuery(area_id);
     const area_name = areas?.data?.name?.en
     const handleOpenConfirm = () => {
         setOpenConfirm(true);
@@ -64,51 +63,18 @@ export default function DevelopersTableRow({
     return (
         <>
             <TableRow hover selected={selected}>
-                {/* <TableCell padding="checkbox">
-                    <Checkbox checked={selected} onClick={onSelectRow} />
-                </TableCell> */}
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={name.en} src={url} />
+                        <Avatar alt={name.en} src={images?.[0]?.file} />
 
                         <Typography variant="subtitle2" noWrap>
                             {`${name.ar.slice(0, 20)}...`}
                         </Typography>
                     </Stack>
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${name.ar.slice(0, 20)}...`}
-                </TableCell> */}
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${bio_title.en.slice(0, 20)}}...`}
-                </TableCell> */}
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${bio_title.ar.slice(0, 20)}}...`}
-                </TableCell> */}
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${bio_description.en.slice(0, 10)}...`}
-                </TableCell>
-                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${bio_description.ar.slice(0, 10)}...`}
-                </TableCell> */}
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${top_project_title.en.slice(0, 10)}}...`}
-                </TableCell> */}
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${top_project_title.ar.slice(0, 20)}}...`}
-                </TableCell> */}
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${top_project_description.en.slice(0, 10)}...`}
-                </TableCell>
-                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${top_project_description.ar.slice(0, 10)}...`}
-                </TableCell> */}
                 <TableCell align="center" sx={{ textTransform: "capitalize" }}>
                     {area_name}
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {compounds.length > 0 ? compounds[0] : 'No Compounds View' }
-                </TableCell> */}
                 <TableCell align="right">
                     <IconButton
                         color={openPopover ? "inherit" : "default"}

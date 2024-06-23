@@ -8,7 +8,6 @@ import { Box, CardMedia } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Slider from '../global/Slider';
 const BoxDrawer = ({ setDrawer, drawer, tableData, selectedBox }) => {
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
     const extractSrcFromIframe = (iframeText) => {
         const regex = /src="([^"]+)"/;
@@ -23,7 +22,7 @@ const BoxDrawer = ({ setDrawer, drawer, tableData, selectedBox }) => {
         if (type === 'IMAGE') {
             return (
                 <CardMedia
-                    src={url + link}
+                    src={link}
                     component="img"
                     alt="image"
                     loading='lazy'
@@ -39,7 +38,7 @@ const BoxDrawer = ({ setDrawer, drawer, tableData, selectedBox }) => {
         } else if (type === 'VIDEO') {
             return (
                 <video controls style={{ height: '400px', borderRadius: '18px', width: '100%', position: 'relative', zIndex: 99 }} autoPlay >
-                    <source src={url + link} type="video/mp4" />
+                    <source src={link} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
             );
@@ -68,13 +67,13 @@ const BoxDrawer = ({ setDrawer, drawer, tableData, selectedBox }) => {
                 <Box sx={{ width: '100%', height: '100%', margin:'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {selectedBox === 'image_floor_plan' &&
                         <CardMedia loading='lazy' alt="green iguana" component={'img'}
-                            src={url + tableData?.image_floor_plan}
+                            src={tableData?.image_floor_plan}
                             sx={{ objectFit: 'contain', }}
                         />
                     }
                     {selectedBox === 'master_plan' &&
                         <CardMedia loading='lazy' alt="green iguana" component={'img'}
-                            src={url + tableData?.master_plan}
+                            src={tableData?.master_plan}
                         sx={{objectFit: 'contain', }}
                         />
                     }
@@ -82,7 +81,7 @@ const BoxDrawer = ({ setDrawer, drawer, tableData, selectedBox }) => {
                         <Slider nav='true'>
                             {tableData?.files?.map(img => renderMedia(img?.file, img?.type))}
                             {/* {tableData?.files?.map(img =>
-                                <CardMedia key={img?.id} src={url + img?.file}
+                                <CardMedia key={img?.id} src={img?.file}
                                     component="img"
                                     height="auto"
                                     alt="green iguana"

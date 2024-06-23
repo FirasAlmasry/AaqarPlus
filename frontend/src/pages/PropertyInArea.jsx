@@ -12,7 +12,6 @@ import { useGetAreasIdQuery } from '../state/areas'
 import EmptyContent from '../components/global/EmptyContent'
 import CostPagination from '../components/global/CostPagination'
 
-const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const PropertyInArea = () => {
     let { id } = useParams()
@@ -47,7 +46,7 @@ const PropertyInArea = () => {
                         <GlobalList>
                             {tableData?.map(res =>
                                 <Grid item md={4} xs={12} key={res?.id}>
-                                    <CardProperty img={url + res?.master_plan}
+                                    <CardProperty img={res?.master_plan}
                                         name={res?.name}
                                         address={res?.address}
                                         num1={res?.bedrooms}

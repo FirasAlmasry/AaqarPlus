@@ -1,15 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     mode: 'cors',
-    baseUrl: 'https://aqarbackend.revampbrands.com/api',
-    prepareHeaders: (headers, { getState }) => {
-      // headers.set('Authorization', `Bearer ${localStorage.getItem('accessToken')}`) 
+    baseUrl: 'https://api.aqarpluseg.com/api',
+    prepareHeaders: (headers, { getState }) => { 
       headers.set("Accept", "application/json") 
       headers.set("Cache-Control", "no-cache");
-      // headers.set('Authorization', `Bearer 47|kXdXMgngSi7fwPF4L2icZXAbSwUCdPcUqASPW8HI219bd80b`)
       return headers
     } 
   }),

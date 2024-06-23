@@ -38,7 +38,6 @@ export default function FinishingTableRow({
     onDeleteRow,
 }) {
     const { name, is_active, } = row;
-    // const url = `https://aqarbackend.revampbrands.com/storage/${image}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);

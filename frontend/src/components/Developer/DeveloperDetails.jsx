@@ -14,13 +14,13 @@ import { useTranslation } from 'react-i18next'
 import CardProperty from '../global/CardProperty'
 
 const DeveloperDetails = () => {
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
     let { id } = useParams()
     const { data, isLoading } = useGetDevelopersIdQuery({ id, lng });
     const navigate = useNavigate()
     const { t } = useTranslation()
     const [tableData, setTableData] = useState([]);
+    console.log("🚀 ~ DeveloperDetails ~ tableData:", tableData)
     useEffect(() => {
         setIsTableDataLoading(true);
 
@@ -44,7 +44,7 @@ const DeveloperDetails = () => {
                         <Slider>
                             {
                                 tableData?.files?.map((image) =>
-                                    <CardMedia src={url + image?.file} component="img"
+                                    <CardMedia src={image?.file} component="img"
                                         height="auto"
                                         alt="green iguana"
                                         loading='lazy'
@@ -96,7 +96,7 @@ const DeveloperDetails = () => {
                             {tableData?.compounds?.map(res =>
                                 <Box key={res?.id} sx={{ my: 2 }}>
                                     <CardCompound
-                                        img={url + res?.image_location}
+                                        img={res?.image_location}
                                         name={lng === 'ar' ? res?.name?.ar : res?.name?.en}
                                         address={lng === 'ar' ? res?.address?.ar : res?.address?.en}
                                         price={res?.end_price}
@@ -121,7 +121,7 @@ const DeveloperDetails = () => {
                                     {Object.values(tableData?.properties).map((res, index) => (
                                         <Box key={index} sx={{ my: 2 }}>
                                             <CardProperty
-                                                img={url + res.master_plan}
+                                                img={res.master_plan}
                                                 name={lng === 'en' ? res.name.en : res.name.ar}
                                                 address={lng === 'en' ? res.address.en : res.address.ar}
                                                 num1={res.bedrooms}

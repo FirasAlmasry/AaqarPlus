@@ -21,14 +21,12 @@ import MultiItemSlider from '../global/MultiItemSlider'
 import Amenities from '../global/Amenities'
 import IframeDisplay from '../global/IframeDisplay'
 
-const url = 'https://aqarbackend.revampbrands.com/storage/'
-
 const renderMedia = (link, type) => {
     if (type === 'IMAGE') {
         return (
             <CardMedia
                 key={link}
-                src={url + link}
+                src={link}
                 component="img"
                 loading='lazy'
                 alt="image"
@@ -44,7 +42,7 @@ const renderMedia = (link, type) => {
     } else if (type === 'VIDEO') {
         return (
             <video controls style={{ height: '400px', borderRadius: '18px', width: '100%', position: 'relative', zIndex: 99 }} autoPlay >
-                <source src={url + link} type="video/mp4" />
+                <source src={link} type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
         );
@@ -69,28 +67,6 @@ const PropertyDetails = () => {
     const handleToggleShow = () => {
         setShowAll(prevShowAll => !prevShowAll);
     };
-    // const [propertyList, setPropertyList] = useState([])
-    // useEffect(() => {
-    //     if (data && !isLoading) {
-    //         const storedFavorites = localStorage.getItem('favoriteProperties')
-    //         const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
-    //         const updatedList = tableData?.similar_properties?.map(property =>
-    //             favorites.includes(property.id) ? { ...property, is_favorite: 1 } : { ...property, is_favorite: 0 }
-    //         )
-    //         setPropertyList(updatedList)
-    //     }
-    // }, [tableData ,data, isLoading])
-
-    // const toggleFavorite = (id) => {
-    //     setPropertyList(prevList => {
-    //         const updatedList = prevList.map(property =>
-    //             property.id === id ? { ...property, is_favorite: property.is_favorite === 0 ? 1 : 0 } : property
-    //         )
-    //         const favorites = updatedList.filter(property => property.is_favorite === 1).map(property => property.id)
-    //         localStorage.setItem('favoriteProperties', JSON.stringify(favorites))
-    //         return updatedList
-    //     })
-    // }
     const displayedAmenities = tableData?.amenities?.slice(0, 3);
     const allAmenities = tableData?.amenities?.slice(3);
 
@@ -126,7 +102,6 @@ const PropertyDetails = () => {
                                 allAmenities={allAmenities}
                                 showAll={showAll}
                                 handleToggleShow={handleToggleShow}
-                                url={url}
                                 icon={icon}
                             />
                         </Details>
@@ -184,7 +159,7 @@ const PropertyDetails = () => {
                         tableData?.similar_properties && <MultiItemSlider>
                             {tableData?.similar_properties?.slice(0, 5)?.map(res =>
                                 <Box key={res?.id} sx={{ my: 2 }}>
-                                    <CardProperty img={url + res?.master_plan}
+                                    <CardProperty img={res?.master_plan}
                                         name={lng === 'en' ? res?.name?.en : res?.name.ar}
                                         address={lng === 'en' ? res?.address?.en : res?.address.ar}
                                         num1={res?.bedrooms}

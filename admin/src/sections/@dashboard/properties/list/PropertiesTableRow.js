@@ -3,9 +3,7 @@ import { useState } from "react";
 // @mui
 import {
     Stack,
-    Avatar,
     Button,
-    Checkbox,
     TableRow,
     MenuItem,
     TableCell,
@@ -16,7 +14,6 @@ import {
 import Iconify from "../../../../components/iconify";
 import MenuPopover from "../../../../components/menu-popover";
 import ConfirmDialog from "../../../../components/confirm-dialog";
-import { useGetCoinsQuery } from "../../../../state/coins";
 
 // ----------------------------------------------------------------------
 
@@ -40,19 +37,13 @@ export default function PropertiesTableRow({
     const {
         name,
         agent_code,
-        address,
-        whatsapp,
-        phone_number,
         start_price,
         end_price,
         house_area,
         ref_number,
         bedrooms,
         bathrooms,
-        description,
-        payment_plans_title,
-        id } = row;
-    // const url = `https://aqarbackend.revampbrands.com/storage/${image_floor_plan}`
+        slug } = row;
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -72,7 +63,7 @@ export default function PropertiesTableRow({
         setOpenPopover(null);
     };
     const handleClick = () => {
-        window.open(`https://aqarpluseg.com/property/${id}`, '_blank');
+        window.open(`https://aqarpluseg.com/property/${slug?.en}`, '_blank');
     };
     return (
         <>
@@ -90,22 +81,6 @@ export default function PropertiesTableRow({
                         </Typography>
                     </Stack>
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${name.ar.slice(0, 10)}...`}
-                </TableCell> */}
-
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${address.ar.slice(0, 10)}...`}
-                </TableCell> */}
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${address.en.slice(0, 10)}}...`}
-                </TableCell> */}
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${whatsapp.slice(0, 10)}...`}
-                </TableCell>
-                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${phone_number.slice(0, 10)}...`}
-                </TableCell> */}
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {`${start_price}`}
                 </TableCell>
@@ -122,18 +97,6 @@ export default function PropertiesTableRow({
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {`${bathrooms}`}
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${description.en}...`}
-                </TableCell>
-                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${description.ar.slice(0, 10)}...`}
-                </TableCell>
-                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${payment_plans_title.en.slice(0, 10)}...`}
-                </TableCell>
-                <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {`${payment_plans_title.ar.slice(0, 10)}...`}
-                </TableCell> */}
                 <TableCell align="right">
                     <IconButton
                         color={openPopover ? "inherit" : "default"}

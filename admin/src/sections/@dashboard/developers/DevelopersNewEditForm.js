@@ -137,7 +137,6 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
     const {
         reset,
         watch,
-        control,
         setValue,
         handleSubmit,
         formState: { isSubmitting },
@@ -196,9 +195,9 @@ export default function DevelopersNewEditForm({ isEdit = false, currentDeveloper
                     await addDevelopers(formData).unwrap()
             }
             reset();
-            refetch()
             enqueueSnackbar(!isEdit ? "Create success!" : "Update success!");
             navigate(PATH_DASHBOARD.developers.list);
+            refetch()
         } catch (error) {
             const errorMessage = error.data.message || 'An error occurred';
             enqueueSnackbar(errorMessage, { variant: 'error' });

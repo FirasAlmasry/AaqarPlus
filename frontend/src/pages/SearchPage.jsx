@@ -13,7 +13,6 @@ import EmptyContent from '../components/global/EmptyContent'
 import Search from '../components/global/Search'
 import CostPagination from '../components/global/CostPagination'
 
-const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const SearchPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -88,7 +87,7 @@ const SearchPage = () => {
                             {tableData?.map(res =>
                                 <Grid item md={4} xs={12} key={res.id}>
                                     <CardProperty
-                                        img={url + res.master_plan}
+                                        img={res.master_plan}
                                         name={res.name}
                                         address={res.area_name}
                                         num1={res.bedrooms}

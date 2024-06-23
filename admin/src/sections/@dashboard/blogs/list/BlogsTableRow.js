@@ -5,7 +5,6 @@ import {
     Stack,
     Avatar,
     Button,
-    Checkbox,
     TableRow,
     MenuItem,
     TableCell,
@@ -34,8 +33,8 @@ export default function BlogsTableRow({
     onSelectRow,
     onDeleteRow,
 }) {
-    const { name,  small_text,  large_text, images } = row;
-    const url = `https://aqarbackend.revampbrands.com/storage/${images[0]?.image}`
+    const { name,  small_text,  images } = row;
+
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -65,7 +64,7 @@ export default function BlogsTableRow({
 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={name?.ar} src={url} />
+                        <Avatar alt={name?.ar} src={images[0]?.image} />
                         <Typography variant="subtitle2" noWrap>
                             {name?.ar}
                         </Typography>

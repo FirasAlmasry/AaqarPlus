@@ -9,7 +9,7 @@ import { useGetDevelopersQuery } from '../../state/developers'
 import { useTranslation } from 'react-i18next'
 import EmptyContent from '../global/EmptyContent'
 import CostPagination from '../global/CostPagination'
-const url = 'https://aqarbackend.revampbrands.com/storage/'
+
 const ListDevelopers = () => {
     let lng = i18next.language
     const { t } = useTranslation()
@@ -39,7 +39,7 @@ const ListDevelopers = () => {
                             {tableData?.map(res =>
                                 <Grid item md={4} xs={12} key={res.id} >
                                     <CardDevelopers
-                                        img={url + res?.main_image?.file}
+                                        img={res?.main_image?.file}
                                         title={res?.name}
                                         length={res?.compounds?.length}
                                         id={res?.id}

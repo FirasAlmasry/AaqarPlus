@@ -43,7 +43,6 @@ BannersNewEditForm.propTypes = {
 };
 
 export default function BannersNewEditForm({ isEdit = false, currentService }) {
-    console.log("🚀 ~ BannersNewEditForm ~ currentService:", currentService)
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
@@ -142,7 +141,7 @@ export default function BannersNewEditForm({ isEdit = false, currentService }) {
             enqueueSnackbar(!isEdit ? "Create success!" : "Update success!");
             navigate(PATH_DASHBOARD.banners.list);
         } catch (error) {
-            const errorMessage = error.data.error || 'An error occurred';
+            const errorMessage = error.data.image || 'An error occurred';
             enqueueSnackbar(errorMessage, { variant: 'error' });
             console.error(error);
         }

@@ -10,7 +10,6 @@ import { useGetCompoundsQuery } from '../state/compounds';
 import CardCompound from '../components/global/CardCompound';
 import CostPagination from '../components/global/CostPagination';
 
-const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const AllLaunchingSoon = () => {
 
@@ -41,7 +40,7 @@ const AllLaunchingSoon = () => {
                     {tableData?.map(res =>
                         <Grid item md={4} xs={12} key={res?.id}>
                             <CardCompound
-                                img={url + res?.main_image?.file}
+                                img={res?.main_image?.file}
                                 name={res?.name}
                                 address={res?.address}
                                 price={res?.end_price}

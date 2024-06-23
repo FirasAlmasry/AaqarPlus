@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     mode: 'cors',
-    baseUrl: 'https://aqarbackend.revampbrands.com/api/admin',
+    baseUrl: 'https://api.aqarpluseg.com/api/admin',
     prepareHeaders: (headers, { getState }) => {
       headers.set('Authorization', `Bearer ${localStorage.getItem('accessToken')}`) 
       headers.set("Accept", "application/json") 

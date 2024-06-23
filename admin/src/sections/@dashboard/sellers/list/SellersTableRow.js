@@ -35,7 +35,6 @@ export default function SellersTableRow({
     onDeleteRow,
 }) {
     const { title, imageUrl, cloudinary_id } = row;
-    const url = `https://aqarbackend.revampbrands.com/storage/${imageUrl}`
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const [openPopover, setOpenPopover] = useState(null);
@@ -65,25 +64,16 @@ export default function SellersTableRow({
 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={title?.ar} src={url} />
+                        <Avatar alt={title?.ar} src={imageUrl} />
 
                         <Typography variant="subtitle2" noWrap>
                             {title?.ar}
                         </Typography>
                     </Stack>
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {
-                        description?.ar ?
-                            description?.ar : description?.en
-                    }
-                </TableCell> */}
                 <TableCell align="left" sx={{ textTransform: "capitalize" }}>
                     {cloudinary_id}
                 </TableCell>
-                {/* <TableCell align="left" sx={{ textTransform: "capitalize" }}>
-                    {type?.title?.ar ? type?.title?.ar : type?.title?.en}
-                </TableCell> */}
                 <TableCell align="right">
                     <IconButton
                         color={openPopover ? "inherit" : "default"}

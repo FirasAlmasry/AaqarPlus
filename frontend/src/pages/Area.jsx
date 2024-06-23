@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next'
 import CardProperty from '../components/global/CardProperty'
 import CostPagination from '../components/global/CostPagination'
 
-const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const Area = () => {
 
@@ -47,7 +46,7 @@ const Area = () => {
                         <GlobalList>
                             {tableData?.properties?.map(res =>
                                 <Grid item md={4} xs={12} key={res.id} >
-                                    <CardProperty img={url + res?.master_plan}
+                                    <CardProperty img={res?.master_plan}
                                         name={res?.name}
                                         address={res?.address}
                                         num1={res?.bedrooms}

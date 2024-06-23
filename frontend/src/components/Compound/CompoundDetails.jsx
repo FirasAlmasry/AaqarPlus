@@ -17,8 +17,6 @@ import MultiItemSlider from '../global/MultiItemSlider'
 import Amenities from '../global/Amenities'
 import IframeDisplay from '../global/IframeDisplay'
 
-const url = 'https://aqarbackend.revampbrands.com/storage/'
-
 const CompoundDetails = () => {
 
     let lng = i18next.language
@@ -40,29 +38,6 @@ const CompoundDetails = () => {
 
     const displayedAmenities = tableData?.attacheds?.slice(0, 3);
     const allAmenities = tableData?.attacheds?.slice(3);
-    // const [propertyList, setPropertyList] = useState([])
-
-    // useEffect(() => {
-    //     if (tableData?.properties?.length > 0) {
-    //         const storedFavorites = localStorage.getItem('favoriteProperties')
-    //         const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
-    //         const updatedList = tableData?.properties?.map(property =>
-    //             favorites.includes(property.id) ? { ...property, is_favorite: 1 } : { ...property, is_favorite: 0 }
-    //         )
-    //         setPropertyList(updatedList)
-    //     }
-    // }, [data, tableData, isLoading])
-
-    // const toggleFavorite = (id) => {
-    //     setPropertyList(prevList => {
-    //         const updatedList = prevList.map(property =>
-    //             property.id === id ? { ...property, is_favorite: property.is_favorite === 0 ? 1 : 0 } : property
-    //         )
-    //         const favorites = updatedList.filter(property => property.is_favorite === 1).map(property => property.id)
-    //         localStorage.setItem('favoriteProperties', JSON.stringify(favorites))
-    //         return updatedList
-    //     })
-    // }
 
     if (isLoading) return (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CircularProgress />
@@ -76,7 +51,7 @@ const CompoundDetails = () => {
                 <Grid item md={6} xs={12} >
                     <Slider>
                         {tableData?.files?.map(img =>
-                            <CardMedia key={img?.id} src={url + img?.file} component="img"
+                            <CardMedia key={img?.id} src={img?.file} component="img"
                                 height="auto"
                                 alt="green iguana"
                                 loading='lazy'
@@ -103,7 +78,6 @@ const CompoundDetails = () => {
                             allAmenities={allAmenities}
                             showAll={showAll}
                             handleToggleShow={handleToggleShow}
-                            url={url}
                             icon={icon}
                         />
                     </Details>
@@ -128,7 +102,7 @@ const CompoundDetails = () => {
                         <MultiItemSlider>
                             {tableData?.properties?.map(res =>
                                 <Box key={res?.id} sx={{ my: 2 }}>
-                                    <CardProperty img={url + res?.master_plan}
+                                    <CardProperty img={res?.master_plan}
                                         name={lng === 'ar' ? res?.name?.ar : res?.name?.en}
                                         address={lng === 'ar' ? res?.address?.ar : res?.address?.en}
                                         num1={res?.bedrooms}

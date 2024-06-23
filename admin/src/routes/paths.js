@@ -118,12 +118,7 @@ export const PATH_DASHBOARD = {
         list: path(ROOTS_DASHBOARD, "/blogs/list"),
         edit: (name) => path(ROOTS_DASHBOARD, `/blogs/${name}/edit`),
     },
-    comingSoonItems : {
-        root: path(ROOTS_DASHBOARD, "/comingSoonItems"),
-        new: path(ROOTS_DASHBOARD, "/comingSoonItems/new"),
-        list: path(ROOTS_DASHBOARD, "/comingSoonItems/list"),
-        edit: (name) => path(ROOTS_DASHBOARD, `/comingSoonItems/${name}/edit`),
-    },
+    
     sellers : {
         root: path(ROOTS_DASHBOARD, "/sellers"),
         new: path(ROOTS_DASHBOARD, "/sellers/new"),

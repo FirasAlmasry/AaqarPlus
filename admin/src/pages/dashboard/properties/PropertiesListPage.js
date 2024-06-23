@@ -17,7 +17,6 @@ import {
     TableContainer,
     Box,
     Pagination,
-    TablePagination,
     Typography,
     Select,
     MenuItem
@@ -50,7 +49,6 @@ import {
 } from "../../../sections/@dashboard/properties/list";
 import { useDeletePropertiesMutation, useGetPropertiesQuery } from "../../../state/properties";
 import { useSnackbar } from "notistack";
-import { Stack } from "@mui/system";
 
 // ----------------------------------------------------------------------
 
@@ -66,20 +64,11 @@ const TABLE_HEAD = [
     { id: "ref_number", label: "Ref Number", align: "left" },
     { id: "agent_code", label: "Agent Code", align: "left" },
     { id: "nameAr", label: "nameAr ", align: "left" },
-    // { id: "nameEn", label: "nameEn", align: "left" },
-    // { id: "addressAr", label: "addressAr", align: "left" },
-    // { id: "addressEn", label: "addressEn", align: "left" },
-    // { id: "whatsapp", label: "whatsapp", align: "left" },
-    // { id: "phone_number", label: "phone", align: "left" },
     { id: "start_price", label: "Start Price", align: "left" },
     { id: "end_price", label: "End Price", align: "left" },
     { id: "house_area", label: "House Area", align: "left" },
     { id: "bedrooms", label: "Bedrooms", align: "left" },
     { id: "bathrooms", label: "Bathrooms", align: "left" },
-    // { id: "descriptionAr", label: "descriptionAr", align: "left" },
-    // { id: "descriptionEn", label: "descriptionEn", align: "left" },
-    // { id: "payment_plansAr", label: "payment_plansAr", align: "left" },
-    // { id: "payment_plansEn", label: "payment_plansEn", align: "left" },
     { id: "", label: "", align: "left" },
 ];
 // ----------------------------------------------------------------------
@@ -99,9 +88,6 @@ export default function PropertiesListPage() {
         onSelectAllRows,
         //
         onSort,
-        onChangeDense,
-        onChangePage,
-        onChangeRowsPerPage,
     } = useTable();
 
     const { themeStretch } = useSettingsContext();
@@ -126,9 +112,7 @@ export default function PropertiesListPage() {
         setCurrentPage(1); // عندما يتم تغيير عدد العناصر في كل صفحة، يجب عليك إعادة تعيين الصفحة الحالية إلى الصفحة الأولى
     };
     const [tableData, setTableData] = useState([]);
-    console.log("🚀 ~ PropertiesListPage ~ tableData:", tableData)
     const { data, isPropertiesLoading } = useGetPropertiesQuery({ onlyTrashed: 'false', currentPage, limit: rowsPerPage, ref_number: filterName });
-    console.log("🚀 ~ PropertiesListPage ~ data:", data)
 
     useEffect(() => {
         if (data && !isPropertiesLoading) {

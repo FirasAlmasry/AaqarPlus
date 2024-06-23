@@ -194,18 +194,8 @@ const navConfig = [
                 icon: ICONS.file,
                 children: [
                     { title: "list", path: PATH_DASHBOARD.contactUs.list },
-                    // { title: "create", path: PATH_DASHBOARD.contactUs.new },
                 ],
             },
-            // {
-            //     title: "comingSoonItems",
-            //     path: PATH_DASHBOARD.comingSoonItems.root,
-            //     icon: ICONS.label,
-            //     children: [
-            //         { title: "list", path: PATH_DASHBOARD.comingSoonItems.list },
-            //         { title: "create", path: PATH_DASHBOARD.comingSoonItems.new },
-            //     ],
-            // },
             // {
             //     title: "sellers",
             //     path: PATH_DASHBOARD.sellers.root,

@@ -13,7 +13,6 @@ import EmptyContent from '../components/global/EmptyContent'
 import Filter from '../components/PropeType/Filter'
 import CostPagination from '../components/global/CostPagination'
 
-const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const PropeType = () => {
 
@@ -85,7 +84,7 @@ const PropeType = () => {
                         <GlobalList>
                             {filteredProperties?.map(res =>
                                 <Grid item md={4} xs={12} key={res?.id}>
-                                    <CardProperty img={url + res?.master_plan}
+                                    <CardProperty img={res?.master_plan}
                                         name={lng === 'en' ? res?.name.en : res?.name.ar}
                                         address={lng === 'en' ? res?.address.en : res?.address.ar}
                                         num1={res?.bedrooms}

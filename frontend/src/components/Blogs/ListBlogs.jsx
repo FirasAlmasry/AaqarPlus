@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next'
 import EmptyContent from '../global/EmptyContent'
 import CostPagination from '../global/CostPagination'
 
-const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const ListBlogs = () => {
     let lng = i18next.language
@@ -42,7 +41,7 @@ const ListBlogs = () => {
                         <GlobalList>
                             {tableData?.map((res, i) =>
                                 <Grid item md={4} xs={12} key={i} onClick={() => navigate(`/blog/${res?.id}`)} >
-                                    <CardBlogs img={url + res?.main_image} title={res?.name} type={res?.date} date={res?.time} />
+                                    <CardBlogs img={res?.main_image} title={res?.name} type={res?.date} date={res?.time} />
                                 </Grid>
                             )}
                         </GlobalList>

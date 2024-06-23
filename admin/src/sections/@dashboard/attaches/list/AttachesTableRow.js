@@ -5,7 +5,6 @@ import {
     Stack,
     Avatar,
     Button,
-    Checkbox,
     TableRow,
     MenuItem,
     TableCell,
@@ -35,7 +34,6 @@ export default function AttachesTableRow({
     onDeleteRow,
 }) {
     const { name, icon} = row;
-    const url = `https://aqarbackend.revampbrands.com/storage/${icon}`
     const [openConfirm, setOpenConfirm] = useState(false);
     const [openPopover, setOpenPopover] = useState(null);
 
@@ -64,7 +62,7 @@ export default function AttachesTableRow({
 
                 <TableCell>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={name.en} src={url} />
+                        <Avatar alt={name.en} src={icon} />
 
                         <Typography variant="subtitle2" noWrap>
                             {name.en}

@@ -16,14 +16,13 @@ const ListNews = () => {
             setTableData(data?.data)
         }
     }, [data, tableData, isBrandsLoading])
-    const url = 'https://aqarbackend.revampbrands.com/storage/'
 
     return (
         <>
             <GlobalList>
                 {tableData?.map((res, i) =>
                     <Grid item md={4} xs={12} key={i}>
-                        <CardNews img={url + res?.image} title={res?.name} data={`${res?.description?.slice(0, 25)}...`} />
+                        <CardNews img={res?.image} title={res?.name} data={`${res?.description?.slice(0, 25)}...`} />
                     </Grid>
                 )}
             </GlobalList>

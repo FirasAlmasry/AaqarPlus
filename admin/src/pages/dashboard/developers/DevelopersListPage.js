@@ -88,9 +88,6 @@ export default function DevelopersListPage() {
         onSelectAllRows,
         //
         onSort,
-        onChangeDense,
-        onChangePage,
-        onChangeRowsPerPage,
     } = useTable();
 
     const { themeStretch } = useSettingsContext();
@@ -219,8 +216,8 @@ export default function DevelopersListPage() {
 
     const handleEditRow = (id) => {
         id = String(id);
-        refetch();
         navigate(PATH_DASHBOARD.developers.edit(paramCase(id)));
+        refetch();
     };
 
     const handleResetFilter = () => {
