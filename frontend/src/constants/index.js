@@ -80,11 +80,11 @@ export const Pages = [
                 name:`تواصل معنا`,
                 name_en:`Contact Us`
         },
-        // {
-        //         path: `favorites`,
-        //         name:`المشاريع`,
-        //         name_en:`Favorites`
-        // },
+        {
+                path: `favorites`,
+                name:`المفضلة`,
+                name_en:`Favorites`
+        },
         
 ]
 export const auth = [

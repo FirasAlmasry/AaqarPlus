@@ -9,7 +9,7 @@ export const ApiAuth = api.injectEndpoints({
             providesTags: ["countries"],
         }),
         getCountryId: build.query({
-            query: ({ id, lng, currentPage }) => `/countries/${id}?page=${currentPage}&local=${lng}`,
+            query: ({ id, lng, currentPage }) => `/countries/${id}?page=${currentPage}&local=${lng}&type=invest`,
             providesTags: ["countries"],
         }),
     }),

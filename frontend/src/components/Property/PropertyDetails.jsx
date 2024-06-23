@@ -27,8 +27,10 @@ const renderMedia = (link, type) => {
     if (type === 'IMAGE') {
         return (
             <CardMedia
+                key={link}
                 src={url + link}
                 component="img"
+                loading='lazy'
                 alt="image"
                 sx={{
                     height: '400px',
@@ -67,11 +69,32 @@ const PropertyDetails = () => {
     const handleToggleShow = () => {
         setShowAll(prevShowAll => !prevShowAll);
     };
+    // const [propertyList, setPropertyList] = useState([])
+    // useEffect(() => {
+    //     if (data && !isLoading) {
+    //         const storedFavorites = localStorage.getItem('favoriteProperties')
+    //         const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
+    //         const updatedList = tableData?.similar_properties?.map(property =>
+    //             favorites.includes(property.id) ? { ...property, is_favorite: 1 } : { ...property, is_favorite: 0 }
+    //         )
+    //         setPropertyList(updatedList)
+    //     }
+    // }, [tableData ,data, isLoading])
 
+    // const toggleFavorite = (id) => {
+    //     setPropertyList(prevList => {
+    //         const updatedList = prevList.map(property =>
+    //             property.id === id ? { ...property, is_favorite: property.is_favorite === 0 ? 1 : 0 } : property
+    //         )
+    //         const favorites = updatedList.filter(property => property.is_favorite === 1).map(property => property.id)
+    //         localStorage.setItem('favoriteProperties', JSON.stringify(favorites))
+    //         return updatedList
+    //     })
+    // }
     const displayedAmenities = tableData?.amenities?.slice(0, 3);
     const allAmenities = tableData?.amenities?.slice(3);
 
-    if (isLoading) return (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+    if (isLoading) return (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CircularProgress />
     </Box>);
 
@@ -89,7 +112,7 @@ const PropertyDetails = () => {
                         <Details
                             title={tableData?.name}
                             refNumber={tableData.ref_number}
-                            address={tableData?.address}
+                            address={tableData?.area_name}
                             finishing={tableData.finishing_name}
                             startPrice={tableData?.start_price}
                             endPrice={tableData?.end_price}
@@ -174,6 +197,8 @@ const PropertyDetails = () => {
                                         phone_number={res?.phone_number}
                                         id={res?.id}
                                         agent_id={res?.agent_code}
+                                        // is_favorite={res?.is_favorite}
+                                        // toggleFavorite={toggleFavorite}
                                     />
                                 </Box>
                             )}

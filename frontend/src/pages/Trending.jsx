@@ -28,7 +28,7 @@ const Trending = () => {
 
 
     if (isLoading) return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <CircularProgress />
         </Box>)
 
@@ -36,7 +36,7 @@ const Trending = () => {
 <>
             <Header title={t("Trending")} />
                 <WrapperSection>
-                    <HeaderSection nameSection={t("Trending")} length={tableData?.length} />
+                <HeaderSection nameSection={t("Trending")} length={data?.data?.total} />
                     <GlobalList>
                         {tableData?.map(res =>
                             <Grid item md={4} xs={12} key={res?.id}>

@@ -34,7 +34,7 @@ const ListAreas = () => {
     }, [data, tableData, isBrandsLoading])
 
     if (isTableDataLoading) return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CircularProgress />
     </Box>)
 
@@ -42,7 +42,7 @@ const ListAreas = () => {
             <WrapperSection>
                 {tableData && tableData?.length > 0 ? (
                     <>
-                        <HeaderSection nameSection={t("area")} length={tableData?.length} />
+                    <HeaderSection nameSection={t("area")} length={data?.data?.total} />
                         <GlobalList>
                             {tableData?.map(res =>
                                 <Grid item md={4} xs={12} key={res?.id}>

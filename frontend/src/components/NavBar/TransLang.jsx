@@ -23,6 +23,7 @@ export default function BasicSelect() {
                         <CardMedia
                             component={'img'}
                             src={arIcon}
+                            loading='lazy'
                             alt="green iguana"
                             sx={{ width: '20px' }}
                         />

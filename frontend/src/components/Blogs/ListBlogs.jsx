@@ -29,7 +29,7 @@ const ListBlogs = () => {
     }, [data, tableData, isLoading])
 
     if (isLoading) return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <CircularProgress />
         </Box>)
 

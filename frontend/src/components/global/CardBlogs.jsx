@@ -7,7 +7,9 @@ const CardBlogs = ({ img, title, type, date }) => {
         <Box sx={{ m: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor:'pointer' }}>
             <CardMedia
                 sx={{ height: 250, backgroundSize: '100% 100%', width: '100%', borderRadius: '16px', }}
-                image={img}
+                component={'img'}
+                loading='lazy'
+                src={img}
                 title="green iguana" />
             <Box sx={{ p: 1, backgroundColor: '#fff', borderRadius: '16px', mt: '-2rem', ml: '-2rem', boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)", display: 'flex', alignItems: 'flex-start', width: '100%', flexDirection: 'column' }}>
                 <Typography gutterBottom color={'primary.main'} component="div" sx={{ mb: 0 }}>

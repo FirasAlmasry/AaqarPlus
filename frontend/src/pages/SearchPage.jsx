@@ -16,7 +16,6 @@ import CostPagination from '../components/global/CostPagination'
 const url = 'https://aqarbackend.revampbrands.com/storage/'
 
 const SearchPage = () => {
-    
     const [currentPage, setCurrentPage] = useState(1);
     const [searchParams] = useSearchParams();
     const [tableData, setTableData] = useState([]);
@@ -29,6 +28,9 @@ const SearchPage = () => {
     const area = searchParams.get('area');
     const tags = searchParams.get('tags');
     const maxPrice = searchParams.get('max_price');
+
+    const [selectedItem, setSelectedItem] = useState([]);
+    const [selectedChildId, setSelectedChildId] = useState(null);
 
     const queryParameters = useMemo(() => {
         const params = {};
@@ -48,7 +50,6 @@ const SearchPage = () => {
         currentPage
     });
 
-
     useEffect(() => {
         setIsTableDataLoading(true);
     }, [queryParameters, currentPage]);
@@ -59,54 +60,60 @@ const SearchPage = () => {
             setTableData(data?.data?.data)
             setIsTableDataLoading(false);
         }
-    }, [data, tableData, isLoading])
-    
+    }, [data, isLoading])
+
     if (isTableDataLoading) return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <CircularProgress />
         </Box>)
-        
+
     return (
         <>
             <Header />
             <Box sx={{ mt: '-10rem' }} >
                 <WrapperSection>
-                    <Search />
+                    <Search
+                        selectedItem={selectedItem}
+                        setSelectedItem={setSelectedItem}
+                        selectedChildId={selectedChildId}
+                        setSelectedChildId={setSelectedChildId}
+                    />
                 </WrapperSection>
             </Box>
             <WrapperSection>
-                    {tableData && tableData.length > 0 ? (
-                        <>
-                            <HeaderSection nameSection={t("Properties")} length={tableData.length > 0 ? tableData.length : 'no result found'} />
-                            <GlobalList>
-                                {tableData.map(res =>
-                                    <Grid item md={4} xs={12} key={res.id}>
-                                        <CardProperty
-                                            img={url + res.master_plan}
-                                            name={res.name}
-                                            address={res.address}
-                                            num1={res.bedrooms}
-                                            num2={res.bathrooms}
-                                            num3={res.house_area}
-                                            month={res.monthly_installment}
-                                            years={res.installment_years}
-                                            price={res.end_price}
-                                            whatsapp={res.whatsapp}
-                                            phone_number={res.phone_number}
-                                            id={res.id}
-                                            agent_id={res.agent_code}
-                                        />
-                                    </Grid>
-                                )}
-                            </GlobalList>
-                                <CostPagination
-                                    setCurrentPage={setCurrentPage}
-                                    count={data?.data?.last_page}
-                                    currentPage={currentPage} />
-                        </>
-                    ) : (
-                        <EmptyContent title={t("EmptyContent")} />
-                    )}
+                {tableData && tableData.length > 0 ? (
+                    <>
+                        <HeaderSection nameSection={t("Properties")} length={tableData.length > 0 ? data?.data?.total : 'no result found'} />
+                        <GlobalList>
+                            {tableData?.map(res =>
+                                <Grid item md={4} xs={12} key={res.id}>
+                                    <CardProperty
+                                        img={url + res.master_plan}
+                                        name={res.name}
+                                        address={res.area_name}
+                                        num1={res.bedrooms}
+                                        num2={res.bathrooms}
+                                        num3={res.house_area}
+                                        month={res.monthly_installment}
+                                        years={res.installment_years}
+                                        price={res.end_price}
+                                        whatsapp={res.whatsapp}
+                                        phone_number={res.phone_number}
+                                        id={res.id}
+                                        agent_id={res.agent_code}
+                                    />
+                                </Grid>
+                            )}
+                        </GlobalList>
+                        <CostPagination
+                            setCurrentPage={setCurrentPage}
+                            count={data?.data?.last_page}
+                            currentPage={currentPage}
+                        />
+                    </>
+                ) : (
+                    <EmptyContent title={t("EmptyContent")} />
+                )}
             </WrapperSection>
         </>
     )

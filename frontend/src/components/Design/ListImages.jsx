@@ -10,9 +10,9 @@ const ListImages = () => {
     <>
         <WrapperSection>
         <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: { md: 'nowrap' ,xs:'wrap' } }} >
-                  <CardMedia component={'img'} alt='image' src={img}  />
-                  <CardMedia component={'img'} alt='image' src={img}  sx={{ml:{md:'-12rem',xs:'0'}}}/>
-                  <CardMedia component={'img'} alt='image' src={img}  sx={{ml:{md:'-12rem',xs:'0'}}}/>
+                  <CardMedia loading='lazy' component={'img'} alt='image' src={img}  />
+                  <CardMedia loading='lazy' component={'img'} alt='image' src={img}  sx={{ml:{md:'-12rem',xs:'0'}}}/>
+                  <CardMedia loading='lazy' component={'img'} alt='image' src={img}  sx={{ml:{md:'-12rem',xs:'0'}}}/>
             </Box>
         </WrapperSection>
     </>

@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/global/Header'
-// import Details from '../components/AboutUs/Details'
-// import ListImages from '../components/Design/ListImages'
-// import DescContact from '../components/Design/DescContact'
 import { useGetInfoTextQuery } from '../state/info'
 import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
-// import SectionTerm from '../components/Terms/SectionTerm'
 import WrapperSection from '../components/global/WrapperSection'
 import GlobalList from '../components/global/GlobalList'
 import { Box, CardMedia, Grid, Typography } from '@mui/material'
@@ -38,9 +34,9 @@ const {t} = useTranslation()
                     <Grid item md={6} xs={12} >
                         <Box position={'relative'} sx={{ height: '100%' }} >
                             <Slider>
-                                <CardMedia alt="green iguana" component={'img'} src={img} sx={{ height: '350px', borderRadius: '0 16px' }} />
-                                <CardMedia alt="green iguana" component={'img'} src={img1} sx={{ height: '350px', borderRadius: '0 16px' }} />
-                                <CardMedia alt="green iguana" component={'img'} src={img2} sx={{ height: '350px', borderRadius: '0 16px' }} />
+                                <CardMedia alt="green iguana" loading='lazy' component={'img'} src={img} sx={{ height: '350px', borderRadius: '0 16px' }} />
+                                <CardMedia alt="green iguana" loading='lazy' component={'img'} src={img1} sx={{ height: '350px', borderRadius: '0 16px' }} />
+                                <CardMedia alt="green iguana" loading='lazy' component={'img'} src={img2} sx={{ height: '350px', borderRadius: '0 16px' }} />
                             </Slider>
                         </Box>
                     </Grid>

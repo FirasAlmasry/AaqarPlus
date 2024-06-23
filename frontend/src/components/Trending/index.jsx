@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import HeaderSection from '../global/HeaderSection'
 import WrapperSection from '../global/WrapperSection';
-// import CardCompound from '../global/CardCompound';
 import i18next from 'i18next';
-// import { useGetCompoundsQuery } from '../../state/compounds';
 import { Box, Button, CircularProgress } from '@mui/material';
 import MultiItemSlider from '../global/MultiItemSlider';
 import { useTranslation } from 'react-i18next';
-// import { useGetPropertiesQuery } from '../../state/properties';
-// import CardProperty from '../global/CardProperty';
-// import Btn from '../global/Btn';
 import theme from '../../util/theme';
 import { useNavigate } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';

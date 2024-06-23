@@ -40,8 +40,10 @@ const BlogDetails = () => {
                                     {tableData?.images?.map(res => <Box item md={3} xs={12} key={res?.id} >
                                         <Box>
                                             <CardMedia
+                                            component={'img'}
                                                 sx={{ height: 160, width: 160, borderRadius: '16px', }}
-                                                image={url + res?.image}
+                                                loading='lazy'
+                                                src={url + res?.image}
                                                 title="green iguana" />
                                         </Box>
                                     </Box>)}

@@ -17,23 +17,24 @@ const DeveloperDetails = () => {
     const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
     let { id } = useParams()
-    const { data, isBrandsLoading } = useGetDevelopersIdQuery({ id, lng });
+    const { data, isLoading } = useGetDevelopersIdQuery({ id, lng });
     const navigate = useNavigate()
     const { t } = useTranslation()
     const [tableData, setTableData] = useState([]);
-    const [isTableDataLoading, setIsTableDataLoading] = useState(true);
-
     useEffect(() => {
         setIsTableDataLoading(true);
 
-        if (data && !isBrandsLoading) {
+        if (data && !isLoading) {
             setTableData(data?.data)
             setIsTableDataLoading(false);
         }
-    }, [data, isBrandsLoading])
+    }, [data, isLoading])
+
+    const [isTableDataLoading, setIsTableDataLoading] = useState(true);
+    
     return (
         <>{isTableDataLoading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <CircularProgress />
             </Box>
         ) : (
@@ -46,6 +47,7 @@ const DeveloperDetails = () => {
                                     <CardMedia src={url + image?.file} component="img"
                                         height="auto"
                                         alt="green iguana"
+                                        loading='lazy'
                                         sx={{
                                             height: '300px',
                                             borderRadius: '18px',
@@ -108,15 +110,15 @@ const DeveloperDetails = () => {
                     }
                 </Box>
                 {
-                    tableData?.properties && Object.values(tableData.properties).length > 0 && (
+                    tableData?.properties && Object.values(tableData?.properties).length > 0 && (
                         <>
                             <HeaderSection
                                 nameSection={t('related')}
-                                length={Object.values(tableData.properties).length === 0 ? t('NoResults') : Object.values(tableData.properties).length}
+                                length={Object.values(tableData?.properties).length === 0 ? t('NoResults') : Object.values(tableData.properties).length}
                             />
                             <Box sx={{ width: '100%' }}>
                                 <MultiItemSlider>
-                                    {Object.values(tableData.properties).map((res, index) => (
+                                    {Object.values(tableData?.properties).map((res, index) => (
                                         <Box key={index} sx={{ my: 2 }}>
                                             <CardProperty
                                                 img={url + res.master_plan}
@@ -132,6 +134,8 @@ const DeveloperDetails = () => {
                                                 phone_number={res.phone_number}
                                                 id={res.id}
                                                 agent_id={res.agent_code}
+                                                // is_favorite={res?.is_favorite}
+                                                // toggleFavorite={toggleFavorite}
                                             />
                                         </Box>
                                     ))}

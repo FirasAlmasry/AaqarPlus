@@ -15,7 +15,9 @@ const CardCompound = ({ img, Align, name, address, month, years, price, whatsapp
             <Card sx={{ maxWidth: '100%', my: 1, mx: { md: 1, xs: 0 }, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)", }}>
                 <CardMedia
                     sx={{ height: 240, backgroundSize: '100% 100%' }}
-                    image={img}
+                    component={'img'}
+                    loading='lazy'
+                    src={img}
                     title="green iguana"
                 />
                 <CardContent sx={{ textAlign: Align, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
@@ -32,12 +34,12 @@ const CardCompound = ({ img, Align, name, address, month, years, price, whatsapp
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
                                     <a href={`whatsapp://send?phone=${whatsapp}`} target="_blank" rel="noopener noreferrer">
-                                        <CardMedia alt='image' component={'img'} src={whats} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
+                                        <CardMedia alt='image' loading='lazy' component={'img'} src={whats} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                                     </a>
                                 </Box>
                                 <Box sx={{ borderRadius: '50%', background: '#E6E3DE' }} >
                                     <a href={`tel:${phone_number}`} target="_blank" rel="noopener noreferrer">
-                                        <CardMedia alt='image' component={'img'} src={phone} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
+                                        <CardMedia alt='image' loading='lazy' component={'img'} src={phone} sx={{ m: 1, width: '15px', height: '15px', objectFit: 'contain' }} />
                                     </a>
                                 </Box>
                             </Box>

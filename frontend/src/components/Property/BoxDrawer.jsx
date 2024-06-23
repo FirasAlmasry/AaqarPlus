@@ -26,6 +26,7 @@ const BoxDrawer = ({ setDrawer, drawer, tableData, selectedBox }) => {
                     src={url + link}
                     component="img"
                     alt="image"
+                    loading='lazy'
                     sx={{
                         height: '400px',
                         borderRadius: '18px',
@@ -44,20 +45,8 @@ const BoxDrawer = ({ setDrawer, drawer, tableData, selectedBox }) => {
             );
         }
     };
-    // استخدم extractSrcFromIframe لاستخراج الـ src من tableData?.url_location
     const src = extractSrcFromIframe(tableData?.url_location);
 
-    /*
-    image_floor_plan
-files
-master_plan
-url_location
-    */
-    // const images = tableData?.files?.map(image => ({
-    //     original: `${url}${image?.file}`, // رابط الصورة الأصلي
-    //     thumbnail: `${url}${image?.file}`, // صورة مصغرة (يمكنك استبدالها بالحجم الصغير المطلوب)
-    //     description: image.id.toString(), // وصف اختياري
-    // }));
     return (
         <>
             <Drawer
@@ -78,13 +67,13 @@ url_location
                 <CloseIcon onClick={() => setDrawer(false)} sx={{ position: 'absolute', right: '2rem', top: '2rem', zIndex:99,  backgroundColor:'#fff', color:'#000'  }} />
                 <Box sx={{ width: '100%', height: '100%', margin:'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {selectedBox === 'image_floor_plan' &&
-                        <CardMedia alt="green iguana" component={'img'}
+                        <CardMedia loading='lazy' alt="green iguana" component={'img'}
                             src={url + tableData?.image_floor_plan}
                             sx={{ objectFit: 'contain', }}
                         />
                     }
                     {selectedBox === 'master_plan' &&
-                        <CardMedia alt="green iguana" component={'img'}
+                        <CardMedia loading='lazy' alt="green iguana" component={'img'}
                             src={url + tableData?.master_plan}
                         sx={{objectFit: 'contain', }}
                         />

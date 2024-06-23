@@ -22,6 +22,7 @@ const ListSocial = () => {
       <Box >
         <a href={contactData?.instagram} target="_blank" rel="noopener noreferrer" >
           <CardMedia
+          loading='lazy'
             component={'img'}
             src={insta}
             alt='image'
@@ -32,6 +33,7 @@ const ListSocial = () => {
       <Box >
         <a href={contactData?.facebook} target="_blank" rel="noopener noreferrer" >
           <CardMedia
+          loading='lazy'
             component={'img'}
             src={face}
             alt='image'
@@ -42,6 +44,7 @@ const ListSocial = () => {
       <Box >
         <a href={`whatsapp://send?phone=${contactData?.whatsapp}`} target="_blank" rel="noopener noreferrer" >
           <CardMedia
+          loading='lazy'
             component={'img'}
             src={whats}
             alt='image'

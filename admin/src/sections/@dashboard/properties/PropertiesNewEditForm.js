@@ -79,8 +79,9 @@ const MenuProps = {
 };
 
 export default function PropertiesNewEditForm({ isEdit = false, currentService }) {
-    console.log("🚀 ~ PropertiesNewEditForm ~ currentService:", currentService?.property?.monthly_installment)
+    console.log("🚀 ~ PropertiesNewEditForm ~ currentService:", currentService?.property)
     const [files, setFiles] = useState([]);
+    console.log("🚀 ~ PropertiesNewEditForm ~ files:", files) 
     useEffect(() => {
         // يتم استدعاء هذا الكود بمجرد تحميل البيانات
         if (currentService && currentService?.property && currentService?.property?.images) {

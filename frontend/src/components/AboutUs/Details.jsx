@@ -5,9 +5,6 @@ import { Grid, CardMedia, Box } from '@mui/material'
 import img from './../../assets/about/acton-crawford-OpHwu2s4wmg-unsplash.jpg'
 import img1 from './../../assets/about/frames-for-your-heart-mR1CIDduGLc-unsplash.jpg'
 import img2 from './../../assets/about/r-architecture-2gDwlIim3Uw-unsplash.jpg'
-// import cov from './../../assets/about/Group 2909.png'
-// import SectionTerm from '../Terms/SectionTerm'
-// import { t } from 'i18next'
 import Slider from '../global/Slider'
 const Details = ({ data }) => {
     return (
@@ -17,9 +14,9 @@ const Details = ({ data }) => {
                     <Grid item md={6} xs={12} >
                         <Box position={'relative'} sx={{ height: '100%' }} >
                             <Slider>
-                                <CardMedia component={'img'} alt='image' src={img} sx={{ height: '350px' , borderRadius:'0 16px'}} />
-                                <CardMedia component={'img'} alt='image' src={img1} sx={{ height: '350px', borderRadius:'0 16px' }} />
-                                <CardMedia component={'img'} alt='image' src={img2} sx={{ height: '350px', borderRadius:'0 16px' }} />
+                                <CardMedia loading='lazy' component={'img'} alt='image' src={img} sx={{ height: '350px' , borderRadius:'0 16px'}} />
+                                <CardMedia loading='lazy' component={'img'} alt='image' src={img1} sx={{ height: '350px', borderRadius:'0 16px' }} />
+                                <CardMedia loading='lazy' component={'img'} alt='image' src={img2} sx={{ height: '350px', borderRadius:'0 16px' }} />
                             </Slider>
                         </Box>
                     </Grid>

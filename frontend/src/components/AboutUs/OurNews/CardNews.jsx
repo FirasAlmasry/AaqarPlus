@@ -11,8 +11,10 @@ const CardNews = ({ img, Align, title, color, data }) => {
         <>
             <Card sx={{ maxWidth: '100%', m: 1, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)", }}>
                 <CardMedia
+                component={'img'}
                     sx={{ height: 175 }}
-                    image={img}
+                    src={img}
+                    loading='lazy'
                     title="green iguana"
                 />
                 <CardContent sx={{ textAlign: Align, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexDirection: 'column', gap: 1 }} >

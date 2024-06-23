@@ -8,6 +8,7 @@ const Logo = () => {
         <Box sx={{ display:'flex', flexDirection:'column', gap:4, alignItems:{md:'flex-start',xs:'center'}, p:1 }} >
             <CardMedia 
                 component={'img'}
+          loading='lazy'
                 src={img} 
           alt='image'
                 sx={{ width:'30%' }}

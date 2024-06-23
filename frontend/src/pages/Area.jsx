@@ -19,22 +19,21 @@ const Area = () => {
 
     let lng = i18next.language
     const { t } = useTranslation()
-    
+
     let { id } = useParams()
     const [currentPage, setCurrentPage] = useState(1);
     const { data, isLoading } = useGetAreasIdQuery({ id, lng, currentPage });
     const [tableData, setTableData] = useState([]);
-
-
+    console.log("🚀 ~ Area ~ tableData:", tableData)
 
     useEffect(() => {
         if (data && !isLoading) {
             setTableData(data?.data)
         }
-    }, [data, tableData, isLoading])
+    }, [data, isLoading])
     
     if (isLoading) return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <CircularProgress />
         </Box>)
 
@@ -45,31 +44,33 @@ const Area = () => {
                 {tableData && tableData?.properties?.length > 0 ? (
                     <>
                         <HeaderSection nameSection={`${t("AvailableUnits")} ${tableData?.name}`} length={tableData?.properties?.length === 0 ? t("EmptyContent") : tableData?.properties?.length} />
-                <GlobalList>
-                    {tableData?.properties?.map(res =>
-                        <Grid item md={4} xs={12} key={res.id} >
-                            <CardProperty img={url + res?.master_plan}
-                                name={res?.name}
-                                address={res?.address}
-                                num1={res?.bedrooms}
-                                num2={res?.bathrooms}
-                                num3={res?.house_area}
-                                month={res?.monthly_installment}
-                                years={res?.installment_years}
-                                price={res?.end_price}
-                                whatsapp={res?.whatsapp}
-                                phone_number={res?.phone_number}
-                                id={res?.id}
-                                agent_id={res?.agent_code}
-                            />
-                        </Grid>
-                    )}
-                </GlobalList>
+                        <GlobalList>
+                            {tableData?.properties?.map(res =>
+                                <Grid item md={4} xs={12} key={res.id} >
+                                    <CardProperty img={url + res?.master_plan}
+                                        name={res?.name}
+                                        address={res?.address}
+                                        num1={res?.bedrooms}
+                                        num2={res?.bathrooms}
+                                        num3={res?.house_area}
+                                        month={res?.monthly_installment}
+                                        years={res?.installment_years}
+                                        price={res?.end_price}
+                                        whatsapp={res?.whatsapp}
+                                        phone_number={res?.phone_number}
+                                        id={res?.id}
+                                        agent_id={res?.agent_code}
+                                        // is_favorite={res?.is_favorite}
+                                        // toggleFavorite={toggleFavorite}
+                                    />
+                                </Grid>
+                            )}
+                        </GlobalList>
                         <CostPagination
                             setCurrentPage={setCurrentPage}
                             count={data?.data?.pagination?.last_page}
                             currentPage={currentPage} />
-                        
+
                     </>) : (
                     <EmptyContent title={t("EmptyContent")} />
                 )}

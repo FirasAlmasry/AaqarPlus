@@ -6,7 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Fade,  Typography } from '@mui/material';
 
 
-export default function MenuItems({ name, children, handleClick, anchorEl, open, handleClose, wid=140 }) { 
+export default function MenuItems({ name, children, handleClick, anchorEl, open, handleClose, wid=140, selected }) {
     const StyledMenu = styled((props) => (
         <Menu
             elevation={0}
@@ -61,7 +61,7 @@ export default function MenuItems({ name, children, handleClick, anchorEl, open,
                 <Typography style={{textTransform: 'capitalize'}}
                     className="link">
 
-                    {name}
+                    {selected ? selected : name}
                 </Typography>
             </Button>
             <StyledMenu

@@ -32,7 +32,7 @@ const CompoundDetails = () => {
         if (data && !isLoading) {
             setTableData(data?.data)
         }
-    }, [data, tableData, isLoading])
+    }, [data, isLoading])
 
     const handleToggleShow = () => {
         setShowAll(prevShowAll => !prevShowAll);
@@ -40,8 +40,31 @@ const CompoundDetails = () => {
 
     const displayedAmenities = tableData?.attacheds?.slice(0, 3);
     const allAmenities = tableData?.attacheds?.slice(3);
+    // const [propertyList, setPropertyList] = useState([])
 
-    if (isLoading) return (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+    // useEffect(() => {
+    //     if (tableData?.properties?.length > 0) {
+    //         const storedFavorites = localStorage.getItem('favoriteProperties')
+    //         const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
+    //         const updatedList = tableData?.properties?.map(property =>
+    //             favorites.includes(property.id) ? { ...property, is_favorite: 1 } : { ...property, is_favorite: 0 }
+    //         )
+    //         setPropertyList(updatedList)
+    //     }
+    // }, [data, tableData, isLoading])
+
+    // const toggleFavorite = (id) => {
+    //     setPropertyList(prevList => {
+    //         const updatedList = prevList.map(property =>
+    //             property.id === id ? { ...property, is_favorite: property.is_favorite === 0 ? 1 : 0 } : property
+    //         )
+    //         const favorites = updatedList.filter(property => property.is_favorite === 1).map(property => property.id)
+    //         localStorage.setItem('favoriteProperties', JSON.stringify(favorites))
+    //         return updatedList
+    //     })
+    // }
+
+    if (isLoading) return (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CircularProgress />
     </Box>);
 
@@ -56,6 +79,7 @@ const CompoundDetails = () => {
                             <CardMedia key={img?.id} src={url + img?.file} component="img"
                                 height="auto"
                                 alt="green iguana"
+                                loading='lazy'
                                 sx={{
                                     height: '300px',
                                     borderRadius: '18px',
@@ -117,6 +141,8 @@ const CompoundDetails = () => {
                                         phone_number={res?.phone_number}
                                         id={res?.id}
                                         agent_id={res?.agent_code}
+                                        // is_favorite={res?.is_favorite}
+                                        // toggleFavorite={toggleFavorite}
                                     />
                                 </Box>
                             )}

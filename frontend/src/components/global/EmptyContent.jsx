@@ -29,6 +29,7 @@ export default function EmptyContent({ title, description, sx, ...other }) {
       component={'img'}
         disabledEffect
         alt="empty content"
+        loading='lazy'
         src={img}
         sx={{ height: 240, mb: 3 }}
       />

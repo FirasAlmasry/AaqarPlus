@@ -11,6 +11,7 @@ const Amenities = ({ displayedAmenities, allAmenities, showAll, handleToggleShow
             {displayedAmenities?.map((res) => (
                 <Box key={res?.name} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <CardMedia
+                    loading='lazy'
                         alt={res?.name}
                         component={'img'}
                         src={res?.icon ? `${url}${res?.icon}` : icon}
@@ -24,6 +25,7 @@ const Amenities = ({ displayedAmenities, allAmenities, showAll, handleToggleShow
                     {allAmenities?.map((res) => (
                         <Box key={res?.name} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                             <CardMedia
+                            loading='lazy'
                                 alt={res?.name}
                                 component={'img'}
                                 src={res?.icon ? `${url}${res?.icon}` : icon}

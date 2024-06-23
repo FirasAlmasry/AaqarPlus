@@ -18,35 +18,52 @@ const AvailableUnits = () => {
     const url = 'https://aqarbackend.revampbrands.com/storage/'
     let lng = i18next.language
 
-    const { data, isBrandsLoading } = useGetPropertiesQuery({ lng, coming_soon: 0 });
+    const { data, isLoading } = useGetPropertiesQuery({ lng, coming_soon: 0 });
     // console.log("🚀 ~ AvailableUnits ~ data:", data)
 
-    const [isTableDataLoading, setIsTableDataLoading] = useState(true);
+    // const [isTableDataLoading, setIsTableDataLoading] = useState(true);
     const [tableData, setTableData] = useState([]);
-    // console.log("🚀 ~ AvailableUnits ~ tableData:", tableData)
     useEffect(() => {
-        setIsTableDataLoading(true);
-        if (data && !isBrandsLoading) {
+        if (data && !isLoading) {
             setTableData(data?.data?.data)
-             setIsTableDataLoading(false);
         }
-    }, [data, tableData, isBrandsLoading])
-    // const available = tableData?.filter(res => res?.is_available === 1)
-    // console.log("🚀 ~ AvailableUnits ~ available:", available)
+    }, [data, isLoading])
+    // const [propertyList, setPropertyList] = useState([])
+
+    // useEffect(() => {
+    //     if (data && !isLoading) {
+    //         const storedFavorites = localStorage.getItem('favoriteProperties')
+    //         const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
+    //         const updatedList = tableData.map(property =>
+    //             favorites.includes(property.id) ? { ...property, is_favorite: 1 } : { ...property, is_favorite: 0 }
+    //         )
+    //         setPropertyList(updatedList)
+    //     }
+    // }, [data, tableData, isLoading])
+
+    // const toggleFavorite = (id) => {
+    //     setPropertyList(prevList => {
+    //         const updatedList = prevList.map(property =>
+    //             property.id === id ? { ...property, is_favorite: property.is_favorite === 0 ? 1 : 0 } : property
+    //         )
+    //         const favorites = updatedList.filter(property => property.is_favorite === 1).map(property => property.id)
+    //         localStorage.setItem('favoriteProperties', JSON.stringify(favorites))
+    //         return updatedList
+    //     })
+    // }
     const { t } = useTranslation()
 
+    if (isLoading) return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <CircularProgress />
+        </Box>)
 
     return (
         <>
             <WrapperSection>
                 <Box sx={{ width: '100%' }}>
                     <HeaderSection nameSection={t("AvailableUnits")} length={tableData?.length === 0 ? t("NoResults") : tableData?.length } />
-                    {isTableDataLoading ? (
-                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
-                            <CircularProgress />
-                        </Box>
-                    ) : (
-                        <><MultiItemSlider>
+                        <MultiItemSlider>
                         {tableData?.map(res =>
                             <Box key={res?.id} sx={{ my: 2 }}>
                                 <CardProperty img={url + res?.master_plan}
@@ -62,11 +79,12 @@ const AvailableUnits = () => {
                                     phone_number={res?.phone_number}
                                     id={res?.id}
                                     agent_id={res?.agent_code}
+                                    // is_favorite={res?.is_favorite}
+                                    // toggleFavorite={toggleFavorite}
                                 />
                             </Box>
                         )}
-                        </MultiItemSlider></>
-                    )}
+                        </MultiItemSlider>
                     <Box sx={{ width: '100%', textAlign: 'center' }} >
                         <Button
                             endIcon={lng === 'en' ? <ArrowForwardIcon /> : <ArrowBackIcon />}

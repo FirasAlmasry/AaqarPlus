@@ -39,21 +39,21 @@ const Details = ({ title, refNumber, devName, startPrice, endPrice, address, fin
                     {
                         num1 && !num1?.startsWith('0') &&
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#CACACA' }}>
-                            <CardMedia alt="image" component={'img'} src={ic1} sx={{ width: '26px', height: '26px', objectFit: 'fill' }} />
+                            <CardMedia loading='lazy' alt="image" component={'img'} src={ic1} sx={{ width: '26px', height: '26px', objectFit: 'fill' }} />
                             {num1}
                         </Box>
                     }
                     {
                         num2 && !num2?.startsWith('0') &&
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#CACACA' }}>
-                            <CardMedia alt="image" component={'img'} src={ic2} sx={{ width: '26px', height: '26px', objectFit: 'fill' }} />
+                            <CardMedia loading='lazy' alt="image" component={'img'} src={ic2} sx={{ width: '26px', height: '26px', objectFit: 'fill' }} />
                             {num2}
                         </Box>
                     }
                     {
                         num3 && !num3?.startsWith('0') &&
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#CACACA' }}>
-                            <CardMedia alt="image" component={'img'} src={ic3} sx={{ width: '26px', height: '26px', objectFit: 'fill' }} />
+                            <CardMedia loading='lazy' alt="image" component={'img'} src={ic3} sx={{ width: '26px', height: '26px', objectFit: 'fill' }} />
                             {num3}
                         </Box>
                     }

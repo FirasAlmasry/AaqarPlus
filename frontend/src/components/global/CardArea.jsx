@@ -18,7 +18,9 @@ const CardArea = ({ img, Align, title, color, lengthCompounds, lengthDevelopers,
             <Card sx={{ maxWidth: '100%', m: 1, boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.20)",  }} > 
                 <CardMedia
                     sx={{ height: 250, backgroundSize:'100% 100%' }}
-                    image={img}
+                    component={'img'}
+                    loading='lazy'
+                    src={img}
                     title="green iguana"
                 />
                 <CardContent sx={{ textAlign: Align, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >

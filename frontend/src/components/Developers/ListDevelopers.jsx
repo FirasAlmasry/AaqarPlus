@@ -25,7 +25,7 @@ const ListDevelopers = () => {
     }, [data, tableData, isLoading])
 
     if (isLoading) return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <CircularProgress />
         </Box>)
 
@@ -34,7 +34,7 @@ const ListDevelopers = () => {
             <WrapperSection>
                 {tableData && tableData?.length > 0 ? (
                     <>
-                        <HeaderSection nameSection={t("Developers")} length={tableData?.length === 0 ? 'no data Here' : tableData?.length} />
+                    <HeaderSection nameSection={t("Developers")} length={tableData?.length === 0 ? 'no data Here' : data?.data?.total} />
                         <GlobalList>
                             {tableData?.map(res =>
                                 <Grid item md={4} xs={12} key={res.id} >

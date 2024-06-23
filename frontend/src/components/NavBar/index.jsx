@@ -9,8 +9,6 @@ import NavDrawer from "./NavDrawer";
 import TransLang from "./TransLang"
 import logo from './../../assets/logo.png'
 import './Nav.css'
-// import theme from './../../util/theme';
-// import { Pages } from "../../constants";
 import i18next from "i18next";
 import Auth from "./Auth";
 import MenuItems from "./MenuItems";
@@ -19,7 +17,6 @@ import theme from "../../util/theme";
 import { useGetAreasQuery } from "../../state/areas";
 import { useGetCountryQuery } from "../../state/Country";
 import { useGetPropertyTypeQuery } from "../../state/PropertyType";
-// import Share from "../Share/Share";
 
 
 
@@ -34,8 +31,7 @@ function NavBar() {
     };
     const handleClose = () => {
         setAnchorEl(null);
-        setUnits(null); // إضافة إغلاق القائمة هنا
-        setArea(null); // إضافة إغلاق القائمة هنا
+        setUnits(null);
     };
 
     const [Units, setUnits] = useState(null);
@@ -47,15 +43,7 @@ function NavBar() {
     const handleCloseUnits = () => {
         setUnits(null);
     };
-    const [Area, setArea] = useState(null);
-    const openArea = Boolean(Area);
-    const handleClickArea = (event) => {
-        setArea(event.currentTarget);
-    };
 
-    const handleCloseArea = () => {
-        setArea(null);
-    };
     let lng = i18next.language
     const [drawer, setDrawer] = useState(false);
     const location = useLocation();
@@ -93,10 +81,7 @@ function NavBar() {
             setCountryData(country?.data?.data)
         }
     }, [country, countryData, isCountryLoading])
-    // const location = useLocation();
 
-    // تحقق مما إذا كنت في الصفحة الرئيسية
-    const isHomePage = location.pathname === '/';
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -114,7 +99,6 @@ function NavBar() {
                     zIndex: 999,
                     backgroundColor: 'rgba(235, 235, 235, 90%)'
                 }}>
-                {/* <div className={lng === 'ar' ? "bgC" : "bgCEn"}></div> */}
                 <Container maxWidth="100%">
                     <Toolbar disableGutters>
                         <Box
@@ -148,7 +132,7 @@ function NavBar() {
                                     className="link">
                                     {lng === 'en' ? 'Home' : 'الرئيسية'}
                                 </Link>
-                                <MenuItems name={lng === 'en' ? 'Available Units' : "الوحدات المتاحة"} handleClick={handleClickUnits} anchorEl={Units} open={openUnits} handleClose={handleCloseUnits} >
+                                {/* <MenuItems name={lng === 'en' ? 'Available Units' : "الوحدات المتاحة"} handleClick={handleClickUnits} anchorEl={Units} open={openUnits} handleClose={handleCloseUnits} >
                                     {
                                         tableData?.map((res) => <Link
                                             to={`/property-type/${res?.id}`}
@@ -161,33 +145,13 @@ function NavBar() {
                                         </Link>
                                         )
                                     }
-                                </MenuItems>
+                                </MenuItems> */}
                                 <Link
                                     to={'/areas'}
                                     style={{ textTransform: 'capitalize', }}
                                     className="link">
                                     {lng === 'en' ? 'Areas' : "المناطق"}
                                 </Link>
-                                {/* <Link
-                                    to={'/compounds'}
-                                    style={{ textTransform: 'capitalize', }}
-                                    className="link">
-                                    {lng === 'en' ? 'Top Projects' : "اهم المجمعات السكنية"}
-                                </Link> */}
-                                {/* <MenuItems name={lng === 'en' ? 'Top Compounds' : "اهم المجمعات السكنية"} handleClick={handleClickArea} anchorEl={Area} open={openArea} handleClose={handleCloseArea} >
-                                    {
-                                        AreaData?.map((res) => <Link
-                                            to={`/area/${res?.id}`}
-                                            key={res?.id}
-                                            style={{ textTransform: 'capitalize', }}
-                                            className="link">
-                                            <MenuItem onClick={handleClose} disableRipple>
-                                                {res?.name}
-                                            </MenuItem>
-                                        </Link>
-                                        )
-                                    }
-                                </MenuItems> */}
                                 <MenuItems name={lng === 'en' ? 'Countries To Invest In' : "أستثمر بالخارج"} handleClick={handleClick} anchorEl={anchorEl} open={open} handleClose={handleClose} >
                                     
                                     {
@@ -221,21 +185,18 @@ function NavBar() {
                                     className="link">
                                     {lng === 'en' ? 'Blogs' : "المقالات"}
                                 </Link>
+                                {/* <Link
+                                    to={'/favorites'}
+                                    style={{ textTransform: 'capitalize', }}
+                                    className="link">
+                                    {lng === 'ar' ? 'المفضلة' : "Favorites"}
+                                </Link> */}
                                 <Link
                                     to={'/contact-us'}
                                     style={{ textTransform: 'capitalize', }}
                                     className="link">
                                     {lng === 'en' ? 'Contact Us' : "اتصل بنا"}
                                 </Link>
-                                {/* { 
-                                    Pages?.map((page, i) => <Link
-                                        key={i}
-                                        to={page.path}
-                                        style={{textTransform: 'capitalize',}}
-                                        className="link">
-                                        {lng === 'ar' ? page.name : page.name_en} 
-                                    </Link>
-                                    )}  */}
                                 <TransLang />
                                 <Auth />
                             </Box>

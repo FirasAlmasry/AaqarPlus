@@ -33,7 +33,7 @@ const PropertyInArea = () => {
     }, [data, isLoading, currentPage]);
 
     if (isLoading) return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <CircularProgress />
         </Box>)
 
@@ -43,7 +43,7 @@ const PropertyInArea = () => {
             <WrapperSection>
                 {tableData && tableData?.length > 0 ? (
                     <>
-                        <HeaderSection nameSection={`${t("AvailableUnits")} ${data?.data?.name}`} length={tableData?.length} />
+                        <HeaderSection nameSection={`${t("AvailableUnits")} ${data?.data?.name}`} length={data?.data?.pagination?.total} />
                         <GlobalList>
                             {tableData?.map(res =>
                                 <Grid item md={4} xs={12} key={res?.id}>
@@ -60,6 +60,8 @@ const PropertyInArea = () => {
                                         phone_number={res?.phone_number}
                                         id={res?.id}
                                         agent_id={res?.agent_code}
+                                        // is_favorite={res?.is_favorite}
+                                        // toggleFavorite={toggleFavorite}
                                     />
                                 </Grid>
                             )}
